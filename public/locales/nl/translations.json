@@ -1,12 +1,38 @@
 {
   "alcoholic": "alcoholisch",
+  "almond-milk": "amandel melk",
   "cappuccino": "cappuccino",
+  "cappuccino-description": "Een heerlijk kopje koffie afkomstig uit Oostenrijk en ontwikkeld in Italië. Het heeft gelijke porties espresso, opgeklopte melk en melkschuim.\nTraditioneel had de cappuccino een kap van melkschuim die boven het kopje uitstak. Tegenwoordig zie je vaak de 'latte art'-variant van deze drank, die hetzelfde recept volgt, maar met een voorzichtigere schenktechniek van de opgeschuimde melk.",
+  "caramel-syrup": "karamel siroop",
   "cocktails": "cocktails",
   "coffee": "koffie",
+  "description": "beschrijving",
+  "extra-shot": "Extra shot",
   "flat-white": "flat white",
   "latte": "latte",
   "latte-macchiato": "latte macchiato",
+  "milk-type": {
+    "description": "Voor ieder wat wils.",
+    "label": "type melk"
+  },
+  "modern": "modern",
   "non-alcoholic": "niet-alcoholisch",
+  "none": "Geen",
+  "oat-milk": "havermelk",
+  "options": "opties",
+  "out-of-stock": "Niet op voorraad",
+  "semi-skimmed-milk": "halfvolle melk",
+  "skimmed-milk": "magere melk",
+  "soy-milk": "sojamelk",
+  "syrup": {
+    "description": "Voor een unieke twist.",
+    "label": "Siroop"
+  },
   "tea": "thee",
-  "texterify_timestamp": "2021-12-20T20:06:07Z"
+  "texterify_timestamp": "2021-12-20T20:06:07Z",
+  "toffee-nut-syrup": "Toffee & nootjes siroop",
+  "traditional": "traditioneel",
+  "vanilla-syrup": "Vanille siroop",
+  "whipped-cream": "slagroom",
+  "whole-milk": "volle melk"
 }

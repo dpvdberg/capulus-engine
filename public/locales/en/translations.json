@@ -1,13 +1,38 @@
 {
   "alcoholic": "alcoholic",
+  "almond-milk": "almond milk",
   "cappuccino": "cappuccino",
-  "cappuccino-description": "A delicious treat originating from Austria and developed in Italy.\nIt has equal portions of espresso, whipped milk and milk foam. Traditionally, the cappuccino had a cap of milk foam raising above the top of the cup. Nowadays, you will often see the 'latte art' variant of this drink, which follows the same recipe, but with a more gentle pouring technique of the frothed milk.",
+  "cappuccino-description": "A delicious treat originating from Austria and developed in Italy. It has equal portions of espresso, whipped milk and milk foam.\nTraditionally, the cappuccino had a cap of milk foam raising above the top of the cup. Nowadays, you will often see the 'latte art' variant of this drink, which follows the same recipe, but with a more gentle pouring technique of the frothed milk.",
+  "caramel-syrup": "caramel syrup",
   "cocktails": "cocktails",
   "coffee": "coffee",
+  "description": "description",
+  "extra-shot": "Extra shot",
   "flat-white": "flat white",
   "latte": "latte",
   "latte-macchiato": "latte macchiato",
+  "milk-type": {
+    "description": "Something for everyone.",
+    "label": "milk type"
+  },
+  "modern": "modern",
   "non-alcoholic": "non-alcoholic",
+  "none": "None",
+  "oat-milk": "oat milk",
+  "options": "options",
+  "out-of-stock": "Out of stock",
+  "semi-skimmed-milk": "semi skimmed milk",
+  "skimmed-milk": "skimmed milk",
+  "soy-milk": "soy milk",
+  "syrup": {
+    "description": "For a unique twist.",
+    "label": "Syrup"
+  },
   "tea": "tea",
-  "texterify_timestamp": "2021-12-20T20:06:07Z"
+  "texterify_timestamp": "2021-12-20T20:06:07Z",
+  "toffee-nut-syrup": "Toffee nut syrup",
+  "traditional": "traditional",
+  "vanilla-syrup": "Vanilla syrup",
+  "whipped-cream": "whipped cream",
+  "whole-milk": "whole milk"
 }
