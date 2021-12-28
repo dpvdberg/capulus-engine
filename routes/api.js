@@ -23,6 +23,7 @@ function parseOptionData(raw) {
                 'name': row['name'],
                 'formhint': row['formhint_name'],
                 'required_ingredients': row['required_ingredients'],
+                'show_default': row['show_default'],
                 'value': []
             }) - 1;
         }
@@ -89,9 +90,10 @@ router.get('/product/:productId', async (req, res) => {
 
     // Fetch options and option ingredients
     const optionPromise = promisePool.execute(`
-        select o.id, o.name, o.required_ingredients, fh.name as formhint_name, 
-        ov.id as option_value_id, ov.default as option_value_default, 
-        ov.name as option_value_name, i.id as ingredient_id, i.name as ingredient_name, 
+        select o.id, o.name, o.required_ingredients, o.show_default,
+        fh.name as formhint_name, 
+        ov.id as option_value_id, ov.default as option_value_default, ov.name as option_value_name, 
+        i.id as ingredient_id, i.name as ingredient_name, 
         i.in_stock as ingredient_in_stock
             from options as o
         inner join product_options as po

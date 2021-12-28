@@ -1,8 +1,10 @@
 {
+  "add-to-cart": "Leg in winkelwagen",
   "alcoholic": "alcoholisch",
   "almond-milk": "amandel melk",
   "cappuccino": "cappuccino",
   "cappuccino-description": "Een heerlijk kopje koffie afkomstig uit Oostenrijk en ontwikkeld in Italië. Het heeft gelijke porties espresso, opgeklopte melk en melkschuim.\nTraditioneel had de cappuccino een kap van melkschuim die boven het kopje uitstak. Tegenwoordig zie je vaak de 'latte art'-variant van deze drank, die hetzelfde recept volgt, maar met een voorzichtigere schenktechniek van de opgeschuimde melk.",
+  "cappuccino-type": "soort",
   "caramel-syrup": "karamel siroop",
   "cocktails": "cocktails",
   "coffee": "koffie",
@@ -20,8 +22,10 @@
   "none": "Geen",
   "oat-milk": "havermelk",
   "options": "opties",
+  "order-now": "Nu bestellen",
   "out-of-stock": "Niet op voorraad",
   "semi-skimmed-milk": "halfvolle melk",
+  "shopping-cart": "winkelwagen",
   "skimmed-milk": "magere melk",
   "soy-milk": "sojamelk",
   "syrup": {

@@ -1,8 +1,10 @@
 {
+  "add-to-cart": "Add to cart",
   "alcoholic": "alcoholic",
   "almond-milk": "almond milk",
   "cappuccino": "cappuccino",
   "cappuccino-description": "A delicious treat originating from Austria and developed in Italy. It has equal portions of espresso, whipped milk and milk foam.\nTraditionally, the cappuccino had a cap of milk foam raising above the top of the cup. Nowadays, you will often see the 'latte art' variant of this drink, which follows the same recipe, but with a more gentle pouring technique of the frothed milk.",
+  "cappuccino-type": "type",
   "caramel-syrup": "caramel syrup",
   "cocktails": "cocktails",
   "coffee": "coffee",
@@ -20,8 +22,10 @@
   "none": "None",
   "oat-milk": "oat milk",
   "options": "options",
+  "order-now": "Order now",
   "out-of-stock": "Out of stock",
   "semi-skimmed-milk": "semi skimmed milk",
+  "shopping-cart": "shopping cart",
   "skimmed-milk": "skimmed milk",
   "soy-milk": "soy milk",
   "syrup": {
