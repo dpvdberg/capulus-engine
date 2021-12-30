@@ -1,6 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var mysql = require('mysql2');
+const express = require('express');
+const {Sequelize} = require('sequelize');
+const router = express.Router();
+
+const initModels = require("../database/models/init-models");
+const mysql = require("mysql2");
+
+const sequelize = new Sequelize('capulus', 'capulus', 'xdgL5pGgJsf9PZhTdif', {
+    dialect: 'mysql',
+});
+const models = initModels(sequelize);
 
 var pool = mysql.createPool({
     connectionLimit: 10,
@@ -12,110 +20,122 @@ var pool = mysql.createPool({
     multipleStatements: true
 });
 
-function parseOptionData(raw) {
-    let optionData = [];
-
-    for (const row of raw) {
-        let optionDataIndex = optionData.findIndex(od => od['id'] === row['id']);
-        if (optionDataIndex < 0) {
-            optionDataIndex = optionData.push({
-                'id': row['id'],
-                'name': row['name'],
-                'formhint': row['formhint_name'],
-                'required_ingredients': row['required_ingredients'],
-                'show_default': row['show_default'],
-                'value': []
-            }) - 1;
-        }
-        if (row['option_value_id'] !== null) {
-            let optionDataValueIndex = optionData[optionDataIndex]['value'].push({
-                'id': row['option_value_id'],
-                'name': row['option_value_name'],
-                'default': row['option_value_default'],
-                'ingredient': null,
-            }) - 1;
-
-            if (row['ingredient_id'] !== null) {
-                optionData[optionDataIndex]['value'][optionDataValueIndex]['ingredient'] =
-                    {
-                        'id': row['ingredient_id'],
-                        'name': row['ingredient_name'],
-                        'in_stock': row['ingredient_in_stock'],
-                    };
-
-                // Option name inherits ingredient name if present.
-                optionData[optionDataIndex]['value'][optionDataValueIndex]['name'] = row['ingredient_name'];
-            }
-        }
-    }
-
-    return optionData;
-}
-
 router.get('/categories', function (req, res) {
-    pool.execute('SELECT id, name FROM categories WHERE category_id IS NULL ORDER BY priority ASC', function (error, results, fields) {
-        if (error) throw error;
-
-        res.json(results);
-    });
+    models.categories_descendants.findAll(
+        {
+            attributes: ['id', 'name', 'descendant_count'],
+            where: {category_id: null},
+            order: ['priority']
+        }
+    ).then((data) => {
+        res.json(data)
+    })
 });
 
 router.get('/category/:categoryId', function (req, res) {
-    pool.query(`SELECT id, name FROM categories WHERE category_id = :c ORDER BY priority ASC; SELECT id, name FROM products WHERE category_id = :c`,
-        {c: req.params['categoryId']},
-        function (error, results, fields) {
-            if (error) throw error;
+    const categories = models.categories_descendants.findAll(
+        {
+            attributes: ['id', 'name', 'descendant_count'],
+            where: {category_id: req.params['categoryId']},
+            order: ['priority']
+        }
+    );
+    const products = models.products.findAll(
+        {
+            attributes: ['id', 'name'],
+            where: {category_id: req.params['categoryId']}
+        }
+    );
 
+    Promise
+        .all([categories, products])
+        .then((values) => {
+            const [_categories, _products] = values
             res.json({
-                'categories': results[0],
-                'products': results[1],
-            });
+                'categories': _categories,
+                'products': _products,
+            })
+        })
+        .catch(err => {
+            console.log(err);
         });
 });
 
 router.get('/product/:productId', async (req, res) => {
     const promisePool = pool.promise();
 
+    let productId = req.params['productId'];
+
     // fetch base info
-    const productInfoPromise = promisePool.execute(`SELECT id, name FROM products WHERE id = :p`, {p: req.params['productId']});
+    const productInfo = models.products.findByPk(productId,
+        {
+            attributes: ['id', 'name'],
+        }
+    );
 
     // Fetch base ingredients
-    const ingredientPromise = promisePool.execute(`
-        select pi.ingredient_id as id, i.name, i.in_stock from product_ingredients as pi
-        inner join ingredients as i
-            on i.id = pi.ingredient_id
-        where pi.product_id = :p`,
-        {p: req.params['productId']});
+    const ingredientInfo = models.product_ingredients.findAll(
+        {
+            attributes: [
+                [Sequelize.col('ingredient.id'), 'id'],
+                [Sequelize.col('ingredient.name'), 'name'],
+                [Sequelize.col('ingredient.in_stock'), 'in_stock'],
+                'required'
+            ],
+            where: {product_id: productId},
+            include: {
+                model: models.ingredients,
+                attributes: [],
+            },
+        }
+    );
 
 
     // Fetch options and option ingredients
-    const optionPromise = promisePool.execute(`
-        select o.id, o.name, o.required_ingredients, o.show_default,
-        fh.name as formhint_name, 
-        ov.id as option_value_id, ov.default as option_value_default, ov.name as option_value_name, 
-        i.id as ingredient_id, i.name as ingredient_name, 
-        i.in_stock as ingredient_in_stock
-            from options as o
-        inner join product_options as po
-            on po.option_id = o.id
-        left join option_values as ov
-            on o.id = ov.option_id
-        left join ingredients as i
-            on ov.ingredient_id = i.id
-        left join formhints as fh
-            on o.formhint_id = fh.id
-        where po.product_id = :p
-        order by o.priority ASC`,
-        {p: req.params['productId']});
+    const optionInfo = models.options.findAll(
+        {
+            attributes: {exclude: ['formhint_id']},
+            include: [
+                {   // For filtering
+                    model: models.product_options,
+                    where: {product_id: productId},
+                    attributes: []
+                },
+                {
+                    model: models.formhints,
+                    attributes: ['name']
+                },
+                {
+                    model: models.option_values,
+                    attributes: {exclude: ['option_id', 'ingredient_id']},
+                    include: {
+                        model: models.ingredients,
+                    }
+                },
+            ],
+            order: ['priority']
+        }
+    );
 
-    Promise.all([productInfoPromise, ingredientPromise, optionPromise]).then((values) => {
-        const [[productInfo,], [ingredientInfo,], [optionInfo,]] = values
+    Promise.all([productInfo, ingredientInfo, optionInfo]).then((values) => {
+        const [_productInfo, _ingredientInfo, _optionInfo] = values
+
+        // Propagate name of option
+        _optionInfo.forEach(o =>
+            o.option_values.forEach(ov =>
+                {
+                    if (ov.name == null && ov.ingredient != null) {
+                        ov.name = ov.ingredient.name;
+                    }
+                }
+            )
+        );
 
         // Post-process results
         let result = {
-            'info': productInfo[0],
-            'ingredients': ingredientInfo,
-            'options': parseOptionData(optionInfo)
+            'info': _productInfo,
+            'ingredients': _ingredientInfo,
+            'options': _optionInfo
         }
 
         res.json(result);
