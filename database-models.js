@@ -1,5 +1,7 @@
 const SequelizeAuto = require('sequelize-auto');
 
+require("./database/generators/auth_tables")
+
 const auto = new SequelizeAuto('capulus', 'capulus', 'xdgL5pGgJsf9PZhTdif', {
     host: 'localhost',
     dialect: 'mysql',
