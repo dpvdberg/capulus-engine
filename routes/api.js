@@ -3,22 +3,11 @@ const {Sequelize} = require('sequelize');
 const router = express.Router();
 
 const initModels = require("../database/models/init-models");
-const mysql = require("mysql2");
 
 const sequelize = new Sequelize('capulus', 'capulus', 'xdgL5pGgJsf9PZhTdif', {
     dialect: 'mysql',
 });
 const models = initModels(sequelize);
-
-var pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'capulus',
-    password: 'xdgL5pGgJsf9PZhTdif',
-    database: 'capulus',
-    namedPlaceholders: true,
-    multipleStatements: true
-});
 
 router.get('/categories', function (req, res) {
     models.categories_descendants.findAll(
@@ -62,7 +51,6 @@ router.get('/category/:categoryId', function (req, res) {
 });
 
 router.get('/product/:productId', async (req, res) => {
-    const promisePool = pool.promise();
 
     let productId = req.params['productId'];
 
