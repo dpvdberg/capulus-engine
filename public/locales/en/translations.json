@@ -20,12 +20,14 @@
   "first-name": "First name",
   "flat-white": "flat white",
   "forgot-password": "Forgot password?",
+  "guest": "guest",
   "incorrect-email-or-password": "Incorrect email or password.",
   "last-name": "last name",
   "latte": "latte",
   "latte-macchiato": "latte macchiato",
   "logging-in": "Logging in",
   "login": "login",
+  "logout": "log out",
   "milk-type": {
     "description": "Something for everyone.",
     "label": "milk type"
@@ -34,6 +36,7 @@
   "new-to-us": "New to us?",
   "non-alcoholic": "non-alcoholic",
   "none": "None",
+  "not-signed-in": "Not signed in",
   "oat-milk": "oat milk",
   "options": "options",
   "order": "order",
@@ -44,6 +47,7 @@
   "register": "register",
   "registering": "registering",
   "semi-skimmed-milk": "semi skimmed milk",
+  "settings": "settings",
   "shopping-cart": "shopping cart",
   "sign-up": "sign up",
   "skimmed-milk": "skimmed milk",
@@ -68,6 +72,10 @@
   "toast-logout": {
     "description": "Successfully logged out.",
     "title": "Logged out"
+  },
+  "toast-refresh-token-fail": {
+    "description": "Can not verify logged in user.",
+    "title": "Authentication failed"
   },
   "toast-register-fail": {
     "description": "Could not create a new account, try again later.",

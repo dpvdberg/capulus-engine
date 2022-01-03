@@ -121,23 +121,25 @@ router.post("/refreshToken", (req, res, next) => {
                         },
                         where: {refresh_token: refreshToken}
                     }))
-                .then(token => {
-                    if (token != null) {
+                .then(refreshToken => {
+                    if (refreshToken != null) {
                         const newRefreshToken = getRefreshToken({id: user_id});
-                        return token.update({
+                        return refreshToken.update({
                             refresh_token: newRefreshToken
                         }).then(
-                            () => token,
-                            () => throw new Error("Could not update refresh token")
+                            () => refreshToken,
+                            () => {
+                                throw new Error("Could not update refresh token")
+                            }
                         )
                     } else {
                         throw new Error("Token or user not found.");
                     }
                 })
-                .then(token => {
-                    const t = getToken({id: user_id});
-                    res.cookie("refreshToken", token.refresh_token, COOKIE_OPTIONS);
-                    res.send({t});
+                .then(refreshToken => {
+                    res.cookie("refreshToken", refreshToken.refresh_token, COOKIE_OPTIONS);
+                    const token = getToken({id: user_id});
+                    res.json({token});
                 }, (reason) => {
                     res.status(401).send(reason.message);
                 })

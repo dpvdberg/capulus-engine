@@ -20,12 +20,14 @@
   "first-name": "Voornaam",
   "flat-white": "flat white",
   "forgot-password": "Wachtwoord vergeten?",
+  "guest": "gast",
   "incorrect-email-or-password": "E-mail of wachtwoord incorrect.",
   "last-name": "achternaam",
   "latte": "latte",
   "latte-macchiato": "latte macchiato",
   "logging-in": "Inloggen",
   "login": "inloggen",
+  "logout": "uitloggen",
   "milk-type": {
     "description": "Voor ieder wat wils.",
     "label": "type melk"
@@ -34,6 +36,7 @@
   "new-to-us": "Nieuw?",
   "non-alcoholic": "niet-alcoholisch",
   "none": "Geen",
+  "not-signed-in": "Niet ingelogd",
   "oat-milk": "havermelk",
   "options": "opties",
   "order": "bestellen",
@@ -44,6 +47,7 @@
   "register": "registreren",
   "registering": "registreren",
   "semi-skimmed-milk": "halfvolle melk",
+  "settings": "instellingen",
   "shopping-cart": "winkelwagen",
   "sign-up": "account aanmaken",
   "skimmed-milk": "magere melk",
@@ -68,6 +72,10 @@
   "toast-logout": {
     "description": "Je bent nu uitgelogd.",
     "title": "Uitgelogd"
+  },
+  "toast-refresh-token-fail": {
+    "description": "Kan ingelogde gebruiker niet verifieëren.",
+    "title": "Authenticatie mislukt"
   },
   "toast-register-fail": {
     "description": "Kon geen nieuw account aanmaken, probeer het later opnieuw.",
