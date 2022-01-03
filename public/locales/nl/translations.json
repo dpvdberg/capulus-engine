@@ -2,25 +2,36 @@
   "add-to-cart": "Leg in winkelwagen",
   "alcoholic": "alcoholisch",
   "almond-milk": "amandel melk",
+  "already-have-account": "Heb je al een account?",
   "cappuccino": "cappuccino",
   "cappuccino-description": "Een heerlijk kopje koffie afkomstig uit Oostenrijk en ontwikkeld in Italië. Het heeft gelijke porties espresso, opgeklopte melk en melkschuim.\nTraditioneel had de cappuccino een dikke laag melkschuim die boven het kopje uitstak. Tegenwoordig zie je vaak de 'latte art'-variant van deze drank, die hetzelfde recept volgt, maar met een voorzichtigere schenktechniek van de opgeschuimde melk.",
   "cappuccino-type": "soort",
   "caramel-syrup": "karamel siroop",
-  "cart-empty": "Je winkelmandje is leeg\\nVoeg wat toe aan je winkelwagen en kom dan terug",
+  "cart-empty": "Je winkelmandje is leeg.",
   "clear-cart": "leegmaken",
   "close": "sluiten",
   "cocktails": "cocktails",
   "coffee": "koffie",
   "description": "beschrijving",
+  "email-address": "e-mail adres",
+  "email-invalid": "Dit e-mailadres is niet geldig.",
   "extra-shot": "Extra shot",
+  "field-is-required": "Dit veld is verplicht.",
+  "first-name": "Voornaam",
   "flat-white": "flat white",
+  "forgot-password": "Wachtwoord vergeten?",
+  "incorrect-email-or-password": "E-mail of wachtwoord incorrect.",
+  "last-name": "achternaam",
   "latte": "latte",
   "latte-macchiato": "latte macchiato",
+  "logging-in": "Inloggen",
+  "login": "inloggen",
   "milk-type": {
     "description": "Voor ieder wat wils.",
     "label": "type melk"
   },
   "modern": "modern",
+  "new-to-us": "Nieuw?",
   "non-alcoholic": "niet-alcoholisch",
   "none": "Geen",
   "oat-milk": "havermelk",
@@ -28,8 +39,13 @@
   "order": "bestellen",
   "order-now": "Nu bestellen",
   "out-of-stock": "Niet op voorraad",
+  "password": "wachtwoord",
+  "password-match": "Wachtwoorden zijn niet gelijk.",
+  "register": "registreren",
+  "registering": "registreren",
   "semi-skimmed-milk": "halfvolle melk",
   "shopping-cart": "winkelwagen",
+  "sign-up": "account aanmaken",
   "skimmed-milk": "magere melk",
   "soy-milk": "sojamelk",
   "syrup": {
@@ -38,9 +54,34 @@
   },
   "tea": "thee",
   "texterify_timestamp": "2021-12-20T20:06:07Z",
+  "toast-login-fail": {
+    "title": "Inloggen mislukt"
+  },
+  "toast-login": {
+    "description": "Je bent nu ingelogd.",
+    "title": "Ingelogd"
+  },
+  "toast-logout-fail": {
+    "description": "Er ging iets mis tijdens het uitloggen, probeer het later opnieuw.",
+    "title": "Uitloggen mislukt"
+  },
+  "toast-logout": {
+    "description": "Je bent nu uitgelogd.",
+    "title": "Uitgelogd"
+  },
+  "toast-register-fail": {
+    "description": "Kon geen nieuw account aanmaken, probeer het later opnieuw.",
+    "title": "Registratie mislukt"
+  },
+  "toast-register": {
+    "description": "We hebben een account voor je aangemaakt, je kunt nu inloggen.",
+    "title": "Account aangemaakt"
+  },
   "toffee-nut-syrup": "Toffee hazelnoot siroop",
   "traditional": "traditioneel",
   "vanilla-syrup": "Vanille siroop",
+  "verify-password": "Verifieër wachtwoord",
+  "welcome": "welkom",
   "whipped-cream": "slagroom",
   "whole-milk": "volle melk"
 }

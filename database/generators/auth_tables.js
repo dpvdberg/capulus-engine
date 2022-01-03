@@ -1,5 +1,7 @@
-const {sequelize} = require("../../database/connectdb");
+const {Sequelize} = require("sequelize");
 const DataTypes = require("sequelize").DataTypes;
+
+const {sequelize} = require("../connectdb")
 
 const refreshTokens = sequelize.define('refresh_tokens', {
     id: {
@@ -18,40 +20,23 @@ const User = sequelize.define('users', {
         allowNull: false,
         primaryKey: true
     },
-    username: DataTypes.STRING,
+    email: DataTypes.STRING,
+    firstname: DataTypes.STRING,
+    lastname: DataTypes.STRING,
     hash: DataTypes.STRING(2048),
     salt: DataTypes.STRING(2048),
 });
 
-const userRefreshTokens = sequelize.define('user_refresh_tokens', {
-    user_id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        references: {
-            model: 'users',
-            key: 'id'
-        },
-        primaryKey: true
-    },
-    refresh_token_id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        references: {
-            model: 'refresh_tokens',
-            key: 'id'
-        },
-        primaryKey: true
-    }
+refreshTokens.belongsTo(User, {
+    foreignKey: 'user_id',
+    onDelete: 'cascade'
 })
 
-refreshTokens.hasMany(userRefreshTokens, {onDelete: 'cascade'})
-
-refreshTokens.sync().then(() =>
-    User.sync().then(() =>
-        userRefreshTokens.sync().then(() =>
-            console.log("Synced auth tables.")
-        )
+User.sync().then(() =>
+    refreshTokens.sync().then(() =>
+        console.log("Synced auth tables.")
     )
-);
-
+)
 
 module.exports = {
     User

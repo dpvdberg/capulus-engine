@@ -2,25 +2,36 @@
   "add-to-cart": "Add to cart",
   "alcoholic": "alcoholic",
   "almond-milk": "almond milk",
+  "already-have-account": "Already have an account?",
   "cappuccino": "cappuccino",
   "cappuccino-description": "A delicious treat originating from Austria and developed in Italy. It has equal portions of espresso, whipped milk and milk foam.\nTraditionally, the cappuccino contained a thick layer of milk foam rising above the top of the cup. Nowadays, you will often see the 'latte art' variant of this drink, which follows the same recipe, but with a more gentle pouring technique of the frothed milk.",
   "cappuccino-type": "type",
   "caramel-syrup": "caramel syrup",
-  "cart-empty": "Your shopping cart is empty",
+  "cart-empty": "Your shopping cart is empty.",
   "clear-cart": "clear cart",
   "close": "close",
   "cocktails": "cocktails",
   "coffee": "coffee",
   "description": "description",
+  "email-address": "email address",
+  "email-invalid": "This is not a valid email address.",
   "extra-shot": "Extra shot",
+  "field-is-required": "This field is required.",
+  "first-name": "First name",
   "flat-white": "flat white",
+  "forgot-password": "Forgot password?",
+  "incorrect-email-or-password": "Incorrect email or password.",
+  "last-name": "last name",
   "latte": "latte",
   "latte-macchiato": "latte macchiato",
+  "logging-in": "Logging in",
+  "login": "login",
   "milk-type": {
     "description": "Something for everyone.",
     "label": "milk type"
   },
   "modern": "modern",
+  "new-to-us": "New to us?",
   "non-alcoholic": "non-alcoholic",
   "none": "None",
   "oat-milk": "oat milk",
@@ -28,8 +39,13 @@
   "order": "order",
   "order-now": "Order now",
   "out-of-stock": "Out of stock",
+  "password": "password",
+  "password-match": "Passwords must match.",
+  "register": "register",
+  "registering": "registering",
   "semi-skimmed-milk": "semi skimmed milk",
   "shopping-cart": "shopping cart",
+  "sign-up": "sign up",
   "skimmed-milk": "skimmed milk",
   "soy-milk": "soy milk",
   "syrup": {
@@ -38,9 +54,34 @@
   },
   "tea": "tea",
   "texterify_timestamp": "2021-12-20T20:06:07Z",
+  "toast-login-fail": {
+    "title": "Login failed"
+  },
+  "toast-login": {
+    "description": "You've succesfully logged in",
+    "title": "Logged in"
+  },
+  "toast-logout-fail": {
+    "description": "Something went wrong while trying to log out, try again later.",
+    "title": "Logout fail"
+  },
+  "toast-logout": {
+    "description": "Successfully logged out.",
+    "title": "Logged out"
+  },
+  "toast-register-fail": {
+    "description": "Could not create a new account, try again later.",
+    "title": "Registration failed"
+  },
+  "toast-register": {
+    "description": "We've created an account for you, you can now sign in.",
+    "title": "Account created"
+  },
   "toffee-nut-syrup": "Toffee nut syrup",
   "traditional": "traditional",
   "vanilla-syrup": "Vanilla syrup",
+  "verify-password": "Verify password",
+  "welcome": "welcome",
   "whipped-cream": "whipped cream",
   "whole-milk": "whole milk"
 }

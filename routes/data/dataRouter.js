@@ -1,7 +1,7 @@
 const express = require('express');
 const {Sequelize} = require('sequelize');
 const router = express.Router();
-const {sequelize, models} = require('../../database/connectdb');
+const {sequelize, models} = require('../../database/connectmodels');
 
 router.get('/categories', function (req, res) {
     models.categories_descendants.findAll(
