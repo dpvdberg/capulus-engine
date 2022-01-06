@@ -7,6 +7,7 @@ const passport = require("passport")
 
 require('./strategies/local')
 require('./strategies/jwt')
+require('./strategies/google')
 
 const {getToken, COOKIE_OPTIONS, getRefreshToken} = require("./authenticate")
 const {User} = require("./userAttacher");
@@ -25,9 +26,21 @@ async function addRefreshToken(user) {
     return refresh_token.save()
 }
 
+function buildRefreshTokenResponse(user, res) {
+    return addRefreshToken(user).then((refreshToken) => {
+            res.cookie("refreshToken", refreshToken.refresh_token, COOKIE_OPTIONS)
+            let filteredUser = _.pick(user, defaultUserFields);
+            const token = getToken({id: user.id})
+
+            res.send({token, user: filteredUser})
+            return true;
+        }
+    )
+}
+
 router.post("/register", (req, res, next) => {
     // Verify that first name is not empty
-    if (!req.body.firstname) {
+    if (!req.body.first_name) {
         res.statusCode = 500
         res.send({
             name: "FirstNameError",
@@ -35,7 +48,7 @@ router.post("/register", (req, res, next) => {
         })
         return;
     }
-    if (!req.body.lastname) {
+    if (!req.body.last_name) {
         res.statusCode = 500
         res.send({
             name: "LastNameError",
@@ -62,9 +75,10 @@ router.post("/register", (req, res, next) => {
 
     User.register(
         User.build({
+            provider: 'local',
             email: req.body.email,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname
+            first_name: req.body.first_name,
+            last_name: req.body.last_name
         }),
         req.body.password,
         (err, user) => {
@@ -73,14 +87,8 @@ router.post("/register", (req, res, next) => {
                 return;
             }
 
-            user.save().then((user) => {
-                addRefreshToken(user).then((refreshToken) => {
-                        const token = getToken({id: user.id})
-                        res.cookie("refreshToken", refreshToken.refresh_token, COOKIE_OPTIONS)
-                        let filteredUser = _.pick(user, defaultUserFields);
-                        res.send({token, user: filteredUser})
-                    }
-                )
+            user.save().then(async (user) => {
+                await buildRefreshTokenResponse(user, res);
             })
         }
     );
@@ -91,17 +99,35 @@ router.post("/login", passport.authenticate("local", {
     failureFlash: true,
 }), (req, res, next) => {
     User.findByPk(req.user.id).then(
-        user => {
-            addRefreshToken(user).then((refreshToken) => {
-                    const token = getToken({id: user.id})
-                    res.cookie("refreshToken", refreshToken.refresh_token, COOKIE_OPTIONS)
-                    let filteredUser = _.pick(req.user, defaultUserFields);
-                    res.send({token, user: filteredUser})
-                }
-            )
+        async user => {
+            await buildRefreshTokenResponse(user, res);
         }
     )
 })
+
+router.get("/login/google", passport.authenticate("google",
+        {session: false}
+    ),
+    (req, res, next) => {
+        console.log(req);
+
+    }
+)
+
+router.get("/login/google/callback", passport.authenticate("google",
+        {
+            session: false,
+            failureRedirect: '/unauthorized',
+        }
+    ),
+    (req, res, next) => {
+        addRefreshToken(req.user).then((refreshToken) => {
+            // TODO: this cookie is actually not propagated??
+            res.cookie("refreshToken", refreshToken.refresh_token, COOKIE_OPTIONS)
+            res.redirect("/");
+        });
+    }
+)
 
 router.post("/refreshToken", (req, res, next) => {
     const {signedCookies = {}} = req

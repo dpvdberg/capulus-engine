@@ -21,8 +21,22 @@ const User = sequelize.define('users', {
         primaryKey: true
     },
     email: DataTypes.STRING,
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
+    provider: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    provider_uid: {
+        type: DataTypes.STRING(2048),
+        allowNull: true,
+    },
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    last_name: {
+        type : DataTypes.STRING,
+        allowNull: false
+    },
     hash: DataTypes.STRING(2048),
     salt: DataTypes.STRING(2048),
 });

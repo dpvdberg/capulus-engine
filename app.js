@@ -22,14 +22,19 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+    cookie: {
+        sameSite: 'none',
+        maxAge: 60000
+    }
+}));
 app.use(flash());
 
 app.use(passport.initialize());
 
 app.use('/api', apiRouter);
 
-app.get('/unauthorized', function(req, res) {
+app.get('/unauthorized', function (req, res) {
     res.status(401);
     res.json(req.flash());
 });

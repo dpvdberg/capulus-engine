@@ -28,6 +28,7 @@
   "logging-in": "Logging in",
   "login": "login",
   "logout": "log out",
+  "middle-name": "middle name",
   "milk-type": {
     "description": "Something for everyone.",
     "label": "milk type"
@@ -82,7 +83,7 @@
     "title": "Registration failed"
   },
   "toast-register": {
-    "description": "We've created an account for you, you can now sign in.",
+    "description": "We've created an account for you! You are now signed in.",
     "title": "Account created"
   },
   "toffee-nut-syrup": "Toffee nut syrup",

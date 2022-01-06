@@ -28,6 +28,7 @@
   "logging-in": "Inloggen",
   "login": "inloggen",
   "logout": "uitloggen",
+  "middle-name": "tussenvoegsel",
   "milk-type": {
     "description": "Voor ieder wat wils.",
     "label": "type melk"
@@ -82,7 +83,7 @@
     "title": "Registratie mislukt"
   },
   "toast-register": {
-    "description": "We hebben een account voor je aangemaakt, je kunt nu inloggen.",
+    "description": "We hebben een account voor je aangemaakt! Je bent nu ingelogd.",
     "title": "Account aangemaakt"
   },
   "toffee-nut-syrup": "Toffee hazelnoot siroop",
