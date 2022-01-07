@@ -22,10 +22,10 @@ function initModels(sequelize) {
   var products = _products(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
-  ingredients.belongsToMany(products, { as: 'product_id_products', through: product_ingredients, foreignKey: "ingredient_id", otherKey: "product_id" });
-  options.belongsToMany(products, { as: 'product_id_products_product_options', through: product_options, foreignKey: "option_id", otherKey: "product_id" });
-  products.belongsToMany(ingredients, { as: 'ingredient_id_ingredients', through: product_ingredients, foreignKey: "product_id", otherKey: "ingredient_id" });
-  products.belongsToMany(options, { as: 'option_id_options', through: product_options, foreignKey: "product_id", otherKey: "option_id" });
+  ingredients.belongsToMany(products, { through: product_ingredients, foreignKey: "ingredient_id", otherKey: "product_id" });
+  options.belongsToMany(products, { through: product_options, foreignKey: "option_id", otherKey: "product_id" });
+  products.belongsToMany(ingredients, { through: product_ingredients, foreignKey: "product_id", otherKey: "ingredient_id" });
+  products.belongsToMany(options, { through: product_options, foreignKey: "product_id", otherKey: "option_id" });
   categories.belongsTo(categories, { foreignKey: "category_id"});
   categories.hasMany(categories, { foreignKey: "category_id"});
   products.belongsTo(categories, { foreignKey: "category_id"});

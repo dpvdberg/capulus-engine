@@ -26,7 +26,14 @@ router.get('/category/:categoryId', function (req, res) {
     const products = models.products.findAll(
         {
             attributes: ['id', 'name'],
-            where: {category_id: req.params['categoryId']}
+            where: {category_id: req.params['categoryId']},
+            include: {
+                model: models.product_ingredients,
+                attributes: {exclude: ['product_id', 'ingredient_id']},
+                include: {
+                    model: models.ingredients
+                }
+            }
         }
     );
 
@@ -49,61 +56,47 @@ router.get('/product/:productId', async (req, res) => {
     let productId = req.params['productId'];
 
     // fetch base info
-    const productInfo = models.products.findByPk(productId,
+    models.products.findByPk(productId,
         {
             attributes: ['id', 'name'],
-        }
-    );
-
-    // Fetch base ingredients
-    const ingredientInfo = models.product_ingredients.findAll(
-        {
-            attributes: [
-                [Sequelize.col('ingredient.id'), 'id'],
-                [Sequelize.col('ingredient.name'), 'name'],
-                [Sequelize.col('ingredient.in_stock'), 'in_stock'],
-                'required'
+            order: [
+                // Order the options in this query
+                [models.options, 'priority']
             ],
-            where: {product_id: productId},
-            include: {
-                model: models.ingredients,
-                attributes: [],
-            },
-        }
-    );
-
-
-    // Fetch options and option ingredients
-    const optionInfo = models.options.findAll(
-        {
-            attributes: {exclude: ['formhint_id']},
             include: [
-                {   // For filtering
-                    model: models.product_options,
-                    where: {product_id: productId},
-                    attributes: []
-                },
                 {
-                    model: models.formhints,
-                    attributes: ['name']
-                },
-                {
-                    model: models.option_values,
-                    attributes: {exclude: ['option_id', 'ingredient_id']},
+                    // Include product ingredients
+                    model: models.product_ingredients,
+                    attributes: {exclude: ['product_id', 'ingredient_id']},
                     include: {
-                        model: models.ingredients,
+                        model: models.ingredients
                     }
                 },
-            ],
-            order: ['priority']
+                {
+                    // Include options for this product
+                    model: models.options,
+                    through: {attributes: []},
+                    include: [
+                        {
+                            // Include form hint for options
+                            model: models.formhints,
+                            attributes: ['name'],
+                        },
+                        {
+                            // Include possible values for each option
+                            model: models.option_values,
+                            attributes: {exclude: ['ingredient_id', 'option_id']},
+                            include: {
+                                model: models.ingredients
+                            }
+                        },
+                    ]
+                },
+            ]
         }
-    );
-
-    Promise.all([productInfo, ingredientInfo, optionInfo]).then((values) => {
-        const [_productInfo, _ingredientInfo, _optionInfo] = values
-
+    ).then((data) => {
         // Propagate name of option
-        _optionInfo.forEach(o =>
+        data.options.forEach(o =>
             o.option_values.forEach(ov => {
                     if (ov.name == null && ov.ingredient != null) {
                         ov.name = ov.ingredient.name;
@@ -112,14 +105,7 @@ router.get('/product/:productId', async (req, res) => {
             )
         );
 
-        // Post-process results
-        let result = {
-            'info': _productInfo,
-            'ingredients': _ingredientInfo,
-            'options': _optionInfo
-        }
-
-        res.json(result);
+        res.json(data);
     });
 });
 
