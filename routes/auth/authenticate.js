@@ -1,24 +1,11 @@
-const passport = require("passport")
-const jwt = require("jsonwebtoken")
-const dev = process.env.NODE_ENV !== "production"
+const _ = require("lodash");
+const {defaultUserFields} = require("./defaultUserFields");
 
-exports.COOKIE_OPTIONS = {
-    httpOnly: true,
-    // Since localhost is not having https protocol,
-    // secure cookies do not work correctly (in postman)
-    secure: !dev,
-    signed: true,
-    maxAge: eval(process.env.REFRESH_TOKEN_EXPIRY) * 1000,
+function userResponse(user, res) {
+    let filteredUser = _.pick(user, defaultUserFields);
+    res.json({user: filteredUser})
 }
 
-exports.getToken = user => {
-    return jwt.sign(user, process.env.JWT_SECRET, {
-        expiresIn: eval(process.env.SESSION_EXPIRY),
-    })
-}
-
-exports.getRefreshToken = user => {
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: eval(process.env.REFRESH_TOKEN_EXPIRY),
-    })
+module.exports = {
+    userResponse
 }

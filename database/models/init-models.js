@@ -8,7 +8,6 @@ var _options = require("./options");
 var _product_ingredients = require("./product_ingredients");
 var _product_options = require("./product_options");
 var _products = require("./products");
-var _refresh_tokens = require("./refresh_tokens");
 var _users = require("./users");
 
 function initModels(sequelize) {
@@ -21,7 +20,6 @@ function initModels(sequelize) {
   var product_ingredients = _product_ingredients(sequelize, DataTypes);
   var product_options = _product_options(sequelize, DataTypes);
   var products = _products(sequelize, DataTypes);
-  var refresh_tokens = _refresh_tokens(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
   ingredients.belongsToMany(products, { as: 'product_id_products', through: product_ingredients, foreignKey: "ingredient_id", otherKey: "product_id" });
@@ -46,8 +44,6 @@ function initModels(sequelize) {
   products.hasMany(product_ingredients, { foreignKey: "product_id"});
   product_options.belongsTo(products, { foreignKey: "product_id"});
   products.hasMany(product_options, { foreignKey: "product_id"});
-  refresh_tokens.belongsTo(users, { foreignKey: "user_id"});
-  users.hasMany(refresh_tokens, { foreignKey: "user_id"});
 
   return {
     categories,
@@ -59,7 +55,6 @@ function initModels(sequelize) {
     product_ingredients,
     product_options,
     products,
-    refresh_tokens,
     users,
   };
 }
