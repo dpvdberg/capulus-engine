@@ -2,6 +2,7 @@ const express = require('express');
 const {Sequelize} = require('sequelize');
 const router = express.Router();
 const {sequelize, models} = require('../../database/connectmodels');
+const {isAuthenticated} = require("../auth/authenticate");
 
 router.get('/categories', function (req, res) {
     models.categories_descendants.findAll(
@@ -51,7 +52,7 @@ router.get('/category/:categoryId', function (req, res) {
         });
 });
 
-router.get('/product/:productId', async (req, res) => {
+router.get('/product/:productId', (req, res) => {
 
     let productId = req.params['productId'];
 
@@ -108,5 +109,55 @@ router.get('/product/:productId', async (req, res) => {
         res.json(data);
     });
 });
+
+router.post('/order', isAuthenticated, (req, res) => {
+    if (!Array.isArray(req.body)) {
+        return res.status(400).send('Expected an array of products');
+    }
+
+    const order_products = []
+    try {
+        for (let product_order of req.body) {
+            const product_options = []
+            for (let product_option of product_order.product.options) {
+                if (product_option.option_values.length > 0) {
+                    // If this product option has option values, then the choice must reference one of those options.
+                    product_options.push({
+                        option_id: product_option.id,
+                        option_value_id: product_option.choice
+                    })
+                } else {
+                    // This option is boolean, only add if true, simply settings the option value reference to null
+                    if (product_option.choice) {
+                        product_options.push({
+                            option_id: product_option.id,
+                            option_value_id: null
+                        })
+                    }
+                }
+            }
+            order_products.push({
+                product_id: product_order.product.id,
+                quantity: product_order.quantity,
+                order_product_options: product_options
+            })
+        }
+    } catch (e) {
+        return res.status(400).send('Order request malformed');
+    }
+    console.log(order_products)
+
+    models.orders.create({
+        user_id: req.user.id,
+        order_products: order_products
+    }, {
+        include: {
+            model: models.order_products,
+            include: {
+                model: models.order_product_options
+            }
+        }
+    });
+})
 
 module.exports = router;

@@ -10,4 +10,14 @@ const auto = new SequelizeAuto('capulus', 'capulus', 'xdgL5pGgJsf9PZhTdif', {
     noAlias: true
 })
 
-auto.run();
+
+function removeAliases(path = './database/models/init-models.js') {
+    const fs = require('fs');
+
+    const REGEX = /as:\s'.*?',\s/g;
+    var fileContent = fs.readFileSync(path, 'utf8');
+    fileContent = fileContent.replace(REGEX, '');
+    fs.writeFileSync(path, fileContent);
+}
+
+auto.run().then(() => removeAliases());

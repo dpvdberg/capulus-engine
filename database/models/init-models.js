@@ -5,6 +5,9 @@ var _formhints = require("./formhints");
 var _ingredients = require("./ingredients");
 var _option_values = require("./option_values");
 var _options = require("./options");
+var _order_product_options = require("./order_product_options");
+var _order_products = require("./order_products");
+var _orders = require("./orders");
 var _product_ingredients = require("./product_ingredients");
 var _product_options = require("./product_options");
 var _products = require("./products");
@@ -17,6 +20,9 @@ function initModels(sequelize) {
   var ingredients = _ingredients(sequelize, DataTypes);
   var option_values = _option_values(sequelize, DataTypes);
   var options = _options(sequelize, DataTypes);
+  var order_product_options = _order_product_options(sequelize, DataTypes);
+  var order_products = _order_products(sequelize, DataTypes);
+  var orders = _orders(sequelize, DataTypes);
   var product_ingredients = _product_ingredients(sequelize, DataTypes);
   var product_options = _product_options(sequelize, DataTypes);
   var products = _products(sequelize, DataTypes);
@@ -36,14 +42,26 @@ function initModels(sequelize) {
   ingredients.hasMany(option_values, { foreignKey: "ingredient_id"});
   product_ingredients.belongsTo(ingredients, { foreignKey: "ingredient_id"});
   ingredients.hasMany(product_ingredients, { foreignKey: "ingredient_id"});
+  order_product_options.belongsTo(option_values, { foreignKey: "option_value_id"});
+  option_values.hasMany(order_product_options, { foreignKey: "option_value_id"});
   option_values.belongsTo(options, { foreignKey: "option_id"});
   options.hasMany(option_values, { foreignKey: "option_id"});
+  order_product_options.belongsTo(options, { foreignKey: "option_id"});
+  options.hasMany(order_product_options, { foreignKey: "option_id"});
   product_options.belongsTo(options, { foreignKey: "option_id"});
   options.hasMany(product_options, { foreignKey: "option_id"});
+  order_product_options.belongsTo(order_products, { foreignKey: "order_product_id"});
+  order_products.hasMany(order_product_options, { foreignKey: "order_product_id"});
+  order_products.belongsTo(orders, { foreignKey: "order_id"});
+  orders.hasMany(order_products, { foreignKey: "order_id"});
+  order_products.belongsTo(products, { foreignKey: "product_id"});
+  products.hasMany(order_products, { foreignKey: "product_id"});
   product_ingredients.belongsTo(products, { foreignKey: "product_id"});
   products.hasMany(product_ingredients, { foreignKey: "product_id"});
   product_options.belongsTo(products, { foreignKey: "product_id"});
   products.hasMany(product_options, { foreignKey: "product_id"});
+  orders.belongsTo(users, { foreignKey: "user_id"});
+  users.hasMany(orders, { foreignKey: "user_id"});
 
   return {
     categories,
@@ -52,6 +70,9 @@ function initModels(sequelize) {
     ingredients,
     option_values,
     options,
+    order_product_options,
+    order_products,
+    orders,
     product_ingredients,
     product_options,
     products,

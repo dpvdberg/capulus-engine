@@ -18,16 +18,6 @@ router.post('/logout', function (req, res) {
     res.json({success: true});
 });
 
-const isAuthenticated = function (req, res, next) {
-    if (req.user) {
-        return next();
-    } else {
-        return res.status(401).json({
-            error: 'User not authenticated'
-        })
-    }
-}
-
 router.get('/unauthorized', function (req, res) {
     res.status(401);
     res.json(req.flash());
