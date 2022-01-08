@@ -1,5 +1,5 @@
 const {Sequelize} = require("sequelize");
-const sequelize = new Sequelize('capulus', 'capulus', 'xdgL5pGgJsf9PZhTdif', {
+const sequelize = new Sequelize(process.env.MYSQL_USER, process.env.MYSQL_DB, process.env.MYSQL_PASSWORD, {
     dialect: 'mysql',
     timestamps: false,
 });

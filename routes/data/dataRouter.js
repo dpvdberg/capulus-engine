@@ -52,65 +52,74 @@ router.get('/category/:categoryId', function (req, res) {
         });
 });
 
+function getFullProductOptions() {
+    return {
+        attributes: ['id', 'name'],
+        order: [
+            // Order the options in this query
+            [models.options, 'priority']
+        ],
+        include: [
+            {
+                // Include product ingredients
+                model: models.product_ingredients,
+                attributes: {exclude: ['product_id', 'ingredient_id']},
+                include: {
+                    model: models.ingredients
+                }
+            },
+            {
+                // Include options for this product
+                model: models.options,
+                through: {attributes: []},
+                include: [
+                    {
+                        // Include form hint for options
+                        model: models.formhints,
+                        attributes: ['name'],
+                    },
+                    {
+                        // Include possible values for each option
+                        model: models.option_values,
+                        attributes: {exclude: ['ingredient_id', 'option_id']},
+                        include: {
+                            model: models.ingredients
+                        }
+                    },
+                ]
+            },
+        ]
+    }
+}
+
+
+function propagateOptionName(options) {
+    options.forEach(o =>
+        o.option_values.forEach(ov => {
+                if (ov.name == null && ov.ingredient != null) {
+                    ov.name = ov.ingredient.name;
+                }
+            }
+        )
+    );
+    return options;
+}
+
 router.get('/product/:productId', (req, res) => {
 
     let productId = req.params['productId'];
 
     // fetch base info
     models.products.findByPk(productId,
-        {
-            attributes: ['id', 'name'],
-            order: [
-                // Order the options in this query
-                [models.options, 'priority']
-            ],
-            include: [
-                {
-                    // Include product ingredients
-                    model: models.product_ingredients,
-                    attributes: {exclude: ['product_id', 'ingredient_id']},
-                    include: {
-                        model: models.ingredients
-                    }
-                },
-                {
-                    // Include options for this product
-                    model: models.options,
-                    through: {attributes: []},
-                    include: [
-                        {
-                            // Include form hint for options
-                            model: models.formhints,
-                            attributes: ['name'],
-                        },
-                        {
-                            // Include possible values for each option
-                            model: models.option_values,
-                            attributes: {exclude: ['ingredient_id', 'option_id']},
-                            include: {
-                                model: models.ingredients
-                            }
-                        },
-                    ]
-                },
-            ]
-        }
+        getFullProductOptions()
     ).then((data) => {
         // Propagate name of option
-        data.options.forEach(o =>
-            o.option_values.forEach(ov => {
-                    if (ov.name == null && ov.ingredient != null) {
-                        ov.name = ov.ingredient.name;
-                    }
-                }
-            )
-        );
-
+        data.options = propagateOptionName(data.options);
         res.json(data);
     });
 });
 
-router.post('/order', isAuthenticated, (req, res) => {
+router.post('/orders/put', isAuthenticated, (req, res) => {
     if (!Array.isArray(req.body)) {
         return res.status(400).send('Expected an array of products');
     }
@@ -158,6 +167,46 @@ router.post('/order', isAuthenticated, (req, res) => {
             }
         }
     });
+})
+
+router.get('/orders/get', isAuthenticated, (req, res) => {
+    models.orders.findAll({
+        where: {user_id: req.user.id},
+        attributes: {exclude: ['user_id', 'id']},
+        order: [['id', 'desc']],
+        include: {
+            model: models.order_products,
+            attributes: {exclude: ['id', 'order_id', 'product_id']},
+            include: [
+                {
+                    model: models.order_product_options,
+                    attributes: ['option_value_id'],
+                    include: [
+                        {
+                            model: models.options,
+                            attributes: ['id'],
+                        },
+                        {
+                            model: models.option_values,
+                            attributes: ['id'],
+                        }
+                    ]
+                },
+                {
+                    model: models.products,
+                    ...getFullProductOptions()
+                }
+            ]
+        }
+    }).then((data) => {
+        data.forEach((order) => {
+            order.order_products.forEach((op) => {
+                op.product.options = propagateOptionName(op.product.options);
+            })
+        })
+
+        res.json(data);
+    })
 })
 
 module.exports = router;

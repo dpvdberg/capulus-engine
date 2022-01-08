@@ -2,7 +2,7 @@ const SequelizeAuto = require('sequelize-auto');
 
 require("./database/generators/auth_tables")
 
-const auto = new SequelizeAuto('capulus', 'capulus', 'xdgL5pGgJsf9PZhTdif', {
+const auto = new SequelizeAuto(process.env.MYSQL_USER, process.env.MYSQL_DB, process.env.MYSQL_PASSWORD, {
     host: 'localhost',
     dialect: 'mysql',
     directory: './database/models',

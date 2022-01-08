@@ -3,7 +3,11 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+// Store session in server memory
+//const session = require('express-session');
+// Store session in client cookie
+const session = require('cookie-session')
+
 const flash = require('connect-flash');
 const logger = require('morgan');
 
@@ -22,14 +26,24 @@ app.use(express.urlencoded({extended: false}));
 app.use(flash());
 
 app.use(cookieParser());
+//// For express-session
+// app.use(session({
+//         secret: process.env.COOKIE_SECRET,
+//         resave: false,
+//         saveUninitialized: false,
+//         rolling: true,
+//         cookie: {
+//             maxAge: Number(process.env.SESSION_EXPIRY)
+//         }
+//     })
+// );
+//// For cookie-session
 app.use(session({
         secret: process.env.COOKIE_SECRET,
         resave: false,
         saveUninitialized: false,
         rolling: true,
-        cookie: {
-            maxAge: Number(process.env.SESSION_EXPIRY)
-        }
+        maxAge: Number(process.env.SESSION_EXPIRY)
     })
 );
 
@@ -45,6 +59,8 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
+    console.log(err);
+
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
