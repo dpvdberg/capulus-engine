@@ -1,5 +1,5 @@
+require('dotenv').config();
 const SequelizeAuto = require('sequelize-auto');
-
 require("./database/generators/auth_tables")
 
 const auto = new SequelizeAuto(process.env.MYSQL_USER, process.env.MYSQL_DB, process.env.MYSQL_PASSWORD, {

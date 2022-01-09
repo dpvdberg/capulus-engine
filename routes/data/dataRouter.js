@@ -52,7 +52,7 @@ router.get('/category/:categoryId', function (req, res) {
         });
 });
 
-function getFullProductOptions(option_attribute_include = []) {
+function getFullProductOptions() {
     return {
         attributes: ['id', 'name'],
         order: [
@@ -71,9 +71,6 @@ function getFullProductOptions(option_attribute_include = []) {
             {
                 // Include options for this product
                 model: models.options,
-                attributes: {
-                    include: option_attribute_include
-                },
                 through: {attributes: []},
                 include: [
                     {
@@ -176,7 +173,10 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
     models.orders.findAll({
         where: {user_id: req.user.id},
         attributes: {exclude: ['user_id', 'id']},
-        order: [['id', 'desc']],
+        order: [
+            ['id', 'desc'],
+            ['product_orders', models.products, models.options, 'priority', 'asc']
+        ],
         include: {
             model: models.order_products,
             as: 'product_orders',
@@ -185,25 +185,45 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
                 {
                     model: models.order_product_options,
                     as: 'option_values',
-                    attributes: []
+                    // Fetch associated option and option_value as flat values in product_option
+                    attributes: ['option_id', 'option_value_id']
                 },
                 {
                     model: models.products,
-                    // Set option choice
-                    ...getFullProductOptions([
-                        [Sequelize.literal('`product_orders->option_values`.`option_value_id`'), 'choice'],
-                    ])
+                    ...getFullProductOptions()
                 }
             ]
         }
-    }).then((data) => {
-        data.forEach((order) => {
+    }).then((orders) => {
+        orders = orders.map(o => o.get({plain : true}))
+        console.log(orders)
+
+        orders.forEach((order) => {
             order.product_orders.forEach((op) => {
                 op.product.options = propagateOptionName(op.product.options);
+
+
+                // set option choice to value in 'option_values'
+                op.product.options.forEach((o) => {
+                    let option_value = op.option_values.find((ov) => ov.option_id === o.id);
+
+                    if (option_value) {
+                        if (option_value.option_value_id === null) {
+                            // The option is referencing a boolean option, where null indicates true.
+                            o['choice'] = true
+                        } else {
+                            o['choice'] = option_value.option_value_id
+                        }
+                    } else {
+                        o['choice'] = null
+                    }
+                })
+
+                delete op.option_values;
             })
         })
 
-        res.json(data);
+        res.json(orders);
     })
 })
 
