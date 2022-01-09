@@ -52,7 +52,7 @@ router.get('/category/:categoryId', function (req, res) {
         });
 });
 
-function getFullProductOptions() {
+function getFullProductOptions(option_attribute_include = []) {
     return {
         attributes: ['id', 'name'],
         order: [
@@ -71,6 +71,9 @@ function getFullProductOptions() {
             {
                 // Include options for this product
                 model: models.options,
+                attributes: {
+                    include: option_attribute_include
+                },
                 through: {attributes: []},
                 include: [
                     {
@@ -176,31 +179,26 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
         order: [['id', 'desc']],
         include: {
             model: models.order_products,
+            as: 'product_orders',
             attributes: {exclude: ['id', 'order_id', 'product_id']},
             include: [
                 {
                     model: models.order_product_options,
-                    attributes: ['option_value_id'],
-                    include: [
-                        {
-                            model: models.options,
-                            attributes: ['id'],
-                        },
-                        {
-                            model: models.option_values,
-                            attributes: ['id'],
-                        }
-                    ]
+                    as: 'option_values',
+                    attributes: []
                 },
                 {
                     model: models.products,
-                    ...getFullProductOptions()
+                    // Set option choice
+                    ...getFullProductOptions([
+                        [Sequelize.literal('`product_orders->option_values`.`option_value_id`'), 'choice'],
+                    ])
                 }
             ]
         }
     }).then((data) => {
         data.forEach((order) => {
-            order.order_products.forEach((op) => {
+            order.product_orders.forEach((op) => {
                 op.product.options = propagateOptionName(op.product.options);
             })
         })
