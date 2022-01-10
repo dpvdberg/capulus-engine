@@ -154,7 +154,6 @@ router.post('/orders/put', isAuthenticated, (req, res) => {
     } catch (e) {
         return res.status(400).send('Order request malformed');
     }
-    console.log(order_products)
 
     models.orders.create({
         user_id: req.user.id,
@@ -174,7 +173,11 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
         where: {user_id: req.user.id},
         attributes: {exclude: ['user_id', 'id']},
         order: [
-            ['id', 'desc'],
+            // First show in-progress orders
+            ['fulfilled', 'asc'],
+            // Then sort by creation time
+            ['createdAt', 'desc'],
+            // Then sort the options in the product accordingly
             ['product_orders', models.products, models.options, 'priority', 'asc']
         ],
         include: {
@@ -196,7 +199,6 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
         }
     }).then((orders) => {
         orders = orders.map(o => o.get({plain : true}))
-        console.log(orders)
 
         orders.forEach((order) => {
             order.product_orders.forEach((op) => {
