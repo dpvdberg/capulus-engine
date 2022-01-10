@@ -4,7 +4,7 @@ const sequelize = new Sequelize(process.env.MYSQL_USER, process.env.MYSQL_DB, pr
     dialectOptions: {
         dateStrings: true,
         typeCast: true,
-        useUTC : false
+        timezone: "local",
     },
     timezone: process.env.TIMEZONE,
     timestamps: false,
