@@ -1,6 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const {models} = require("../../../database/connectmodels");
+const {models} = require("../../../../database/connectmodels");
 const express = require("express");
 const router = express.Router();
 

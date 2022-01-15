@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./utils/extensions')
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -11,7 +12,7 @@ const session = require('cookie-session')
 const flash = require('connect-flash');
 const logger = require('morgan');
 
-const apiRouter = require('./routes/api');
+const apiRouter = require('./routes/api/api');
 const passport = require("passport");
 
 const app = express();
@@ -52,6 +53,11 @@ app.use(passport.session());
 
 app.use('/api', apiRouter);
 
+// Web sockets
+const wsRouter = require('./routes/ws/ws')(app);
+app.use('/ws', wsRouter);
+app.listen(9001);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
@@ -69,7 +75,5 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
-require('./websocket/setup')
 
 module.exports = app;

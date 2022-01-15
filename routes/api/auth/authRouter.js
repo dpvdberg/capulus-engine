@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 // generate required auth tables
-require('../../database/generators/auth_tables')
+require('../../../database/generators/auth_tables')
 
 require('./strategies/google')
 
@@ -25,6 +25,7 @@ router.get('/unauthorized', function (req, res) {
 
 router.get('/me', function (req, res) {
         if (req.user) {
+            console.log(JSON.stringify(req.user));
             let filteredUser = _.pick(req.user, defaultUserFields);
             res.json({logged_in: true, user: filteredUser})
         } else {

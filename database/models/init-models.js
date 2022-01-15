@@ -11,6 +11,8 @@ var _orders = require("./orders");
 var _product_ingredients = require("./product_ingredients");
 var _product_options = require("./product_options");
 var _products = require("./products");
+var _roles = require("./roles");
+var _user_roles = require("./user_roles");
 var _users = require("./users");
 
 function initModels(sequelize) {
@@ -26,12 +28,16 @@ function initModels(sequelize) {
   var product_ingredients = _product_ingredients(sequelize, DataTypes);
   var product_options = _product_options(sequelize, DataTypes);
   var products = _products(sequelize, DataTypes);
+  var roles = _roles(sequelize, DataTypes);
+  var user_roles = _user_roles(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
 
   ingredients.belongsToMany(products, { through: product_ingredients, foreignKey: "ingredient_id", otherKey: "product_id" });
   options.belongsToMany(products, { through: product_options, foreignKey: "option_id", otherKey: "product_id" });
   products.belongsToMany(ingredients, { through: product_ingredients, foreignKey: "product_id", otherKey: "ingredient_id" });
   products.belongsToMany(options, { through: product_options, foreignKey: "product_id", otherKey: "option_id" });
+  roles.belongsToMany(users, { through: user_roles, foreignKey: "role_id", otherKey: "user_id" });
+  users.belongsToMany(roles, { through: user_roles, foreignKey: "user_id", otherKey: "role_id" });
   categories.belongsTo(categories, { foreignKey: "category_id"});
   categories.hasMany(categories, { foreignKey: "category_id"});
   products.belongsTo(categories, { foreignKey: "category_id"});
@@ -60,8 +66,12 @@ function initModels(sequelize) {
   products.hasMany(product_ingredients, { foreignKey: "product_id"});
   product_options.belongsTo(products, { foreignKey: "product_id"});
   products.hasMany(product_options, { foreignKey: "product_id"});
+  user_roles.belongsTo(roles, { foreignKey: "role_id"});
+  roles.hasMany(user_roles, { foreignKey: "role_id"});
   orders.belongsTo(users, { foreignKey: "user_id"});
   users.hasMany(orders, { foreignKey: "user_id"});
+  user_roles.belongsTo(users, { foreignKey: "user_id"});
+  users.hasMany(user_roles, { foreignKey: "user_id"});
 
   return {
     categories,
@@ -76,6 +86,8 @@ function initModels(sequelize) {
     product_ingredients,
     product_options,
     products,
+    roles,
+    user_roles,
     users,
   };
 }

@@ -3,11 +3,32 @@ const {User} = require("../userAttacher");
 const express = require("express");
 const router = express.Router();
 const {userResponse} = require("../authenticate");
+const {models} = require("../../../../database/connectmodels");
 
 passport.use('local', User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.deserializeUser(function (username, cb) {
+    username = username.toLowerCase();
+
+    const queryParameters = {};
+    queryParameters['email'] = username;
+
+    const query = User.findOne({
+        where: queryParameters,
+        include: {
+            model: models.roles,
+            attributes: ['name'],
+            through: {attributes:[]}
+        }
+    });
+    query.then(function (user) {
+        cb(null, user);
+    });
+    query.catch(function (err) {
+        cb(err);
+    });
+});
 
 router.post("/login", passport.authenticate("local", {
     failureFlash: 'incorrect-email-or-password',
@@ -57,7 +78,7 @@ router.post("/register", (req, res, next) => {
     User.register(
         User.build({
             provider: 'local',
-            email: req.body.email,
+            email: req.body.email.toLowerCase(),
             first_name: req.body.first_name,
             last_name: req.body.last_name
         }),

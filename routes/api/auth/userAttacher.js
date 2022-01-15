@@ -1,9 +1,9 @@
 const passportLocalSequelize = require("passport-local-sequelize");
-const {sequelize, models} = require('../../database/connectmodels');
-const {defaultUserFields} = require("./defaultUserFields");
+const {models} = require('../../../database/connectmodels');
 
 passportLocalSequelize.attachToUser(models.users, {
     usernameField: 'email',
+    usernameLowerCase: true,
     hashfield: 'hash',
     saltField: 'salt',
     incorrectUsernameError : 'incorrect-email-or-password',

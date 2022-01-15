@@ -19,6 +19,15 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TINYINT,
       allowNull: false,
       defaultValue: 0
+    },
+    cancelled: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      defaultValue: 0
+    },
+    cancel_reason: {
+      type: DataTypes.STRING(2048),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -1,8 +1,9 @@
 const express = require('express');
-const {Sequelize} = require('sequelize');
+const {Sequelize, Op} = require('sequelize');
 const router = express.Router();
-const {sequelize, models} = require('../../database/connectmodels');
+const {sequelize, models} = require('../../../database/connectmodels');
 const {isAuthenticated} = require("../auth/authenticate");
+const rbac = require("../../../permissions/rbac");
 
 router.get('/categories', function (req, res) {
     models.categories_descendants.findAll(
@@ -13,7 +14,9 @@ router.get('/categories', function (req, res) {
         }
     ).then((data) => {
         res.json(data)
-    })
+    }).catch((err) => {
+        console.log(err)
+    });
 });
 
 router.get('/category/:categoryId', function (req, res) {
@@ -168,65 +171,143 @@ router.post('/orders/put', isAuthenticated, (req, res) => {
     });
 })
 
+function setOrderChoices(orders) {
+
+}
+
 router.get('/orders/get', isAuthenticated, (req, res) => {
     models.orders.findAll({
-        where: {user_id: req.user.id},
-        attributes: {exclude: ['user_id', 'id']},
-        order: [
-            // First show in-progress orders
-            ['fulfilled', 'asc'],
-            // Then sort by creation time
-            ['createdAt', 'desc'],
-            // Then sort the options in the product accordingly
-            ['product_orders', models.products, models.options, 'priority', 'asc']
-        ],
-        include: {
-            model: models.order_products,
-            as: 'product_orders',
-            attributes: {exclude: ['id', 'order_id', 'product_id']},
-            include: [
-                {
-                    model: models.order_product_options,
-                    as: 'option_values',
-                    // Fetch associated option and option_value as flat values in product_option
-                    attributes: ['option_id', 'option_value_id']
-                },
-                {
-                    model: models.products,
-                    ...getFullProductOptions()
-                }
-            ]
-        }
-    }).then((orders) => {
-        orders = orders.map(o => o.get({plain : true}))
-
-        orders.forEach((order) => {
-            order.product_orders.forEach((op) => {
-                op.product.options = propagateOptionName(op.product.options);
-
-
-                // set option choice to value in 'option_values'
-                op.product.options.forEach((o) => {
-                    let option_value = op.option_values.find((ov) => ov.option_id === o.id);
-
-                    if (option_value) {
-                        if (option_value.option_value_id === null) {
-                            // The option is referencing a boolean option, where null indicates true.
-                            o['choice'] = true
-                        } else {
-                            o['choice'] = option_value.option_value_id
-                        }
-                    } else {
-                        o['choice'] = null
+        where: {
+            fulfilled: false,
+            cancelled: false
+        },
+        order: ['createdAt']
+    }).then((queuedOrders) => {
+        models.orders.findAll({
+            where: {user_id: req.user.id},
+            attributes: {exclude: ['user_id', 'id']},
+            order: [
+                // First show in-progress orders
+                ['fulfilled', 'asc'],
+                // Put cancelled orders below fulfilled orders
+                ['cancelled', 'asc'],
+                // Then sort by creation time
+                ['createdAt', 'desc'],
+                // Then sort the options in the product accordingly
+                ['product_orders', models.products, models.options, 'priority', 'asc']
+            ],
+            include: {
+                model: models.order_products,
+                as: 'product_orders',
+                attributes: {exclude: ['id', 'order_id', 'product_id']},
+                include: [
+                    {
+                        model: models.order_product_options,
+                        as: 'option_values',
+                        // Fetch associated option and option_value as flat values in product_option
+                        attributes: ['option_id', 'option_value_id']
+                    },
+                    {
+                        model: models.products,
+                        ...getFullProductOptions()
                     }
+                ]
+            }
+        }).then((orders) => {
+            orders = orders.map(o => o.get({plain: true}))
+
+            orders.forEach((order) => {
+                // Set option choice
+                order.product_orders.forEach((op) => {
+                    op.product.options = propagateOptionName(op.product.options);
+
+
+                    // set option choice to value in 'option_values'
+                    op.product.options.forEach((o) => {
+                        let option_value = op.option_values.find((ov) => ov.option_id === o.id);
+
+                        if (option_value) {
+                            if (option_value.option_value_id === null) {
+                                // The option is referencing a boolean option, where null indicates true.
+                                o['choice'] = true
+                            } else {
+                                o['choice'] = option_value.option_value_id
+                            }
+                        } else {
+                            o['choice'] = null
+                        }
+                    })
+
+                    delete op.option_values;
                 })
 
-                delete op.option_values;
-            })
-        })
+                // Set queue status
+                order['queue_status'] = queuedOrders.filter(
+                    o => Date.createFromMysql(o.createdAt) < Date.createFromMysql(order.createdAt)
+                ).length;
+            });
 
-        res.json(orders);
-    })
+            res.json(orders)
+        }).catch(err => console.log(err))
+    }).catch(err => console.log(err))
+})
+
+
+router.get('/orders/list', isAuthenticated, (req, res) => {
+    const roles = req.user.roles.map(r => r.name);
+
+    rbac.can(roles, 'orders:list')
+        .then(result => {
+            if (!result) {
+                return res.status(401).json({
+                    error: 'User not authorized'
+                })
+            }
+
+            models.orders.findAll({
+                attributes: {exclude: ['user_id', 'id']},
+                order: [
+                    // First show in-progress orders
+                    ['fulfilled', 'asc'],
+                    // Put cancelled orders below fulfilled orders
+                    ['cancelled', 'asc'],
+                    // Then sort by creation time
+                    ['createdAt', 'desc'],
+                    // Then sort the options in the product accordingly
+                    ['product_orders', models.products, models.options, 'priority', 'asc']
+                ],
+                include: [
+                    {
+                        model: models.users
+                    },
+                    {
+                        model: models.order_products,
+                        as: 'product_orders',
+                        attributes: {exclude: ['id', 'order_id', 'product_id']},
+                        include: [
+                            {
+                                model: models.order_product_options,
+                                as: 'option_values',
+                                // Fetch associated option and option_value as flat values in product_option
+                                attributes: ['option_id', 'option_value_id']
+                            },
+                            {
+                                model: models.products,
+                                ...getFullProductOptions()
+                            }
+                        ]
+                    }]
+            }).then((orders) => {
+
+            })
+
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(500).json({
+                error: 'Authorization error'
+            })
+        });
 })
 
 module.exports = router;
