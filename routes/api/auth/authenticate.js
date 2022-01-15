@@ -1,9 +1,13 @@
 const _ = require("lodash");
 const {defaultUserFields} = require("./defaultUserFields");
 
-function userResponse(user, res) {
+function userResponse(user, res = null) {
+    user.roles = user.roles.map(r => r.name)
     let filteredUser = _.pick(user, defaultUserFields);
-    res.json({user: filteredUser})
+    if (res !== null) {
+        return res.json({user: filteredUser})
+    }
+    return filteredUser
 }
 
 const isAuthenticated = function (req, res, next) {

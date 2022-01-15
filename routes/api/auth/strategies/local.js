@@ -9,13 +9,10 @@ passport.use('local', User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(function (username, cb) {
-    username = username.toLowerCase();
-
-    const queryParameters = {};
-    queryParameters['email'] = username;
-
     const query = User.findOne({
-        where: queryParameters,
+        where: {
+            email: username.toLowerCase()
+        },
         include: {
             model: models.roles,
             attributes: ['name'],
@@ -34,7 +31,13 @@ router.post("/login", passport.authenticate("local", {
     failureFlash: 'incorrect-email-or-password',
     failureRedirect: "/api/auth/unauthorized"
 }), (req, res, next) => {
-    User.findByPk(req.user.id).then(user => {
+    User.findByPk(req.user.id, {
+        include: {
+            model: models.roles,
+            attributes: ['name'],
+            through: {attributes:[]}
+        }
+    }).then(user => {
             userResponse(user, res);
         }
     )
@@ -43,7 +46,7 @@ router.post("/login", passport.authenticate("local", {
 router.post("/register", (req, res, next) => {
     // Verify that first name is not empty
     if (!req.body.first_name) {
-        res.statusCode = 500
+        res.statusCode = 400
         res.send({
             name: "FirstNameError",
             message: "The first name is required",
@@ -51,7 +54,7 @@ router.post("/register", (req, res, next) => {
         return;
     }
     if (!req.body.last_name) {
-        res.statusCode = 500
+        res.statusCode = 400
         res.send({
             name: "LastNameError",
             message: "The last name is required",
@@ -59,7 +62,7 @@ router.post("/register", (req, res, next) => {
         return;
     }
     if (!req.body.email) {
-        res.statusCode = 500
+        res.statusCode = 400
         res.send({
             name: "EmailError",
             message: "The email is required",
@@ -67,7 +70,7 @@ router.post("/register", (req, res, next) => {
         return;
     }
     if (!req.body.password) {
-        res.statusCode = 500
+        res.statusCode = 400
         res.send({
             name: "PasswordError",
             message: "Password is required",
@@ -85,12 +88,21 @@ router.post("/register", (req, res, next) => {
         req.body.password,
         (err, user) => {
             if (err) {
-                res.status(500).send(err);
+                res.status(400).send({message: err.message});
                 return;
             }
 
             user.save().then((user) => {
-                userResponse(user, res);
+                User.findByPk(user.id, {
+                    include: {
+                        model: models.roles,
+                        attributes: ['name'],
+                        through: {attributes:[]}
+                    }
+                }).then(user => {
+                        userResponse(user, res);
+                    }
+                )
             })
         }
     );

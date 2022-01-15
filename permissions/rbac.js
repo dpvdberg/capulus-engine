@@ -2,7 +2,9 @@ const RBAC = require('easy-rbac');
 const rbac = new RBAC({
     bartender: {
         can: [
+            'bartender',
             'orders:list',
+            'ingredients:modify',
         ],
     },
     admin: {
