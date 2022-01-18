@@ -11,7 +11,7 @@ router.use('/local', localRouter);
 const googleRouter = require('./strategies/google');
 const {defaultUserFields} = require("./defaultUserFields");
 const _ = require("lodash");
-const {userResponse} = require("./authenticate");
+const {filterUser} = require("./authenticate");
 router.use('/google', googleRouter);
 
 router.post('/logout', function (req, res) {
@@ -26,7 +26,7 @@ router.get('/unauthorized', function (req, res) {
 
 router.get('/me', function (req, res) {
         if (req.user) {
-            let filteredUser = userResponse(req.user, null);
+            let filteredUser = filterUser(req.user, null);
             res.json({logged_in: true, user: filteredUser})
         } else {
             res.json({logged_in: false})

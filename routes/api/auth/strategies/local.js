@@ -2,7 +2,7 @@ const passport = require("passport");
 const {User} = require("../userAttacher");
 const express = require("express");
 const router = express.Router();
-const {userResponse} = require("../authenticate");
+const {filterUser} = require("../authenticate");
 const {models} = require("../../../../database/connectmodels");
 
 passport.use('local', User.createStrategy());
@@ -38,7 +38,7 @@ router.post("/login", passport.authenticate("local", {
             through: {attributes:[]}
         }
     }).then(user => {
-            userResponse(user, res);
+            filterUser(user, res);
         }
     )
 })
@@ -100,7 +100,7 @@ router.post("/register", (req, res, next) => {
                         through: {attributes:[]}
                     }
                 }).then(user => {
-                        userResponse(user, res);
+                        filterUser(user, res);
                     }
                 )
             })

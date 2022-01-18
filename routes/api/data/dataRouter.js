@@ -2,8 +2,9 @@ const express = require('express');
 const {Sequelize, Op} = require('sequelize');
 const router = express.Router();
 const {sequelize, models} = require('../../../database/connectmodels');
-const {isAuthenticated} = require("../auth/authenticate");
+const {isAuthenticated, filterUser} = require("../auth/authenticate");
 const rbac = require("../../../permissions/rbac");
+const {defaultUserFields} = require("../auth/defaultUserFields");
 
 router.get('/categories', function (req, res) {
     models.categories_descendants.findAll(
@@ -172,7 +173,33 @@ router.post('/orders/put', isAuthenticated, (req, res) => {
 })
 
 function setOrderChoices(orders) {
+    orders.forEach((order) => {
+        // Set option choice
+        order.product_orders.forEach((op) => {
+            op.product.options = propagateOptionName(op.product.options);
 
+
+            // set option choice to value in 'option_values'
+            op.product.options.forEach((o) => {
+                let option_value = op.option_values.find((ov) => ov.option_id === o.id);
+
+                if (option_value) {
+                    if (option_value.option_value_id === null) {
+                        // The option is referencing a boolean option, where null indicates true.
+                        o['choice'] = true
+                    } else {
+                        o['choice'] = option_value.option_value_id
+                    }
+                } else {
+                    o['choice'] = null
+                }
+            })
+
+            delete op.option_values;
+        })
+    });
+
+    return orders;
 }
 
 router.get('/orders/get', isAuthenticated, (req, res) => {
@@ -216,36 +243,14 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
         }).then((orders) => {
             orders = orders.map(o => o.get({plain: true}))
 
+            orders = setOrderChoices(orders);
+
             orders.forEach((order) => {
-                // Set option choice
-                order.product_orders.forEach((op) => {
-                    op.product.options = propagateOptionName(op.product.options);
-
-
-                    // set option choice to value in 'option_values'
-                    op.product.options.forEach((o) => {
-                        let option_value = op.option_values.find((ov) => ov.option_id === o.id);
-
-                        if (option_value) {
-                            if (option_value.option_value_id === null) {
-                                // The option is referencing a boolean option, where null indicates true.
-                                o['choice'] = true
-                            } else {
-                                o['choice'] = option_value.option_value_id
-                            }
-                        } else {
-                            o['choice'] = null
-                        }
-                    })
-
-                    delete op.option_values;
-                })
-
                 // Set queue status
                 order['queue_status'] = queuedOrders.filter(
                     o => Date.createFromMysql(o.createdAt) < Date.createFromMysql(order.createdAt)
                 ).length;
-            });
+            })
 
             res.json(orders)
         }).catch(err => console.log(err))
@@ -253,7 +258,7 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
 })
 
 
-router.get('/orders/list', isAuthenticated, (req, res) => {
+router.get('/bartender/orders/todo', isAuthenticated, (req, res) => {
     const roles = req.user.roles.map(r => r.name);
 
     rbac.can(roles, 'orders:list')
@@ -265,20 +270,25 @@ router.get('/orders/list', isAuthenticated, (req, res) => {
             }
 
             models.orders.findAll({
+                where: {
+                    fulfilled: false,
+                    cancelled: false
+                },
                 attributes: {exclude: ['user_id', 'id']},
                 order: [
-                    // First show in-progress orders
-                    ['fulfilled', 'asc'],
-                    // Put cancelled orders below fulfilled orders
-                    ['cancelled', 'asc'],
-                    // Then sort by creation time
-                    ['createdAt', 'desc'],
+                    // Sort by creation time
+                    ['createdAt', 'asc'],
                     // Then sort the options in the product accordingly
                     ['product_orders', models.products, models.options, 'priority', 'asc']
                 ],
                 include: [
                     {
-                        model: models.users
+                        model: models.users,
+                        include: {
+                            model: models.roles,
+                            attributes: ['name'],
+                            through: {attributes:[]},
+                        }
                     },
                     {
                         model: models.order_products,
@@ -298,9 +308,16 @@ router.get('/orders/list', isAuthenticated, (req, res) => {
                         ]
                     }]
             }).then((orders) => {
+                orders = orders.map(o => o.get({plain: true}))
 
+                orders = setOrderChoices(orders);
+
+                orders.forEach((o) => {
+                    o.user = filterUser(o.user)
+                })
+
+                res.json(orders)
             })
-
         })
         .catch(err => {
             console.log(err);

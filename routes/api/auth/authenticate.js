@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const {defaultUserFields} = require("./defaultUserFields");
 
-function userResponse(user, res = null) {
+function filterUser(user, res = null) {
     user.roles = user.roles.map(r => r.name)
     let filteredUser = _.pick(user, defaultUserFields);
     if (res !== null) {
@@ -21,6 +21,6 @@ const isAuthenticated = function (req, res, next) {
 }
 
 module.exports = {
-    userResponse,
+    filterUser,
     isAuthenticated
 }
