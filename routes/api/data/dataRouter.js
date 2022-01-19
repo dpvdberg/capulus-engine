@@ -3,6 +3,7 @@ const router = express.Router();
 const {models} = require('../../../database/connectmodels');
 const {isAuthenticated, filterUser} = require("../auth/authenticate");
 const rbac = require("../../../permissions/rbac");
+const {sendOrderNotificationUpdate, subscribeUserToOrder, sendOrdersChangedUpdate} = require("../../ws/ws");
 
 router.get('/categories', function (req, res) {
     models.categories_descendants.findAll(
@@ -167,6 +168,12 @@ router.post('/orders/put', isAuthenticated, (req, res) => {
                 model: models.order_product_options
             }
         }
+    }).then((order) => {
+        res.sendStatus(200);
+        sendOrdersChangedUpdate('new');
+        subscribeUserToOrder(req.user.id, order.id);
+    }, () => {
+        return res.status(400).send('Could not create order');
     });
 })
 
@@ -273,6 +280,8 @@ router.post('/bartender/orders/fulfill/:id', isAuthenticated, (req, res) => {
                 where: {id: req.params['id']}
             }).then(() => {
                 res.json({success: true});
+                sendOrdersChangedUpdate('fulfilled');
+                sendOrderNotificationUpdate(req.params['id'], true);
             }, (err) => {
                 console.log(err)
                 res.status(400).json({
@@ -315,6 +324,8 @@ router.post('/bartender/orders/cancel/:id', isAuthenticated, (req, res) => {
                 where: {id: req.params['id']}
             }).then(() => {
                 res.json({success: true});
+                sendOrdersChangedUpdate('cancelled');
+                sendOrderNotificationUpdate(req.params['id'], false);
             }, () => {
                 res.status(400).json({
                     error: 'Could not cancel order'

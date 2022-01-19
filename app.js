@@ -21,6 +21,8 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// app.use(function(req,res,next){setTimeout(next,1000)});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -39,6 +41,7 @@ app.use(cookieParser());
 //     })
 // );
 //// For cookie-session
+
 app.use(session({
         secret: process.env.COOKIE_SECRET,
         resave: false,
@@ -54,7 +57,7 @@ app.use(passport.session());
 app.use('/api', apiRouter);
 
 // Web sockets
-const wsRouter = require('./routes/ws/ws')(app);
+const wsRouter = require('./routes/ws/ws').wsRouter(app);
 app.use('/ws', wsRouter);
 app.listen(9001);
 
