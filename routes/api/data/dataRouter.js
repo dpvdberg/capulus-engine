@@ -1,10 +1,8 @@
 const express = require('express');
-const {Sequelize, Op} = require('sequelize');
 const router = express.Router();
-const {sequelize, models} = require('../../../database/connectmodels');
+const {models} = require('../../../database/connectmodels');
 const {isAuthenticated, filterUser} = require("../auth/authenticate");
 const rbac = require("../../../permissions/rbac");
-const {defaultUserFields} = require("../auth/defaultUserFields");
 
 router.get('/categories', function (req, res) {
     models.categories_descendants.findAll(
