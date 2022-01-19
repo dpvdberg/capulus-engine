@@ -4,10 +4,6 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-// Store session in server memory
-//const session = require('express-session');
-// Store session in client cookie
-const session = require('cookie-session')
 
 const flash = require('connect-flash');
 const logger = require('morgan');
@@ -29,7 +25,9 @@ app.use(express.urlencoded({extended: false}));
 app.use(flash());
 
 app.use(cookieParser());
+
 //// For express-session
+// const session = require('express-session');
 // app.use(session({
 //         secret: process.env.COOKIE_SECRET,
 //         resave: false,
@@ -40,8 +38,9 @@ app.use(cookieParser());
 //         }
 //     })
 // );
-//// For cookie-session
 
+//// For cookie-session
+const session = require('cookie-session')
 app.use(session({
         secret: process.env.COOKIE_SECRET,
         resave: false,
