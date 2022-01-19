@@ -46,32 +46,28 @@ router.post("/login", passport.authenticate("local", {
 router.post("/register", (req, res, next) => {
     // Verify that first name is not empty
     if (!req.body.first_name) {
-        res.statusCode = 400
-        res.send({
+        res.status(400).json({
             name: "FirstNameError",
             message: "The first name is required",
         })
         return;
     }
     if (!req.body.last_name) {
-        res.statusCode = 400
-        res.send({
+        res.status(400).json({
             name: "LastNameError",
             message: "The last name is required",
         })
         return;
     }
     if (!req.body.email) {
-        res.statusCode = 400
-        res.send({
+        res.status(400).json({
             name: "EmailError",
             message: "The email is required",
         })
         return;
     }
     if (!req.body.password) {
-        res.statusCode = 400
-        res.send({
+        res.status(400).json({
             name: "PasswordError",
             message: "Password is required",
         })

@@ -4,6 +4,7 @@ const rbac = new RBAC({
         can: [
             'bartender',
             'orders:list',
+            'orders:modify',
             'ingredients:modify',
         ],
     },

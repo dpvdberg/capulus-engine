@@ -258,6 +258,79 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
 })
 
 
+router.post('/bartender/orders/fulfill/:id', isAuthenticated, (req, res) => {
+    const roles = req.user.roles.map(r => r.name);
+
+    rbac.can(roles, 'orders:modify')
+        .then(result => {
+            if (!result) {
+                return res.status(401).json({
+                    error: 'User not authorized'
+                })
+            }
+
+            models.orders.update({
+                fulfilled: true
+            }, {
+                where: {id: req.params['id']}
+            }).then(() => {
+                res.json({success: true});
+            }, (err) => {
+                console.log(err)
+                res.status(400).json({
+                    error: 'Could not fulfill order'
+                })
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(500).json({
+                error: 'Authorization error'
+            })
+        });
+})
+
+
+router.post('/bartender/orders/cancel/:id', isAuthenticated, (req, res) => {
+    if (!req.body.reason) {
+        res.status(400).json({
+            name: "ReasonError",
+            message: "Please provide a reason",
+        })
+        return;
+    }
+
+    const roles = req.user.roles.map(r => r.name);
+
+    rbac.can(roles, 'orders:modify')
+        .then(result => {
+            if (!result) {
+                return res.status(401).json({
+                    error: 'User not authorized'
+                })
+            }
+
+            models.orders.update({
+                cancelled: true,
+                cancel_reason: req.body.reason
+            }, {
+                where: {id: req.params['id']}
+            }).then(() => {
+                res.json({success: true});
+            }, () => {
+                res.status(400).json({
+                    error: 'Could not cancel order'
+                })
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(500).json({
+                error: 'Authorization error'
+            })
+        });
+})
+
 router.get('/bartender/orders/todo', isAuthenticated, (req, res) => {
     const roles = req.user.roles.map(r => r.name);
 
@@ -274,7 +347,7 @@ router.get('/bartender/orders/todo', isAuthenticated, (req, res) => {
                     fulfilled: false,
                     cancelled: false
                 },
-                attributes: {exclude: ['user_id', 'id']},
+                attributes: {exclude: ['user_id']},
                 order: [
                     // Sort by creation time
                     ['createdAt', 'asc'],
@@ -287,7 +360,7 @@ router.get('/bartender/orders/todo', isAuthenticated, (req, res) => {
                         include: {
                             model: models.roles,
                             attributes: ['name'],
-                            through: {attributes:[]},
+                            through: {attributes: []},
                         }
                     },
                     {
