@@ -16,4 +16,4 @@ const rbac = new RBAC({
     }
 });
 
-export default rbac;
+module.exports = rbac;
