@@ -24,6 +24,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: 0
     },
+    has_none: {
+      type: DataTypes.TINYINT,
+      allowNull: false,
+      defaultValue: 0
+    },
     show_default: {
       type: DataTypes.TINYINT,
       allowNull: false,

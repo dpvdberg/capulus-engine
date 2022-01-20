@@ -3,9 +3,10 @@ const rbac = new RBAC({
     bartender: {
         can: [
             'bartender',
+            'orders:notifications',
             'orders:list',
             'orders:modify',
-            'ingredients:modify',
+            'ingredients:list',
         ],
     },
     admin: {

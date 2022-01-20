@@ -27,26 +27,26 @@ app.use(flash());
 app.use(cookieParser());
 
 //// For express-session
-const session = require('express-session');
-const sessionParser = session({
-    secret: process.env.COOKIE_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    rolling: true,
-    cookie: {
-        maxAge: Number(process.env.SESSION_EXPIRY)
-    }
-});
+// const session = require('express-session');
+// const sessionParser = session({
+//     secret: process.env.COOKIE_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     rolling: true,
+//     cookie: {
+//         maxAge: Number(process.env.SESSION_EXPIRY)
+//     }
+// });
 
 //// For cookie-session
-// const session = require('cookie-session')
-// const sessionParser = session({
-//         secret: process.env.COOKIE_SECRET,
-//         resave: false,
-//         saveUninitialized: false,
-//         rolling: true,
-//         maxAge: Number(process.env.SESSION_EXPIRY)
-//     });
+const session = require('cookie-session')
+const sessionParser = session({
+        secret: process.env.COOKIE_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        maxAge: Number(process.env.SESSION_EXPIRY)
+    });
 
 app.use(sessionParser);
 app.use(passport.initialize());

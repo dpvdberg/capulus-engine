@@ -44,8 +44,8 @@ function sendOrderNotificationUpdate(order_id, fulfilled) {
     )
 }
 
-function sendBartenderUpdate(update_status) {
-    io.to('bartenders').emit('orders_changed',
+function sendOrderBroadcast(update_status) {
+    io.to('order-listeners').emit('orders_changed',
         JSON.stringify({
             'status' : update_status
         }))
@@ -81,9 +81,9 @@ function setup(server, _io) {
 
         // Subscribe to bartender updates if applicable
         const roles = socket.request.user.roles.map(r => r.name);
-        rbac.can(roles, 'bartender').then((result) => {
+        rbac.can(roles, 'orders:notifications').then((result) => {
             if (result) {
-                socket.join('bartenders')
+                socket.join('order-listeners')
             }
         })
     });
@@ -98,5 +98,5 @@ module.exports = {
     subscribeUserToOrder,
     subscribeUserToOrders,
     sendOrderNotificationUpdate,
-    sendBartenderUpdate
+    sendOrderBroadcast
 }
