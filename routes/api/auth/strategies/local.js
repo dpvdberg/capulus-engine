@@ -7,26 +7,6 @@ const {models} = require("../../../../database/connectmodels");
 
 passport.use('local', User.createStrategy());
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(function (username, cb) {
-    const query = User.findOne({
-        where: {
-            email: username.toLowerCase()
-        },
-        include: {
-            model: models.roles,
-            attributes: ['name'],
-            through: {attributes:[]}
-        }
-    });
-    query.then(function (user) {
-        cb(null, user);
-    });
-    query.catch(function (err) {
-        cb(err);
-    });
-});
-
 router.post("/login", passport.authenticate("local", {
     failureFlash: 'incorrect-email-or-password',
     failureRedirect: "/api/auth/unauthorized"
