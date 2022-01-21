@@ -7,6 +7,7 @@ const rbac = new RBAC({
             'orders:list',
             'orders:modify',
             'ingredients:list',
+            'ingredients:modify',
         ],
     },
     admin: {
