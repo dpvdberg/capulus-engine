@@ -51,6 +51,10 @@ function sendOrderBroadcast(update_status) {
         }))
 }
 
+function sendIngredientBroadcast(update_status) {
+    io.to('ingredient-listeners').emit('ingredients_changed')
+}
+
 function setup(server, _io) {
     io = _io;
     io.filterSocketsByUser = filterFn =>
@@ -76,6 +80,9 @@ function setup(server, _io) {
         // Subscribe user to its own user pool
         socket.join(`user-${socket.request.user.id}`)
 
+        // Everyone subscribes to ingredient updates
+        socket.join('ingredient-listeners')
+
         // Subscribe to updates of current active orders
         subscribeUserToOrders(socket.request.user.id)
 
@@ -98,5 +105,6 @@ module.exports = {
     subscribeUserToOrder,
     subscribeUserToOrders,
     sendOrderNotificationUpdate,
-    sendOrderBroadcast
+    sendOrderBroadcast,
+    sendIngredientBroadcast
 }

@@ -7,7 +7,7 @@ const {
     sendOrderNotificationUpdate,
     subscribeUserToOrders,
     sendOrderBroadcast,
-    subscribeUserToOrder
+    subscribeUserToOrder, sendIngredientBroadcast
 } = require("../../ws/ws");
 
 router.get('/categories', function (req, res) {
@@ -226,12 +226,8 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
     }).then((queuedOrders) => {
         models.orders.findAll({
             where: {user_id: req.user.id},
-            attributes: {exclude: ['user_id', 'id']},
+            attributes: {exclude: ['user_id']},
             order: [
-                // First show in-progress orders
-                ['fulfilled', 'asc'],
-                // Put cancelled orders below fulfilled orders
-                ['cancelled', 'asc'],
                 // Then sort by creation time
                 ['createdAt', 'desc'],
                 // Then sort the options in the product accordingly
@@ -308,14 +304,6 @@ router.post('/bartender/orders/fulfill/:id', isAuthenticated, (req, res) => {
 
 
 router.post('/bartender/orders/cancel/:id', isAuthenticated, (req, res) => {
-    if (!req.body.reason) {
-        res.status(400).json({
-            name: "ReasonError",
-            message: "Please provide a reason",
-        })
-        return;
-    }
-
     const roles = req.user.roles.map(r => r.name);
 
     rbac.can(roles, 'orders:modify')
@@ -370,50 +358,57 @@ router.get('/ingredients/list', isAuthenticated, (req, res) => {
 router.post('/ingredients/modify', isAuthenticated, (req, res) => {
     const roles = req.user.roles.map(r => r.name);
 
-    const data = req.body;
-
-    rbac.can(roles, 'ingredients:modify')
-        .then(result => {
-            if (!result) {
-                return res.status(401).json({
-                    error: 'User not authorized'
-                })
-            }
-
-            // Do two updates, one settings all that got disabled
-            // and one update for all ingredients that got enabled
-
-            const enabled_ids = data
-                .filter(c => c.stock === true)
-                .map(c => Number(c.id));
-
-            const disabled_ids = data
-                .filter(c => c.stock === false)
-                .map(c => Number(c.id));
-
-            const enable_promise = models.ingredients.update(
-                { in_stock: true },
-                {
-                    where: {id: enabled_ids}
+    try {
+        const data = req.body
+        rbac.can(roles, 'ingredients:modify')
+            .then(result => {
+                if (!result) {
+                    return res.status(401).json({
+                        error: 'User not authorized'
+                    })
                 }
-            );
 
-            const disable_promise = models.ingredients.update(
-                { in_stock: false },
-                {
-                    where: {id: disabled_ids}
-                }
-            );
+                // Do two updates, one settings all that got disabled
+                // and one update for all ingredients that got enabled
 
-            Promise.all([enable_promise, disable_promise])
-                .then(() => {
-                    res.sendStatus(200);
-                })
-                .catch(err => {
-                    console.log("error updating ingredients")
-                    console.log(err);
-                });
+                const enabled_ids = data
+                    .filter(c => c.stock === true)
+                    .map(c => Number(c.id));
+
+                const disabled_ids = data
+                    .filter(c => c.stock === false)
+                    .map(c => Number(c.id));
+
+                const enable_promise = models.ingredients.update(
+                    {in_stock: true},
+                    {
+                        where: {id: enabled_ids}
+                    }
+                );
+
+                const disable_promise = models.ingredients.update(
+                    {in_stock: false},
+                    {
+                        where: {id: disabled_ids}
+                    }
+                );
+
+                Promise.all([enable_promise, disable_promise])
+                    .then(() => {
+                        res.sendStatus(200);
+                        sendIngredientBroadcast();
+                    })
+                    .catch(err => {
+                        console.log("error updating ingredients")
+                        console.log(err);
+                    });
+            })
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({
+            error: 'Error while processing request'
         })
+    }
 })
 
 router.get('/bartender/orders/todo', isAuthenticated, (req, res) => {
