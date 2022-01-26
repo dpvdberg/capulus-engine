@@ -92,10 +92,6 @@ const io = new Server(server, {
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
-io.use(function (socket, next) {
-    console.log("hi middleware")
-    next();
-})
 io.use(wrap(sessionParser));
 io.use(wrap(passport.initialize()));
 io.use(wrap(passport.session()));

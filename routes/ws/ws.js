@@ -51,7 +51,7 @@ function sendOrderBroadcast(update_status) {
         }))
 }
 
-function sendIngredientBroadcast(update_status) {
+function sendIngredientBroadcast() {
     io.to('ingredient-listeners').emit('ingredients_changed')
 }
 
@@ -95,9 +95,9 @@ function setup(server, _io) {
         })
     });
 
-    setInterval(function () {
-        console.log('#clients', io.engine.clientsCount);
-    }, 1000)
+    // setInterval(function () {
+    //     console.log('#clients', io.engine.clientsCount);
+    // }, 1000)
 }
 
 module.exports = {

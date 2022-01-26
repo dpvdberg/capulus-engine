@@ -267,6 +267,30 @@ router.get('/orders/get', isAuthenticated, (req, res) => {
     }).catch(err => console.log(err))
 })
 
+router.post('/orders/cancel/:id', isAuthenticated, (req, res) => {
+    models.orders.findByPk(req.params['id'],
+        {
+            include: models.users
+        }).then((order) => {
+        if (order.user.id !== req.user.id) {
+            return res.status(401).json({
+                error: 'User not authenticated'
+            })
+        }
+
+        order.cancelled = true;
+        order.save().then(() => {
+            res.json({success: true});
+            sendOrderBroadcast('cancelled');
+        });
+    }, (err) => {
+        console.log(err)
+        res.status(400).json({
+            error: 'Could not cancel order'
+        })
+    })
+});
+
 
 router.post('/bartender/orders/fulfill/:id', isAuthenticated, (req, res) => {
     const roles = req.user.roles.map(r => r.name);
@@ -403,7 +427,7 @@ router.post('/ingredients/modify', isAuthenticated, (req, res) => {
                         console.log(err);
                     });
             })
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         res.status(500).json({
             error: 'Error while processing request'
