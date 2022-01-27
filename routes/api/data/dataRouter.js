@@ -3,6 +3,7 @@ const router = express.Router();
 const {models} = require('../../../database/connectmodels');
 const {isAuthenticated, filterUser} = require("../auth/authenticate");
 const rbac = require("../../../permissions/rbac");
+const sequelize = require('sequelize')
 const {
     sendOrderNotificationUpdate,
     subscribeUserToOrders,
@@ -506,6 +507,19 @@ router.get('/bartender/orders/todo', isAuthenticated, (req, res) => {
                 error: 'Authorization error'
             })
         });
+})
+
+router.get('/stats/calendar/orders', (req, res) => {
+    models.orders.findAll({
+        attributes: [
+            [ sequelize.fn('date_format', sequelize.col('createdAt'), '%Y-%m-%d'), 'day'],
+            [ sequelize.fn('count', '*'), 'value']
+        ],
+        group: 'day',
+        order: [[sequelize.col('day'), 'DESC']]
+    }).then((orders) => {
+        res.json(orders)
+    })
 })
 
 module.exports = router;
