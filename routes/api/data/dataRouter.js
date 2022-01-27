@@ -132,6 +132,10 @@ router.post('/orders/put', isAuthenticated, (req, res) => {
         return res.status(400).send('Expected an array of products');
     }
 
+    if (req.body.length <= 0) {
+        return res.status(400).send('Empty list of products');
+    }
+
     const order_products = []
     try {
         for (let product_order of req.body) {
