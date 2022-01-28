@@ -8,7 +8,7 @@ passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         scope: ['profile', 'email'],
-        callbackURL: process.env.APP_URL
+        callbackURL: `${process.env.APP_API_URL}/auth/google/callback`
     },
     function (accessToken, refreshToken, profile, cb) {
         const issuer = 'google'
@@ -48,7 +48,7 @@ router.get("/login", passport.authenticate("google"))
 
 router.get("/callback", passport.authenticate("google", {failureRedirect: '/unauthorized'}),
     (req, res, next) => {
-        res.redirect('/')
+        res.redirect(process.env.APP_URL)
     }
 )
 
