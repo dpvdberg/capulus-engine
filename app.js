@@ -41,12 +41,12 @@ app.use(cookieParser());
 //// For cookie-session
 const session = require('cookie-session')
 const sessionParser = session({
-        secret: process.env.COOKIE_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        rolling: true,
-        maxAge: Number(process.env.SESSION_EXPIRY)
-    });
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    maxAge: Number(process.env.SESSION_EXPIRY)
+});
 
 app.use(sessionParser);
 app.use(passport.initialize());
@@ -65,7 +65,7 @@ passport.deserializeUser(function (username, cb) {
         include: {
             model: models.roles,
             attributes: ['name'],
-            through: {attributes:[]}
+            through: {attributes: []}
         }
     });
     query.then(function (user) {

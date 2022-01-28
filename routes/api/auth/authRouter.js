@@ -9,8 +9,6 @@ const localRouter = require('./strategies/local');
 router.use('/local', localRouter);
 
 const googleRouter = require('./strategies/google');
-const {defaultUserFields} = require("./defaultUserFields");
-const _ = require("lodash");
 const {filterUser} = require("./authenticate");
 router.use('/google', googleRouter);
 
