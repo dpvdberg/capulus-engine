@@ -1,4 +1,3 @@
-const { Server } = require("socket.io");
 const {models} = require("../../database/connectmodels");
 const rbac = require("../../permissions/rbac");
 
@@ -57,6 +56,7 @@ function sendIngredientBroadcast() {
 
 function setup(server, _io) {
     io = _io;
+
     io.filterSocketsByUser = filterFn =>
         Object.values(io.sockets.connected)
             .filter(socket => socket.handshake && filterFn(socket.conn.request.user))
@@ -68,20 +68,23 @@ function setup(server, _io) {
     io.on('connection', (socket) => {
         console.log("[SOCKET] New client")
 
-        if (!socket.request.user) {
-            socket.send(JSON.stringify({'error': 'unauthorized'}))
-            return;
-        }
+        // Everyone subscribes to ingredient updates
+        socket.join('ingredient-listeners')
 
         socket.on("disconnect", (reason) => {
             console.log("[SOCKET] Disconnect: " + reason)
         });
 
+        if (!socket.request.user) {
+            return;
+        }
+
+        ////
+        // Signed in users
+        ////
+
         // Subscribe user to its own user pool
         socket.join(`user-${socket.request.user.id}`)
-
-        // Everyone subscribes to ingredient updates
-        socket.join('ingredient-listeners')
 
         // Subscribe to updates of current active orders
         subscribeUserToOrders(socket.request.user.id)

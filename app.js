@@ -95,14 +95,6 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 io.use(wrap(sessionParser));
 io.use(wrap(passport.initialize()));
 io.use(wrap(passport.session()));
-io.use((socket, next) => {
-    // console.log(socket)
-    if (socket.request.user) {
-        next();
-    } else {
-        next(new Error('unauthorized'))
-    }
-});
 
 require('./routes/ws/ws').setup(server, io);
 server.listen(process.env.PORT)
