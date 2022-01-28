@@ -82,11 +82,7 @@ const {Server} = require("socket.io");
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
-        origin: [
-            "http://localhost:3000",
-            "http://192.168.1.3:3000",
-            "http://192.168.1.3.nip.io:3000",
-        ]
+        origin: '*',
     }
 });
 
