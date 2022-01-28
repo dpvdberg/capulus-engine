@@ -29,7 +29,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-local-sequelize": "^0.9.0",
-    "pug": "2.0.0-beta11",
+    "pug": "^3.0.1",
     "sequelize": "^6.12.4",
     "sequelize-auto": "^0.8.8",
     "socket.io": "^4.4.1"
