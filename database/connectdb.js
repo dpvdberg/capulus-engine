@@ -10,7 +10,7 @@ const sequelize = new Sequelize(process.env.MYSQL_USER, process.env.MYSQL_DB, pr
     },
     timezone: process.env.TIMEZONE,
     timestamps: false,
-    logging: process.env.NODE_ENV !== "production"
+    logging: process.env.NODE_ENV === "production" ? false : console.log
 });
 
 module.exports = {
