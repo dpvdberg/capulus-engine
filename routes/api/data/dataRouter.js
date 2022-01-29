@@ -61,7 +61,11 @@ function getFullProductOptions() {
             // Order by id
             ['id'],
             // Order the options in this query
-            [models.options, 'priority']
+            [models.options, 'priority'],
+            // Order the option values in this query by name
+            [models.options, models.option_values, 'name'],
+            // Order the option values in this query by name
+            [models.options, models.option_values, models.ingredients, 'name']
         ],
         include: [
             {
