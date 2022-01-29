@@ -35,15 +35,8 @@ router.get('/category/:categoryId', function (req, res) {
     );
     const products = models.products.findAll(
         {
-            attributes: ['id', 'name'],
             where: {category_id: req.params['categoryId']},
-            include: {
-                model: models.product_ingredients,
-                attributes: {exclude: ['product_id', 'ingredient_id']},
-                include: {
-                    model: models.ingredients
-                }
-            }
+            ...getFullProductOptions()
         }
     );
 
@@ -65,6 +58,8 @@ function getFullProductOptions() {
     return {
         attributes: ['id', 'name'],
         order: [
+            // Order by id
+            ['id'],
             // Order the options in this query
             [models.options, 'priority']
         ],
