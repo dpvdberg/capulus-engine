@@ -76,6 +76,7 @@ function setup(server, _io) {
         });
 
         if (!socket.request.user) {
+            console.log("[SOCKET] Guest detected")
             return;
         }
 
