@@ -11,6 +11,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(45),
       allowNull: false
     },
+    priority: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0
+    },
     category_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true,
