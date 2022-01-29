@@ -4,7 +4,6 @@ const {getFullProductOptions, propagateOptionName} = require("../utils");
 const router = express.Router();
 
 router.get('/:productId', (req, res) => {
-
     let productId = req.params['productId'];
 
     // fetch base info
