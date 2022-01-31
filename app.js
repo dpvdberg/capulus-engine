@@ -16,13 +16,13 @@ const app = express();
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', process.env.DOMAIN);
 
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -52,6 +52,7 @@ app.use(cookieParser());
 //     resave: false,
 //     saveUninitialized: false,
 //     rolling: true,
+//     domain: process.env.DOMAIN,
 //     cookie: {
 //         maxAge: Number(process.env.SESSION_EXPIRY)
 //     }
@@ -64,6 +65,7 @@ const sessionParser = session({
     resave: false,
     saveUninitialized: false,
     rolling: true,
+    domain: process.env.DOMAIN,
     maxAge: Number(process.env.SESSION_EXPIRY)
 });
 
