@@ -15,7 +15,7 @@ router.post("/login", passport.authenticate("local", {
         include: {
             model: models.roles,
             attributes: ['name'],
-            through: {attributes:[]}
+            through: {attributes: []}
         }
     }).then(user => {
             filterUser(user, res);
@@ -64,8 +64,7 @@ router.post("/register", (req, res, next) => {
         req.body.password,
         (err, user) => {
             if (err) {
-                res.status(400).send({message: err.message});
-                return;
+                return res.status(400).send({message: err.message});
             }
 
             user.save().then((user) => {
@@ -73,10 +72,15 @@ router.post("/register", (req, res, next) => {
                     include: {
                         model: models.roles,
                         attributes: ['name'],
-                        through: {attributes:[]}
+                        through: {attributes: []}
                     }
                 }).then(user => {
-                        filterUser(user, res);
+                        req.login(user, function(err) {
+                            if (err) {
+                                return res.status(400).send({message: err.message});
+                            }
+                            filterUser(user, res);
+                        });
                     }
                 )
             })
