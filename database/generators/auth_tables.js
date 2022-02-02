@@ -29,7 +29,8 @@ const User = sequelize.define('users', {
     salt: DataTypes.STRING(2048),
 });
 
-User.sync().then(() => console.log("synced auth tables"))
+// User.sync().then(() => console.log("synced auth tables"))
+sequelize.sync().then(() => console.log("synced all tables"));
 
 module.exports = {
     User
