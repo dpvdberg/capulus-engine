@@ -19,7 +19,15 @@ router.post('/put', isAuthenticated, (req, res) => {
         for (let product_order of req.body) {
             const product_options = []
             for (let product_option of product_order.product.options) {
-                if (product_option.option_values.length > 1) {
+                if (product_option.formhint.name === 'checkbox') {
+                    // This option is boolean, only add if true, simply settings the option value reference to null
+                    if (product_option.choice) {
+                        product_options.push({
+                            option_id: product_option.id,
+                            option_value_id: null
+                        })
+                    }
+                } else {
                     // If this product option has option values, then the choice must reference one of those options
                     // or -1 if has_none and none is chosen
                     if (product_option.has_none && product_option.choice === -1) {
@@ -29,14 +37,6 @@ router.post('/put', isAuthenticated, (req, res) => {
                         option_id: product_option.id,
                         option_value_id: product_option.choice
                     })
-                } else {
-                    // This option is boolean, only add if true, simply settings the option value reference to null
-                    if (product_option.choice) {
-                        product_options.push({
-                            option_id: product_option.id,
-                            option_value_id: null
-                        })
-                    }
                 }
             }
             order_products.push({
