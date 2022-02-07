@@ -13,6 +13,10 @@ const passport = require("passport");
 
 const app = express();
 
+console.log('Initializing database...')
+require("./db-init")
+console.log("Starting app...")
+
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
