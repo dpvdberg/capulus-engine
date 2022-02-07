@@ -1,10 +1,10 @@
 const express = require("express");
-const {models} = require("../../../../database/connectmodels");
+const models = require("../../../../database/models");
 const sequelize = require("sequelize");
 const router = express.Router();
 
 router.get('/orders/calendar', (req, res) => {
-    models.orders.findAll({
+    models.order.findAll({
         attributes: [
             [ sequelize.fn('date_format', sequelize.col('createdAt'), '%Y-%m-%d'), 'day'],
             [ sequelize.fn('count', '*'), 'value']
@@ -17,13 +17,13 @@ router.get('/orders/calendar', (req, res) => {
 })
 
 router.get('/orders/products', (req, res) => {
-    models.order_products.findAll({
+    models.order_product.findAll({
         attributes: [
             [ sequelize.fn('sum', sequelize.col('quantity')), 'value'],
             [ sequelize.col('product.name'), 'name']
         ],
         include: {
-            model: models.products,
+            model: models.product,
             attributes : [],
         },
         group: 'product_id',

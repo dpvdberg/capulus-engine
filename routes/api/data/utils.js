@@ -1,4 +1,4 @@
-const {models} = require("../../../database/connectmodels");
+const models = require("../../../database/models");
 
 
 function getFullProductOptions() {
@@ -8,37 +8,37 @@ function getFullProductOptions() {
             // Order by priority
             ['priority'],
             // Order the options in this query
-            [models.options, 'priority'],
+            [models.option, 'priority'],
             // Order the option values in this query by name
-            [models.options, models.option_values, 'name'],
+            [models.option, models.option_value, 'name'],
             // Order the option values in this query by name
-            [models.options, models.option_values, models.ingredients, 'name']
+            [models.option, models.option_value, models.ingredient, 'name']
         ],
         include: [
             {
                 // Include product ingredients
-                model: models.product_ingredients,
+                model: models.product_ingredient,
                 attributes: {exclude: ['product_id', 'ingredient_id']},
                 include: {
-                    model: models.ingredients
+                    model: models.ingredient
                 }
             },
             {
                 // Include options for this product
-                model: models.options,
+                model: models.option,
                 through: {attributes: []},
                 include: [
                     {
                         // Include form hint for options
-                        model: models.formhints,
+                        model: models.formhint,
                         attributes: ['name'],
                     },
                     {
                         // Include possible values for each option
-                        model: models.option_values,
+                        model: models.option_value,
                         attributes: {exclude: ['ingredient_id', 'option_id']},
                         include: {
-                            model: models.ingredients
+                            model: models.ingredient
                         }
                     },
                 ]

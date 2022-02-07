@@ -75,16 +75,16 @@ app.use(passport.session());
 
 app.use('/api', apiRouter);
 
-const {User} = require("./routes/api/auth/userAttacher");
-const {models} = require("./database/connectmodels");
-passport.serializeUser(User.serializeUser());
+const {user} = require("./routes/api/auth/userAttacher");
+const models = require("./database/models");
+passport.serializeUser(user.serializeUser());
 passport.deserializeUser(function (username, cb) {
-    const query = User.findOne({
+    const query = user.findOne({
         where: {
             email: username.toLowerCase()
         },
         include: {
-            model: models.roles,
+            model: models.role,
             attributes: ['name'],
             through: {attributes: []}
         }
@@ -118,6 +118,7 @@ server.listen(process.env.PORT)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+    console.log(req);
     next(createError(404));
 });
 

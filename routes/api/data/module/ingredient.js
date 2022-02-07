@@ -1,4 +1,4 @@
-const {models} = require("../../../../database/connectmodels");
+const models = require("../../../../database/models");
 const express = require("express");
 const {isAuthenticated} = require("../../auth/authenticate");
 const rbac = require("../../../../permissions/rbac");
@@ -17,7 +17,7 @@ router.get('/list', isAuthenticated, (req, res) => {
                 })
             }
 
-            models.ingredients.findAll()
+            models.ingredient.findAll()
                 .then((ingredients) => {
                     res.json(ingredients);
                 })
@@ -48,14 +48,14 @@ router.post('/modify', isAuthenticated, (req, res) => {
                     .filter(c => c.stock === false)
                     .map(c => Number(c.id));
 
-                const enable_promise = models.ingredients.update(
+                const enable_promise = models.ingredient.update(
                     {in_stock: true},
                     {
                         where: {id: enabled_ids}
                     }
                 );
 
-                const disable_promise = models.ingredients.update(
+                const disable_promise = models.ingredient.update(
                     {in_stock: false},
                     {
                         where: {id: disabled_ids}

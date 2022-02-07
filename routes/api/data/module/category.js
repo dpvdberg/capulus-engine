@@ -1,10 +1,10 @@
-const {models} = require("../../../../database/connectmodels");
+const models = require("../../../../database/models");
 const express = require("express");
 const {getFullProductOptions} = require("../utils");
 const router = express.Router();
 
 router.get('/', function (req, res) {
-    models.categories_descendants.findAll(
+    models.category_descendant.findAll(
         {
             attributes: ['id', 'name', 'descendant_count'],
             where: {category_id: null},
@@ -18,14 +18,14 @@ router.get('/', function (req, res) {
 });
 
 router.get('/:categoryId', function (req, res) {
-    const categories = models.categories_descendants.findAll(
+    const categories = models.category_descendant.findAll(
         {
             attributes: ['id', 'name', 'descendant_count'],
             where: {category_id: req.params['categoryId']},
             order: ['priority']
         }
     );
-    const products = models.products.findAll(
+    const products = models.product.findAll(
         {
             where: {category_id: req.params['categoryId']},
             ...getFullProductOptions()

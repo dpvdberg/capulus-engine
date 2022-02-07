@@ -1,7 +1,7 @@
 const passportLocalSequelize = require("passport-local-sequelize");
-const {models} = require('../../../database/connectmodels');
+const models = require("../../../database/models");
 
-passportLocalSequelize.attachToUser(models.users, {
+passportLocalSequelize.attachToUser(models.user, {
     usernameField: 'email',
     usernameLowerCase: true,
     hashfield: 'hash',
@@ -11,5 +11,5 @@ passportLocalSequelize.attachToUser(models.users, {
 });
 
 module.exports = {
-    User: models.users
+    user: models.user
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {models} = require("../../../../../database/connectmodels");
+const models = require("../../../../../database/models");
 const {sendOrderBroadcast, sendOrderNotificationUpdate} = require("../../../../ws/ws");
 const {isAuthenticated, filterUser} = require("../../../auth/authenticate");
 const rbac = require("../../../../../permissions/rbac");
@@ -17,7 +17,7 @@ router.post('/fulfill/:id', isAuthenticated, (req, res) => {
                 })
             }
 
-            models.orders.update({
+            models.order.update({
                 fulfilled: true
             }, {
                 where: {id: req.params['id']}
@@ -51,7 +51,7 @@ router.post('/cancel/:id', isAuthenticated, (req, res) => {
                 })
             }
 
-            models.orders.update({
+            models.order.update({
                 cancelled: true,
                 cancel_reason: req.body.reason
             }, {
@@ -85,7 +85,7 @@ router.get('/todo', isAuthenticated, (req, res) => {
                 })
             }
 
-            models.orders.findAll({
+            models.order.findAll({
                 where: {
                     fulfilled: false,
                     cancelled: false
@@ -95,30 +95,30 @@ router.get('/todo', isAuthenticated, (req, res) => {
                     // Sort by creation time
                     ['createdAt', 'asc'],
                     // Then sort the options in the product accordingly
-                    ['product_orders', models.products, models.options, 'priority', 'asc']
+                    ['product_orders', models.product, models.option, 'priority', 'asc']
                 ],
                 include: [
                     {
-                        model: models.users,
+                        model: models.user,
                         include: {
-                            model: models.roles,
+                            model: models.role,
                             attributes: ['name'],
                             through: {attributes: []},
                         }
                     },
                     {
-                        model: models.order_products,
+                        model: models.order_product,
                         as: 'product_orders',
                         attributes: {exclude: ['id', 'order_id', 'product_id']},
                         include: [
                             {
-                                model: models.order_product_options,
+                                model: models.order_product_option,
                                 as: 'option_values',
                                 // Fetch associated option and option_value as flat values in product_option
                                 attributes: ['option_id', 'option_value_id']
                             },
                             {
-                                model: models.products,
+                                model: models.product,
                                 ...getFullProductOptions()
                             }
                         ]

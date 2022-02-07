@@ -1,4 +1,4 @@
-const {models} = require("../../database/connectmodels");
+const models = require("../../database/models")
 const rbac = require("../../permissions/rbac");
 
 let io = null;
@@ -17,7 +17,7 @@ function subscribeUserToOrders(user_id) {
     const sockets = io.in(`user-${user_id}`)
         .fetchSockets();
 
-    const orders = models.orders.findAll({
+    const orders = models.order.findAll({
         where: {
             user_id: user_id,
             fulfilled: false,

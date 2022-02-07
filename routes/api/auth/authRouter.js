@@ -1,8 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// generate required auth tables
-require('../../../database/generators/auth_tables')
-
 require('./strategies/google')
 
 const localRouter = require('./strategies/local');

@@ -1,19 +1,19 @@
 const passport = require("passport");
-const {User} = require("../userAttacher");
+const {user} = require("../userAttacher");
 const express = require("express");
 const router = express.Router();
 const {filterUser} = require("../authenticate");
-const {models} = require("../../../../database/connectmodels");
+const models = require("../../../../database/models");
 
-passport.use('local', User.createStrategy());
+passport.use('local', user.createStrategy());
 
 router.post("/login", passport.authenticate("local", {
     failureFlash: 'incorrect-email-or-password',
     failureRedirect: "/api/auth/unauthorized"
 }), (req, res, next) => {
-    User.findByPk(req.user.id, {
+    user.findByPk(req.user.id, {
         include: {
-            model: models.roles,
+            model: models.role,
             attributes: ['name'],
             through: {attributes: []}
         }
@@ -54,8 +54,8 @@ router.post("/register", (req, res, next) => {
         return;
     }
 
-    User.register(
-        User.build({
+    user.register(
+        user.build({
             provider: 'local',
             email: req.body.email.toLowerCase(),
             first_name: req.body.first_name,
@@ -68,9 +68,9 @@ router.post("/register", (req, res, next) => {
             }
 
             user.save().then((user) => {
-                User.findByPk(user.id, {
+                user.findByPk(user.id, {
                     include: {
-                        model: models.roles,
+                        model: models.role,
                         attributes: ['name'],
                         through: {attributes: []}
                     }

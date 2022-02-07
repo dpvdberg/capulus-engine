@@ -1,4 +1,4 @@
-const {models} = require("../../../../database/connectmodels");
+const models = require("../../../../database/models");
 const express = require("express");
 const {getFullProductOptions, setOrderChoices} = require("../utils");
 const {isAuthenticated} = require("../../auth/authenticate");
@@ -42,62 +42,65 @@ router.post('/put', isAuthenticated, (req, res) => {
             order_products.push({
                 product_id: product_order.product.id,
                 quantity: product_order.quantity,
-                order_product_options: product_options
+                option_values: product_options
             })
         }
     } catch (e) {
         return res.status(400).send('Order request malformed');
     }
 
-    models.orders.create({
+    models.order.create({
         user_id: req.user.id,
-        order_products: order_products
+        product_orders: order_products
     }, {
         include: {
-            model: models.order_products,
+            model: models.order_product,
+            as: 'product_orders',
             include: {
-                model: models.order_product_options
+                model: models.order_product_option,
+                as: 'option_values',
             }
         }
     }).then((order) => {
         res.sendStatus(200);
         sendOrderBroadcast('new');
         subscribeUserToOrder(req.user.id, order.id);
-    }, () => {
+    }, (err) => {
+        console.error(err)
         return res.status(400).send('Could not create order');
     });
 })
 
 router.get('/get', isAuthenticated, (req, res) => {
-    models.orders.findAll({
+    models.order.findAll({
         where: {
             fulfilled: false,
             cancelled: false
         },
         order: ['createdAt']
     }).then((queuedOrders) => {
-        models.orders.findAll({
+        models.order.findAll({
             where: {user_id: req.user.id},
             attributes: {exclude: ['user_id']},
             order: [
                 // Then sort by creation time
                 ['createdAt', 'desc'],
                 // Then sort the options in the product accordingly
-                ['product_orders', models.products, models.options, 'priority', 'asc']
+                ['product_orders', models.product, models.option, 'priority', 'asc']
             ],
             include: {
-                model: models.order_products,
+                model: models.order_product,
                 as: 'product_orders',
                 attributes: {exclude: ['id', 'order_id', 'product_id']},
                 include: [
                     {
-                        model: models.order_product_options,
+                        model: models.order_product_option,
                         as: 'option_values',
                         // Fetch associated option and option_value as flat values in product_option
                         attributes: ['option_id', 'option_value_id']
                     },
                     {
-                        model: models.products,
+                        model: models.product,
                         ...getFullProductOptions()
                     }
                 ]
@@ -120,9 +123,9 @@ router.get('/get', isAuthenticated, (req, res) => {
 })
 
 router.post('/cancel/:id', isAuthenticated, (req, res) => {
-    models.orders.findByPk(req.params['id'],
+    models.order.findByPk(req.params['id'],
         {
-            include: models.users
+            include: models.user
         }).then((order) => {
         if (order.user.id !== req.user.id) {
             return res.status(401).json({

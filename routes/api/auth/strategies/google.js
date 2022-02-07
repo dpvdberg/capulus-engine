@@ -1,6 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const {models} = require("../../../../database/connectmodels");
+const models = require("../../../../database/models");
 const express = require("express");
 const router = express.Router();
 
@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
     },
     function (accessToken, refreshToken, profile, cb) {
         const issuer = 'google'
-        models.users.findOne(
+        models.user.findOne(
             {
                 where: {
                     provider: issuer,
@@ -22,7 +22,7 @@ passport.use(new GoogleStrategy({
         ).then((db_user) => {
             if (db_user == null) {
                 // This must be a new user, create account
-                models.users.build({
+                models.user.build({
                     provider: issuer,
                     provider_uid: profile.id,
                     email: profile.emails[0].value,
