@@ -54,8 +54,9 @@ module.exports = {
             'syrup', false, 'caramel-syrup')
         await addOptionValue(queryInterface,
             'syrup', false, 'toffee-nut-syrup')
+
         await addOptionValue(queryInterface,
-            'syrup', false, 'whipped-cream')
+            'whipped-cream', false, 'whipped-cream')
     },
 
     async down(queryInterface, Sequelize) {
