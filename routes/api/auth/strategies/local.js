@@ -62,13 +62,13 @@ router.post("/register", (req, res, next) => {
             last_name: req.body.last_name
         }),
         req.body.password,
-        (err, user) => {
+        (err, user_partial) => {
             if (err) {
                 return res.status(400).send({message: err.message});
             }
 
-            user.save().then((user) => {
-                user.findByPk(user.id, {
+            user_partial.save().then((u) => {
+                user.findByPk(u.id, {
                     include: {
                         model: models.role,
                         attributes: ['name'],

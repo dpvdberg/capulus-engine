@@ -1,17 +1,6 @@
 'use strict';
 
-async function addIngredients(queryInterface, ingredients) {
-    await queryInterface.bulkInsert('ingredients',
-        ingredients.map(i => {
-            return {
-                name: i,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-
-            }
-        })
-    )
-}
+const {addIngredients} = require("./utils/IngredientUtils");
 
 module.exports = {
     async up(queryInterface, Sequelize) {

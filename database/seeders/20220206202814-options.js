@@ -1,32 +1,12 @@
 'use strict';
 
-let cache = {}
-async function findFormHintId(queryInterface, formhint) {
-    if (formhint in cache) {
-        return cache[formhint]
-    }
-
-    return queryInterface.rawSelect('formhints', {
-        where: {
-            name: formhint,
-        },
-    }, ['id'])
-        .then((fh_id) => {
-            if (!fh_id) {
-                console.error(`Form hint '${formhint}' not found`)
-                return null
-            }
-            cache[formhint] = fh_id
-            return fh_id
-        })
-}
-
+const {findFormhintId} = require("./utils/FormhintUtils");
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.bulkInsert('options', [
             {
                 name: 'cappuccino-type',
-                formhint_id: await findFormHintId(queryInterface, 'radio'),
+                formhint_id: await findFormhintId(queryInterface, 'radio'),
                 required_ingredients: false,
                 has_none: false,
                 show_default: true,
@@ -34,7 +14,7 @@ module.exports = {
             },
             {
                 name: 'milk-type',
-                formhint_id: await findFormHintId(queryInterface, 'select'),
+                formhint_id: await findFormhintId(queryInterface, 'select'),
                 required_ingredients: true,
                 has_none: false,
                 show_default: true,
@@ -42,7 +22,7 @@ module.exports = {
             },
             {
                 name: 'syrup',
-                formhint_id: await findFormHintId(queryInterface, 'select'),
+                formhint_id: await findFormhintId(queryInterface, 'select'),
                 required_ingredients: false,
                 has_none: true,
                 show_default: false,
@@ -50,7 +30,7 @@ module.exports = {
             },
             {
                 name: 'extra-shot',
-                formhint_id: await findFormHintId(queryInterface, 'checkbox'),
+                formhint_id: await findFormhintId(queryInterface, 'checkbox'),
                 required_ingredients: false,
                 has_none: false,
                 show_default: false,
@@ -58,7 +38,7 @@ module.exports = {
             },
             {
                 name: 'whipped-cream',
-                formhint_id: await findFormHintId(queryInterface, 'checkbox'),
+                formhint_id: await findFormhintId(queryInterface, 'checkbox'),
                 required_ingredients: false,
                 has_none: false,
                 show_default: false,
@@ -66,7 +46,7 @@ module.exports = {
             },
             {
                 name: 'double',
-                formhint_id: await findFormHintId(queryInterface, 'checkbox'),
+                formhint_id: await findFormhintId(queryInterface, 'checkbox'),
                 required_ingredients: false,
                 has_none: false,
                 show_default: false,
@@ -74,7 +54,7 @@ module.exports = {
             },
             {
                 name: 'splash-of-milk',
-                formhint_id: await findFormHintId(queryInterface, 'select'),
+                formhint_id: await findFormhintId(queryInterface, 'select'),
                 required_ingredients: false,
                 has_none: true,
                 show_default: false,

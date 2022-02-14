@@ -93,8 +93,8 @@ passport.deserializeUser(function (username, cb) {
             through: {attributes: []}
         }
     });
-    query.then(function (user) {
-        cb(null, user);
+    query.then(function (u) {
+        cb(null, u);
     });
     query.catch(function (err) {
         cb(err);

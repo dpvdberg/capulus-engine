@@ -19,8 +19,8 @@ passport.use(new GoogleStrategy({
                     provider_uid: profile.id
                 }
             }
-        ).then((db_user) => {
-            if (db_user == null) {
+        ).then((u) => {
+            if (u == null) {
                 // This must be a new user, create account
                 models.user.build({
                     provider: issuer,
@@ -38,7 +38,7 @@ passport.use(new GoogleStrategy({
                 )
             } else {
                 // Existing user, return account info
-                return cb(null, db_user)
+                return cb(null, u)
             }
         });
     }
