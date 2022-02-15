@@ -12,7 +12,20 @@ module.exports = {
                 ['blue-curacao', true],
                 ['vodka', true],
                 ['sprite', true],
-                ['lemon-juice', true],
+                ['lemon', false]
+            ],
+            ['dilute-extra'])
+        await addProduct(queryInterface,
+            'mojito',
+            'alcoholic',
+            1,
+            [
+                ['ice-cubes', true],
+                ['white-rum', true],
+                ['lime-juice', true],
+                ['sugar', true],
+                ['mint', true],
+                ['soda', true],
                 ['lemon', false]
             ],
             ['dilute-extra'])

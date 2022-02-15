@@ -8,7 +8,8 @@ const cocktailIngredients = [
     // Alcohol
     'vodka',
     'gin',
-    'rum',
+    'white-rum',
+    'dark-rum',
     'tequilla',
     'amaretto',
     'baileys',
@@ -22,6 +23,7 @@ const cocktailIngredients = [
     'sweet-vermouth',
     'blue-curacao',
     // Non alcohol common
+    'sugar',
     'sugar-syrup',
     'lime-juice',
     'lemon-juice',
