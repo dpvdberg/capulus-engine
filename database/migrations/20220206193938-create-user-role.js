@@ -10,7 +10,6 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        onDelete: 'cascade',
         references: {
           model: 'users'
         },
@@ -18,6 +17,7 @@ module.exports = {
       },
       role_id: {
         type: Sequelize.INTEGER,
+        onDelete: 'cascade',
         references: {
           model: 'roles'
         },

@@ -34,6 +34,7 @@ const cocktailIngredients = [
     'sprite',
     'soda',
     'grapefruit-juice',
+    'pineapple-juice',
     'cranberry-juice',
     'grenadine-syrup',
     // Non-juice, herbs, spices and garnish

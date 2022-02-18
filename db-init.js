@@ -32,5 +32,10 @@ const seeder = new Umzug({
 });
 
 (async () => {
-    await migrator.up().then(() => seeder.up());
+    await migrator.up().then(() => {
+        console.log("[DB] Migrations complete")
+        seeder.up().then(() => {
+            console.log("[DB] Seeders complete")
+        })
+    });
 })();

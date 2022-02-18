@@ -7,6 +7,8 @@ function getFullProductOptions() {
         order: [
             // Order by priority
             ['priority'],
+            // Then order by name
+            ['name'],
             // Order the options in this query
             [models.option, 'priority'],
             // Order the option values in this query by name
