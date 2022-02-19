@@ -22,13 +22,13 @@ passport.use(new GoogleStrategy({
         ).then((u) => {
             if (u == null) {
                 // This must be a new user, create account
-                models.user.build({
+                models.user.create({
                     provider: issuer,
                     provider_uid: profile.id,
                     email: profile.emails[0].value,
                     first_name: profile.name.givenName,
                     last_name: profile.name.familyName
-                }).save().then(
+                }).then(
                     (new_dbuser) => {
                         return cb(null, new_dbuser);
                     },

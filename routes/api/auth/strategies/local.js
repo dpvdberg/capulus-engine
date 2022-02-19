@@ -62,28 +62,18 @@ router.post("/register", (req, res, next) => {
             last_name: req.body.last_name
         }),
         req.body.password,
-        (err, user_partial) => {
+        (err, u) => {
             if (err) {
                 return res.status(400).send({message: err.message});
             }
 
-            user_partial.save().then((u) => {
-                user.findByPk(u.id, {
-                    include: {
-                        model: models.role,
-                        attributes: ['name'],
-                        through: {attributes: []}
-                    }
-                }).then(user => {
-                        req.login(user, function(err) {
-                            if (err) {
-                                return res.status(400).send({message: err.message});
-                            }
-                            filterUser(user, res);
-                        });
-                    }
-                )
-            })
+            u.roles = []
+            req.login(u, function(err) {
+                if (err) {
+                    return res.status(400).send({message: err.message});
+                }
+                filterUser(u, res);
+            });
         }
     );
 })

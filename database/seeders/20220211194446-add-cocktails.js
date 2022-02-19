@@ -11,6 +11,7 @@ module.exports = {
                 ['ice-cubes', true],
                 ['blue-curacao', true],
                 ['vodka', true],
+                ['lemon-juice', true],
                 ['sprite', true],
                 ['lemon', false]
             ],
