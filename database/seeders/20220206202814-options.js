@@ -58,7 +58,15 @@ module.exports = {
                 required_ingredients: false,
                 has_none: true,
                 show_default: false,
-                priority: 1
+                priority: 2
+            },
+            {
+                name: 'liquor',
+                formhint_id: await findFormhintId(queryInterface, 'select'),
+                required_ingredients: false,
+                has_none: true,
+                show_default: false,
+                priority: 3
             },
         ])
     },

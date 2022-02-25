@@ -44,6 +44,19 @@ module.exports = {
 
         await addOptionValue(queryInterface,
             'whipped-cream', false, 'whipped-cream')
+
+        await addOptionValue(queryInterface,
+            'liquor', false, 'whiskey')
+        await addOptionValue(queryInterface,
+            'liquor', false, 'baileys')
+        await addOptionValue(queryInterface,
+            'liquor', false, 'dark-rum')
+        await addOptionValue(queryInterface,
+            'liquor', false, 'white-rum')
+        await addOptionValue(queryInterface,
+            'liquor', false, 'amaretto')
+        await addOptionValue(queryInterface,
+            'liquor', false, 'coffee-liqueur')
     },
 
     async down(queryInterface, Sequelize) {

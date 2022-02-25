@@ -8,56 +8,56 @@ module.exports = {
             'coffee',
             0,
             [['coffee-beans', true]],
-            ['double-shot', 'splash-of-milk'])
+            ['double-shot', 'splash-of-milk', 'liquor'])
 
         await addProduct(queryInterface,
             'macchiato',
             'coffee',
             1,
             [['coffee-beans', true]],
-            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream'])
+            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream', 'liquor'])
 
         await addProduct(queryInterface,
             'americano',
             'coffee',
             2,
             [['coffee-beans', true]],
-            ['double-shot', 'splash-of-milk'])
+            ['double-shot', 'splash-of-milk', 'liquor'])
 
         await addProduct(queryInterface,
             'cappuccino',
             'coffee',
             3,
             [['coffee-beans', true]],
-            ['milk-type', 'cappuccino-type', 'syrup', 'extra-shot', 'whipped-cream'])
+            ['milk-type', 'cappuccino-type', 'syrup', 'extra-shot', 'whipped-cream', 'liquor'])
 
         await addProduct(queryInterface,
             'latte',
             'coffee',
             4,
             [['coffee-beans', true]],
-            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream'])
+            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream', 'liquor'])
 
         await addProduct(queryInterface,
             'latte-macchiato',
             'coffee',
             5,
             [['coffee-beans', true]],
-            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream'])
+            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream', 'liquor'])
 
         await addProduct(queryInterface,
             'cold-brew',
             'coffee',
             6,
             [['cold-brew', true]],
-            ['splash-of-milk', 'syrup', 'whipped-cream'])
+            ['splash-of-milk', 'syrup', 'whipped-cream', 'liquor'])
 
         await addProduct(queryInterface,
             'iced-latte',
             'coffee',
             7,
             [['coffee-beans', true]],
-            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream'])
+            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream', 'liquor'])
     },
 
     async down(queryInterface, Sequelize) {
