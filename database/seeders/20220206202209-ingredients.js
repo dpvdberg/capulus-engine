@@ -15,7 +15,8 @@ module.exports = {
             'caramel-syrup',
             'toffee-nut-syrup',
             'coffee-beans',
-            'whipped-cream'
+            'whipped-cream',
+            'cold-brew'
         ])
     },
 

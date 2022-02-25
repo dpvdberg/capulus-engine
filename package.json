@@ -33,7 +33,8 @@
     "sequelize": "^6.12.4",
     "sequelize-auto": "^0.8.8",
     "socket.io": "^4.4.1",
-    "umzug": "^3.0.0"
+    "umzug": "^3.0.0",
+    "yesno": "^0.3.1"
   },
   "devDependencies": {
     "event-stream": "^4.0.1",

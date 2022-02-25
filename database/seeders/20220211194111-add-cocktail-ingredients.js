@@ -28,11 +28,11 @@ const cocktailIngredients = [
     'lime-juice',
     'lemon-juice',
     // Juices and sodas
-    'orange-juice',
-    'apple-juice',
     'cola',
     'sprite',
     'soda',
+    'orange-juice',
+    'apple-juice',
     'grapefruit-juice',
     'pineapple-juice',
     'cranberry-juice',

@@ -8,7 +8,7 @@ module.exports = {
             'coffee',
             0,
             [['coffee-beans', true]],
-            ['double'])
+            ['double-shot', 'splash-of-milk'])
 
         await addProduct(queryInterface,
             'macchiato',
@@ -22,7 +22,7 @@ module.exports = {
             'coffee',
             2,
             [['coffee-beans', true]],
-            ['double'])
+            ['double-shot', 'splash-of-milk'])
 
         await addProduct(queryInterface,
             'cappuccino',
@@ -42,6 +42,20 @@ module.exports = {
             'latte-macchiato',
             'coffee',
             5,
+            [['coffee-beans', true]],
+            ['milk-type', 'syrup', 'extra-shot', 'whipped-cream'])
+
+        await addProduct(queryInterface,
+            'cold-brew',
+            'coffee',
+            6,
+            [['cold-brew', true]],
+            ['splash-of-milk', 'syrup', 'whipped-cream'])
+
+        await addProduct(queryInterface,
+            'iced-latte',
+            'coffee',
+            7,
             [['coffee-beans', true]],
             ['milk-type', 'syrup', 'extra-shot', 'whipped-cream'])
     },

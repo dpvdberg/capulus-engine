@@ -45,7 +45,7 @@ module.exports = {
                 priority: 101
             },
             {
-                name: 'double',
+                name: 'double-shot',
                 formhint_id: await findFormhintId(queryInterface, 'checkbox'),
                 required_ingredients: false,
                 has_none: false,

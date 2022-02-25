@@ -18,6 +18,19 @@ module.exports = {
             'milk-type', false, 'almond-milk')
 
         await addOptionValue(queryInterface,
+            'splash-of-milk', false, 'semi-skimmed-milk')
+        await addOptionValue(queryInterface,
+            'splash-of-milk', false, 'whole-milk')
+        await addOptionValue(queryInterface,
+            'splash-of-milk', false, 'skimmed-milk')
+        await addOptionValue(queryInterface,
+            'splash-of-milk', false, 'soy-milk')
+        await addOptionValue(queryInterface,
+            'splash-of-milk', false, 'oat-milk')
+        await addOptionValue(queryInterface,
+            'splash-of-milk', false, 'almond-milk')
+
+        await addOptionValue(queryInterface,
             'cappuccino-type', false, null, 'traditional')
         await addOptionValue(queryInterface,
             'cappuccino-type', true, null, 'modern')

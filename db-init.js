@@ -3,6 +3,7 @@ const sequelize = require("./database/models").sequelize;
 const {Sequelize} = require('sequelize');
 const {user} = require("./routes/api/auth/userAttacher");
 const models = require("./database/models");
+const yesno = require('yesno');
 
 const resolver = ({name, path, context}) => {
     const migration = require(path || '')
@@ -86,6 +87,28 @@ function addAdmin() {
 }
 
 (async () => {
+    if(process.env.RESET_DB) {
+        console.log("[DB] Clearing database")
+        let ok;
+        if (process.env.RESET_DB === "ask") {
+            ok = await yesno({
+                question: 'Are you sure you want to clear the database?'
+            });
+        } else if (process.env.RESET_DB === "yes") {
+            ok = true;
+        } else {
+            ok = false;
+        }
+        try {
+            if (ok) {
+                await seeder.down({to: 0}).then(() => migrator.down({to: 0}));
+            }
+        } catch (e) {
+            console.warn("Could not clear")
+            console.warn(e)
+        }
+    }
+
     await migrator.up().then(() => {
         console.log("[DB] Migrations complete")
         seeder.up().then(() => {

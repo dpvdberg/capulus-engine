@@ -63,6 +63,20 @@ module.exports = {
                 ['mint', false],
             ],
             ['dilute-extra'])
+
+        await addProduct(queryInterface,
+            'sex-on-the-beach',
+            'alcoholic',
+            0,
+            [
+                ['ice-cubes', true],
+                ['cranberry-juice', true],
+                ['orange-juice', true],
+                ['vodka', true],
+                ['peach-liqueur', true],
+                ['orange', false],
+            ],
+            ['dilute-extra'])
     },
 
     async down(queryInterface, Sequelize) {
