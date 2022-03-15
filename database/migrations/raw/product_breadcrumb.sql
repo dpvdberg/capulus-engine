@@ -1,4 +1,4 @@
-CREATE VIEW `product_breadcrumb` AS
+CREATE VIEW `product_breadcrumbs` AS
 WITH RECURSIVE `prodcats`
 AS (
     SELECT 0 as `level`, `c`.`id` as `start_id`, `c`.`id`, `c`.`name`, `c`.`category_id` from `categories` as `c`
