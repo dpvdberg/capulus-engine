@@ -22,7 +22,10 @@ WITH RECURSIVE `catrec` AS
           `p`.`stock` AS `product_stock`
    FROM (`catrec`
          JOIN (
-            SELECT ifnull(`i`.`in_stock`, 1) as `stock`, `p`.*
+            SELECT
+                ifnull(`i`.`in_stock`, 1) as `stock`,
+                `p`.`category_id`,
+                `p`.`id`
             FROM (`products` as `p`)
             LEFT JOIN `product_ingredients` as `pi` ON `pi`.`product_id` = `p`.`id` AND `pi`.`required` = 1
             LEFT JOIN `ingredients` as `i` ON `pi`.`ingredient_id` = `i`.`id`
