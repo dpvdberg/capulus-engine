@@ -23,7 +23,7 @@ WITH RECURSIVE `catrec` AS
    FROM (`catrec`
          JOIN (
             SELECT
-                ifnull(`i`.`in_stock`, 1) as `stock`,
+                sum(ifnull(`i`.`in_stock`, 1)) > 0 as `stock`,
                 `p`.`category_id`,
                 `p`.`id`
             FROM (`products` as `p`)
