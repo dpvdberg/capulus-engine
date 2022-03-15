@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             this.hasMany(models.order_product, {foreignKey: "product_id"});
             this.hasMany(models.product_ingredient, {foreignKey: "product_id"});
             this.hasMany(models.product_option, {foreignKey: "product_id"});
+            this.hasMany(models.product_breadcrumb, {foreignKey: "product_id"});
         }
     }
 
@@ -32,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         name: DataTypes.STRING,
         priority: DataTypes.INTEGER,
         hide_if_unavailable: DataTypes.BOOLEAN,
+        breadcrumb_depth: DataTypes.INTEGER,
         image_fit: DataTypes.STRING,
         category_id: DataTypes.INTEGER
     }, {

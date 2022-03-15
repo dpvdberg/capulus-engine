@@ -18,6 +18,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      breadcrumb_depth: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       image_fit: {
         type: Sequelize.STRING,
         defaultValue: 'cover'

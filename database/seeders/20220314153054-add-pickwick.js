@@ -39,6 +39,7 @@ module.exports = {
                         priority: 0,
                         image_fit: 'contain',
                         hide_if_unavailable: true,
+                        breadcrumb_depth: 2,
                         category_id: subcategoryId,
                     }]
                 )

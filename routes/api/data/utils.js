@@ -3,12 +3,14 @@ const models = require("../../../database/models");
 
 function getFullProductOptions() {
     return {
-        attributes: ['id', 'name', 'hide_if_unavailable', 'image_fit'],
+        attributes: ['id', 'name', 'hide_if_unavailable', 'breadcrumb_depth', 'image_fit'],
         order: [
             // Order by priority
             ['priority'],
             // Then order by name
             ['name'],
+            // Order the breadcrumbs in this query
+            [models.product_breadcrumb, 'level', 'ASC'],
             // Order the options in this query
             [models.option, 'priority'],
             // Order the option values in this query by name
@@ -17,6 +19,11 @@ function getFullProductOptions() {
             [models.option, models.option_value, models.ingredient, 'name']
         ],
         include: [
+            {
+                // Include product category breadcrumbs
+                attributes: ['name', 'level', 'category_id'],
+                model: models.product_breadcrumb
+            },
             {
                 // Include product ingredients
                 model: models.product_ingredient,
