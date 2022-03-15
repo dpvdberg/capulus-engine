@@ -3,7 +3,7 @@ const models = require("../../../database/models");
 
 function getFullProductOptions() {
     return {
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'hide_if_unavailable', 'image_fit'],
         order: [
             // Order by priority
             ['priority'],

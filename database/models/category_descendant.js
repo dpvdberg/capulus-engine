@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     priority: DataTypes.INTEGER,
     category_id: DataTypes.INTEGER,
-    descendant_count: DataTypes.INTEGER
+    descendant_count: DataTypes.INTEGER,
+    hide_if_unavailable : DataTypes.BOOLEAN,
+    in_stock: DataTypes.BOOLEAN
   }, {
     sequelize,
     timestamps: false,

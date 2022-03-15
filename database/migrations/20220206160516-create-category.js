@@ -14,6 +14,10 @@ module.exports = {
       priority: {
         type: Sequelize.INTEGER
       },
+      hide_if_unavailable: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       category_id: {
         type: Sequelize.INTEGER,
         onDelete: 'cascade',

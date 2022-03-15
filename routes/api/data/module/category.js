@@ -6,7 +6,6 @@ const router = express.Router();
 router.get('/', function (req, res) {
     models.category_descendant.findAll(
         {
-            attributes: ['id', 'name', 'descendant_count'],
             where: {category_id: null},
             order: ['priority']
         }
@@ -20,7 +19,6 @@ router.get('/', function (req, res) {
 router.get('/:categoryId', function (req, res) {
     const categories = models.category_descendant.findAll(
         {
-            attributes: ['id', 'name', 'descendant_count'],
             where: {category_id: req.params['categoryId']},
             order: ['priority']
         }

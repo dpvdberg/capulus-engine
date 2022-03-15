@@ -5,7 +5,6 @@ async function addIngredients(queryInterface, ingredients) {
                 name: i,
                 createdAt: new Date(),
                 updatedAt: new Date(),
-
             }
         })
     )

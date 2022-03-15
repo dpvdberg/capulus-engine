@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app.js",
-    "watch": "nodemon --ext js,pug --ignore public"
+    "watch": "nodemon --ext js,pug,sql --ignore public"
   },
   "dependencies": {
     "connect-flash": "^0.1.1",

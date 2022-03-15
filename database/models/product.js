@@ -31,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     product.init({
         name: DataTypes.STRING,
         priority: DataTypes.INTEGER,
+        hide_if_unavailable: DataTypes.BOOLEAN,
+        image_fit: DataTypes.STRING,
         category_id: DataTypes.INTEGER
     }, {
         sequelize,

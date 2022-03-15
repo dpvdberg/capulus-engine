@@ -1,0 +1,738 @@
+[
+  {
+    "image-directory": "category/pickwick",
+    "image-path": "category/pickwick/black-tea",
+    "img": "https://www.pickwick.nl/siteassets/_new/iconselements/background/pickwick-zwarte-thee-1920x4002x.jpg",
+    "iname": "pickwick.black-tea",
+    "iname-short": "black-tea",
+    "name": {
+      "en": "Black tea",
+      "nl": "Zwarte thee"
+    },
+    "products": [
+      {
+        "detail": {
+          "en": "Our most popular tea species, a blend of the best teas.",
+          "nl": "Onze populairste theesoort, een blend van de beste theesoorten."
+        },
+        "full-iname": "pickwick.black-tea.english",
+        "image-directory": "product/pickwick/black-tea",
+        "image-path": "product/pickwick/black-tea/english",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/black/english2x2.png",
+        "iname": "english",
+        "name": {
+          "en": "English",
+          "nl": "English"
+        }
+      },
+      {
+        "detail": {
+          "en": "Slightly spicy blend with bergamot.",
+          "nl": "Licht kruidige blend met bergamot."
+        },
+        "full-iname": "pickwick.black-tea.earl-gray",
+        "image-directory": "product/pickwick/black-tea",
+        "image-path": "product/pickwick/black-tea/earl-gray",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/black/earl-grey2x.png",
+        "iname": "earl-gray",
+        "name": {
+          "en": "Earl Gray",
+          "nl": "Earl Grey"
+        }
+      },
+      {
+        "detail": {
+          "en": "Slightly spicy blend from Sri Lanka.",
+          "nl": "Licht kruidige blend uit Sri Lanka."
+        },
+        "full-iname": "pickwick.black-tea.ceylon",
+        "image-directory": "product/pickwick/black-tea",
+        "image-path": "product/pickwick/black-tea/ceylon",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/black/ceylon.png",
+        "iname": "ceylon",
+        "name": {
+          "en": "Ceylon",
+          "nl": "Ceylon"
+        }
+      },
+      {
+        "detail": {
+          "en": "Refined blend with the fresh taste of orange.",
+          "nl": "Verfijnde blend met de frisse smaak van sinaasappel."
+        },
+        "full-iname": "pickwick.black-tea.dutch",
+        "image-directory": "product/pickwick/black-tea",
+        "image-path": "product/pickwick/black-tea/dutch",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/black/dutch2x.png",
+        "iname": "dutch",
+        "name": {
+          "en": "Dutch",
+          "nl": "Dutch"
+        }
+      },
+      {
+        "detail": {
+          "en": "English Leaf Tea is a loose tea variant of English blend.",
+          "nl": "English Leaf Tea is een losse thee variant van English blend."
+        },
+        "full-iname": "pickwick.black-tea.english-leaf-tea",
+        "image-directory": "product/pickwick/black-tea",
+        "image-path": "product/pickwick/black-tea/english-leaf-tea",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/black/english-tea-leaf.png",
+        "iname": "english-leaf-tea",
+        "name": {
+          "en": "English leaf tea",
+          "nl": "English Leaf Tea"
+        }
+      }
+    ]
+  },
+  {
+    "image-directory": "category/pickwick",
+    "image-path": "category/pickwick/green-tea",
+    "img": "https://www.pickwick.nl/siteassets/_new/iconselements/background/pickwick-header-visual-groen-thee_1920x400.jpg",
+    "iname": "pickwick.green-tea",
+    "iname-short": "green-tea",
+    "name": {
+      "en": "Green tea",
+      "nl": "Groene thee"
+    },
+    "products": [
+      {
+        "detail": {
+          "en": "Fresh green tea with a hint of lemon.",
+          "nl": "Frisse groene thee met een vleugje citroen."
+        },
+        "full-iname": "pickwick.green-tea.lemon",
+        "image-directory": "product/pickwick/green-tea",
+        "image-path": "product/pickwick/green-tea/lemon",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/green-tea/lemongreen1.png",
+        "iname": "lemon",
+        "name": {
+          "en": "Lemon",
+          "nl": "Lemon"
+        }
+      },
+      {
+        "detail": {
+          "en": "Pure green tea with a characteristic light color.",
+          "nl": "Pure groene thee met een karakteristieke lichte kleur."
+        },
+        "full-iname": "pickwick.green-tea.pure",
+        "image-directory": "product/pickwick/green-tea",
+        "image-path": "product/pickwick/green-tea/pure",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/green-tea/pure-groen.png",
+        "iname": "pure",
+        "name": {
+          "en": "Pure",
+          "nl": "Pure"
+        }
+      },
+      {
+        "detail": {
+          "en": "Fresh, fruity green tea with cranberry.",
+          "nl": "Frisse, fruitige groene thee met cranberry."
+        },
+        "full-iname": "pickwick.green-tea.cranberry",
+        "image-directory": "product/pickwick/green-tea",
+        "image-path": "product/pickwick/green-tea/cranberry",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/green-tea/crangreen.png",
+        "iname": "cranberry",
+        "name": {
+          "en": "Cranberry",
+          "nl": "Cranberry"
+        }
+      },
+      {
+        "detail": {
+          "en": "Surprisingly fresh green tea with ginger and lemongrass.",
+          "nl": "Verrassend frisse groene thee met gember en citroengras."
+        },
+        "full-iname": "pickwick.green-tea.ginger-lemongrass",
+        "image-directory": "product/pickwick/green-tea",
+        "image-path": "product/pickwick/green-tea/ginger-lemongrass",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/green-tea/gingergrassgreen.png",
+        "iname": "ginger-lemongrass",
+        "name": {
+          "en": "Ginger & Lemongrass",
+          "nl": "Ginger & Lemongrass"
+        }
+      },
+      {
+        "detail": {
+          "en": "Flavored green tea with orange peeled and natural mandarin aroma.",
+          "nl": "Gearomatiseerde groene thee met sinaassappelschilletjes en natuurlijk mandarijn aroma."
+        },
+        "full-iname": "pickwick.green-tea.orange-mandarin",
+        "image-directory": "product/pickwick/green-tea",
+        "image-path": "product/pickwick/green-tea/orange-mandarin",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/green-tea/packshot_greentea_orange_mandari_resized.png",
+        "iname": "orange-mandarin",
+        "name": {
+          "en": "Orange Mandarin",
+          "nl": "Orange Mandarin"
+        }
+      }
+    ]
+  },
+  {
+    "image-directory": "category/pickwick",
+    "image-path": "category/pickwick/white-tea",
+    "img": "https://www.pickwick.nl/siteassets/_new/iconselements/background/pickwick-white-tea-2560x4002x.jpg",
+    "iname": "pickwick.white-tea",
+    "iname-short": "white-tea",
+    "name": {
+      "en": "White tea",
+      "nl": "Witte thee"
+    },
+    "products": [
+      {
+        "detail": {
+          "en": "Mild blend of white tea with green jasmine tea and passion fruit.",
+          "nl": "Milde blend van witte thee met groene jasmijnthee en passievrucht."
+        },
+        "full-iname": "pickwick.white-tea.jasmin-passionfruit",
+        "image-directory": "product/pickwick/white-tea",
+        "image-path": "product/pickwick/white-tea/jasmin-passionfruit",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/white-tea/jasmin_passionfruit-450x250.png",
+        "iname": "jasmin-passionfruit",
+        "name": {
+          "en": "Jasmin & PassionFruit",
+          "nl": "Jasmin & Passionfruit"
+        }
+      },
+      {
+        "detail": {
+          "en": "Mild blend of white tea with lemon, elderflower and peppermint.",
+          "nl": "Milde blend van witte thee met citroen, vlierbloesem en pepermunt."
+        },
+        "full-iname": "pickwick.white-tea.lemon-blossom-mint",
+        "image-directory": "product/pickwick/white-tea",
+        "image-path": "product/pickwick/white-tea/lemon-blossom-mint",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/white-tea/lemon_blossom_mint-450x250.png",
+        "iname": "lemon-blossom-mint",
+        "name": {
+          "en": "Lemon, Blossom & Mint",
+          "nl": "Lemon, Blossom & Mint"
+        }
+      },
+      {
+        "detail": {
+          "en": "Mild blend of white tea with pieces of blueberry and ginger.",
+          "nl": "Milde blend van witte thee met stukjes blauwe bes en gember."
+        },
+        "full-iname": "pickwick.white-tea.blueberry-ginger",
+        "image-directory": "product/pickwick/white-tea",
+        "image-path": "product/pickwick/white-tea/blueberry-ginger",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/white-tea/blueberry_ginger-450x250.png",
+        "iname": "blueberry-ginger",
+        "name": {
+          "en": "Blueberry & Ginger",
+          "nl": "Blueberry & Ginger"
+        }
+      }
+    ]
+  },
+  {
+    "image-directory": "category/pickwick",
+    "image-path": "category/pickwick/spices",
+    "img": "https://www.pickwick.nl/siteassets/_new/iconselements/background/specerijendonker.jpg",
+    "iname": "pickwick.spices",
+    "iname-short": "spices",
+    "name": {
+      "en": "Spices",
+      "nl": "Spices"
+    },
+    "products": [
+      {
+        "detail": {
+          "en": "Delicious black tea enriched with cinnamon and orange.",
+          "nl": "Heerlijke zwarte thee verrijkt met kaneel en sinaasappel."
+        },
+        "full-iname": "pickwick.spices.winter-glow",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/winter-glow",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/winterglowkleiner.png",
+        "iname": "winter-glow",
+        "name": {
+          "en": "Winter Glow",
+          "nl": "Winter Glow"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea enriched with cinnamon and apple.",
+          "nl": "Heerlijke zwarte thee verrijkt met kaneel en appel."
+        },
+        "full-iname": "pickwick.spices.autumn-storm",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/autumn-storm",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/autumnstormkleiner.png",
+        "iname": "autumn-storm",
+        "name": {
+          "en": "Autumn Storm",
+          "nl": "Autumn Storm"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black teas in four different flavors",
+          "nl": "Heerlijke zwarte thee\u00ebn in vier verschillende smaken"
+        },
+        "full-iname": "pickwick.spices.delicious-treats",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/delicious-treats",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/deltreatskleiner.png",
+        "iname": "delicious-treats",
+        "name": {
+          "en": "Delicious Treats",
+          "nl": "Delicious Treats"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea enriched with cinnamon.",
+          "nl": "Heerlijke zwarte thee verrijkt met kaneel."
+        },
+        "full-iname": "pickwick.spices.cinnamon",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/cinnamon",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/cinnamonkleiner.png",
+        "iname": "cinnamon",
+        "name": {
+          "en": "Cinnamon",
+          "nl": "Cinnamon"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious blend of oolong and black tea, enriched with licorice.",
+          "nl": "Heerlijke blend van oolong en zwarte thee, verrijkt met zoethout."
+        },
+        "full-iname": "pickwick.spices.liquorice",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/liquorice",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/liquoricekleiner-2.png",
+        "iname": "liquorice",
+        "name": {
+          "en": "Liquorice",
+          "nl": "Liquorice"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious herbs blend enriched with cinnamon and spearmint.",
+          "nl": "Heerlijke kruiden blend verrijkt met kaneel en spearmint."
+        },
+        "full-iname": "pickwick.spices.minty-morocco",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/minty-morocco",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/mintymorockleiner.png",
+        "iname": "minty-morocco",
+        "name": {
+          "en": "MINTY MOROCCO",
+          "nl": "Minty Morocco"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea enriched with pear, caramel and cinnamon.",
+          "nl": "Heerlijke zwarte thee verrijkt met peer, karamel en kaneel."
+        },
+        "full-iname": "pickwick.spices.caramelized-pear",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/caramelized-pear",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/caramelisedpearkleiner.png",
+        "iname": "caramelized-pear",
+        "name": {
+          "en": "Caramelized Pear",
+          "nl": "Caramelised Pear"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea enriched with caramel and vanilla.",
+          "nl": "Heerlijke zwarte thee verrijkt met karamel en vanille."
+        },
+        "full-iname": "pickwick.spices.caramel-vanilla",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/caramel-vanilla",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/caramelvanilkleiner.png",
+        "iname": "caramel-vanilla",
+        "name": {
+          "en": "Caramel Vanilla",
+          "nl": "Caramel Vanilla"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea enriched with apple and vanilla.",
+          "nl": "Heerlijke zwarte thee verrijkt met appel en vanille."
+        },
+        "full-iname": "pickwick.spices.turkish-apple",
+        "image-directory": "product/pickwick/spices",
+        "image-path": "product/pickwick/spices/turkish-apple",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/spices/turkish_apple-450x252.png",
+        "iname": "turkish-apple",
+        "name": {
+          "en": "Turkish Apple",
+          "nl": "Turkish Apple"
+        }
+      }
+    ]
+  },
+  {
+    "image-directory": "category/pickwick",
+    "image-path": "category/pickwick/fruit-tea",
+    "img": "https://www.pickwick.nl/siteassets/_new/iconselements/background/fresh-mixed-fruits-picture-id468790774.jpg",
+    "iname": "pickwick.fruit-tea",
+    "iname-short": "fruit-tea",
+    "name": {
+      "en": "Fruit tea",
+      "nl": "Fruit thee"
+    },
+    "products": [
+      {
+        "detail": {
+          "en": "Delicious black tea with the sweet taste of forest fruits.",
+          "nl": "Heerlijke zwarte thee met de zoete smaak van bosvruchten."
+        },
+        "full-iname": "pickwick.fruit-tea.forest-fruit",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/forest-fruit",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/fruit/new-english-name-packshots/forest-fruit-klein.png",
+        "iname": "forest-fruit",
+        "name": {
+          "en": "Forest Fruit",
+          "nl": "Forest Fruit"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea with the sweet taste of strawberry.",
+          "nl": "Heerlijke zwarte thee met de zoete smaak van aardbei."
+        },
+        "full-iname": "pickwick.fruit-tea.strawberry",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/strawberry",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/fruit/new-english-name-packshots/strawberry-klein.png",
+        "iname": "strawberry",
+        "name": {
+          "en": "Strawberry",
+          "nl": "Strawberry"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea with the fresh taste of lemon.",
+          "nl": "Heerlijke zwarte thee met de frisse smaak van citroen."
+        },
+        "full-iname": "pickwick.fruit-tea.lemon",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/lemon",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/fruit/new-english-name-packshots/lemon-klein.png",
+        "iname": "lemon",
+        "name": {
+          "en": "Lemon",
+          "nl": "Lemon"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea with the sweet taste of mango.",
+          "nl": "Heerlijke zwarte thee met de zoete smaak van mango."
+        },
+        "full-iname": "pickwick.fruit-tea.mango",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/mango",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/fruit/new-english-name-packshots/mango-klein.png",
+        "iname": "mango",
+        "name": {
+          "en": "Mango",
+          "nl": "Mango"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea with the fresh taste of orange.",
+          "nl": "Heerlijke zwarte thee met de frisse smaak van sinaasappel."
+        },
+        "full-iname": "pickwick.fruit-tea.orange",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/orange",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/fruit/new-english-name-packshots/orange-klein.png",
+        "iname": "orange",
+        "name": {
+          "en": "Orange",
+          "nl": "Orange"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious black tea with the sweet taste of cherry.",
+          "nl": "Heerlijke zwarte thee met de zoete smaak van kers."
+        },
+        "full-iname": "pickwick.fruit-tea.cherry",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/cherry",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/fruit/new-english-name-packshots/cherry-klein.png",
+        "iname": "cherry",
+        "name": {
+          "en": "Cherry",
+          "nl": "Cherry"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious herbal tea enriched with vitamin B6.",
+          "nl": "Heerlijke kruidenthee verrijkt met vitamine B6."
+        },
+        "full-iname": "pickwick.fruit-tea.energy",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/energy",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal-super-blends/pickwick-super-blend-energy.png",
+        "iname": "energy",
+        "name": {
+          "en": "Energy",
+          "nl": "Energy"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious herbal tea enriched with vitamin C.",
+          "nl": "Heerlijke kruidenthee verrijkt met vitamine C."
+        },
+        "full-iname": "pickwick.fruit-tea.immunity",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/immunity",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal-super-blends/herbal-super-blends-immunity-packshot.png",
+        "iname": "immunity",
+        "name": {
+          "en": "Immunity",
+          "nl": "Immunity"
+        }
+      },
+      {
+        "detail": {
+          "en": "Fruity blend of rooibos with raspberry, blueberry and strawberry.",
+          "nl": "Fruitige blend van rooibos met framboos, blauwe bes en aardbei."
+        },
+        "full-iname": "pickwick.fruit-tea.berry-dreams",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/berry-dreams",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/joy-of-tea/berrydreamsnewkleiner.png",
+        "iname": "berry-dreams",
+        "name": {
+          "en": "Berry Dreams",
+          "nl": "Berry Dreams"
+        }
+      },
+      {
+        "detail": {
+          "en": "Refined green jasmine tea blend with a warm undertone of pear.",
+          "nl": "Verfijnde groene jasmijn thee blend met een warme ondertoon van peer."
+        },
+        "full-iname": "pickwick.fruit-tea.green-jasmin",
+        "image-directory": "product/pickwick/fruit-tea",
+        "image-path": "product/pickwick/fruit-tea/green-jasmin",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/joy-of-tea/greenjasminnewkleiner-1.png",
+        "iname": "green-jasmin",
+        "name": {
+          "en": "Green Jasmin",
+          "nl": "Green Jasmin"
+        }
+      }
+    ]
+  },
+  {
+    "image-directory": "category/pickwick",
+    "image-path": "category/pickwick/herbs",
+    "img": "https://www.pickwick.nl/siteassets/_new/iconselements/background/pickwick-herbal-goodness-1920x400.jpg",
+    "iname": "pickwick.herbs",
+    "iname-short": "herbs",
+    "name": {
+      "en": "Herbs",
+      "nl": "Kruiden"
+    },
+    "products": [
+      {
+        "detail": {
+          "en": "Spice blend with nettle, green tea, rosemary and ginger.",
+          "nl": "Kruidenmelange met brandnetel, groene thee, rozemarijn en gember."
+        },
+        "full-iname": "pickwick.herbs.detox",
+        "image-directory": "product/pickwick/herbs",
+        "image-path": "product/pickwick/herbs/detox",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal/herbal-detox.jpg",
+        "iname": "detox",
+        "name": {
+          "en": "Detox",
+          "nl": "Detox"
+        }
+      },
+      {
+        "detail": {
+          "en": "Spicy blend of valerian, chamomile and lavender.",
+          "nl": "Kruidige blend van valeriaan, kamille en lavendel."
+        },
+        "full-iname": "pickwick.herbs.sleep-tight",
+        "image-directory": "product/pickwick/herbs",
+        "image-path": "product/pickwick/herbs/sleep-tight",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal/slaapherbal.png",
+        "iname": "sleep-tight",
+        "name": {
+          "en": "Sleep tight",
+          "nl": "Slaap Lekker"
+        }
+      },
+      {
+        "detail": {
+          "en": "Floral blend of camomile and honey.Previously: Pickwick relaxation.",
+          "nl": "Bloemige blend van kamille en honing. Voorheen: Pickwick Ontspanning."
+        },
+        "full-iname": "pickwick.herbs.camomile-honey",
+        "image-directory": "product/pickwick/herbs",
+        "image-path": "product/pickwick/herbs/camomile-honey",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal/herbal-cammomile-honey.jpg",
+        "iname": "camomile-honey",
+        "name": {
+          "en": "Camomile Honey",
+          "nl": "Camomile Honey"
+        }
+      },
+      {
+        "detail": {
+          "en": "Fresh blend of 100% pure coin.",
+          "nl": "Frisse blend van 100% pure munt."
+        },
+        "full-iname": "pickwick.herbs.mint",
+        "image-directory": "product/pickwick/herbs",
+        "image-path": "product/pickwick/herbs/mint",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal/mintherbal.png",
+        "iname": "mint",
+        "name": {
+          "en": "Mint",
+          "nl": "Munt"
+        }
+      },
+      {
+        "detail": {
+          "en": "Spicy blend of mint, fennel and nettle.",
+          "nl": "Kruidige blend van munt, venkel en brandnetel."
+        },
+        "full-iname": "pickwick.herbs.digestion",
+        "image-directory": "product/pickwick/herbs",
+        "image-path": "product/pickwick/herbs/digestion",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal/spijsherbal.png",
+        "iname": "digestion",
+        "name": {
+          "en": "Digestion",
+          "nl": "Spijsvertering"
+        }
+      },
+      {
+        "detail": {
+          "en": "Spicy blend of anise, mint and fennel combined with licorice.",
+          "nl": "Kruidige blend van anijs, munt en venkel gecombineerd met zoethout."
+        },
+        "full-iname": "pickwick.herbs.star-mint",
+        "image-directory": "product/pickwick/herbs",
+        "image-path": "product/pickwick/herbs/star-mint",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal/sterherbal.png",
+        "iname": "star-mint",
+        "name": {
+          "en": "Star mint",
+          "nl": "Sterrenmunt"
+        }
+      },
+      {
+        "detail": {
+          "en": "Floral blend of 100% pure chamomile.",
+          "nl": "Bloemige blend van 100% pure kamille."
+        },
+        "full-iname": "pickwick.herbs.camomile",
+        "image-directory": "product/pickwick/herbs",
+        "image-path": "product/pickwick/herbs/camomile",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/herbal/camileherbal.png",
+        "iname": "camomile",
+        "name": {
+          "en": "Camomile",
+          "nl": "Kamille"
+        }
+      }
+    ]
+  },
+  {
+    "image-directory": "category/pickwick",
+    "image-path": "category/pickwick/rooibos",
+    "img": "https://www.pickwick.nl/siteassets/_new/iconselements/background/pickwick-rooibos-1920x4002x.jpg",
+    "iname": "pickwick.rooibos",
+    "iname-short": "rooibos",
+    "name": {
+      "en": "Rooibos",
+      "nl": "Rooibos"
+    },
+    "products": [
+      {
+        "detail": {
+          "en": "Delicious blend with a hint of cinnamon.",
+          "nl": "Heerlijke blend met een vleugje kaneel."
+        },
+        "full-iname": "pickwick.rooibos.original",
+        "image-directory": "product/pickwick/rooibos",
+        "image-path": "product/pickwick/rooibos/original",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/rooibos/original-rooibos.png",
+        "iname": "original",
+        "name": {
+          "en": "Original",
+          "nl": "Original"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious blend with a hint of honey.",
+          "nl": "Heerlijke blend met een vleugje honing."
+        },
+        "full-iname": "pickwick.rooibos.honey",
+        "image-directory": "product/pickwick/rooibos",
+        "image-path": "product/pickwick/rooibos/honey",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/rooibos/honey2x.png",
+        "iname": "honey",
+        "name": {
+          "en": "Honey",
+          "nl": "Honey"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious blend with a hint of mango and peach.",
+          "nl": "Heerlijke blend met een vleugje mango en perzik."
+        },
+        "full-iname": "pickwick.rooibos.mango-peach",
+        "image-directory": "product/pickwick/rooibos",
+        "image-path": "product/pickwick/rooibos/mango-peach",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/rooibos/mango-peach2x.png",
+        "iname": "mango-peach",
+        "name": {
+          "en": "Mango Peach",
+          "nl": "Mango Perzik"
+        }
+      },
+      {
+        "detail": {
+          "en": "Delicious blend with a hint of citrus.",
+          "nl": "Heerlijke blend met een vleugje citrusvrucht."
+        },
+        "full-iname": "pickwick.rooibos.citrus",
+        "image-directory": "product/pickwick/rooibos",
+        "image-path": "product/pickwick/rooibos/citrus",
+        "img": "https://www.pickwick.nl/siteassets/_new/packshots/rooibos/citrus2x.png",
+        "iname": "citrus",
+        "name": {
+          "en": "Citrus",
+          "nl": "Citrus"
+        }
+      }
+    ]
+  }
+]

@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     category.init({
         name: DataTypes.STRING,
         priority: DataTypes.INTEGER,
-        category_id: DataTypes.INTEGER
+        category_id: DataTypes.INTEGER,
+        hide_if_unavailable: DataTypes.BOOLEAN
     }, {
         sequelize,
         underscored: true,
