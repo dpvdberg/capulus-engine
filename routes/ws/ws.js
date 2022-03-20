@@ -1,5 +1,6 @@
 const models = require("../../database/models")
 const rbac = require("../../permissions/rbac");
+const {Op} = require("sequelize");
 
 let io = null;
 
@@ -35,10 +36,10 @@ function subscribeUserToOrders(user_id) {
     })
 }
 
-function sendOrderNotificationUpdate(order_id, fulfilled) {
+function sendOrderNotificationUpdate(order_id, update) {
     io.to(`order-${order_id}`).emit('order_update',
         JSON.stringify({
-            'fulfilled' : fulfilled
+            'update' : update
         })
     )
 }
@@ -48,6 +49,27 @@ function sendOrderBroadcast(update_status) {
         JSON.stringify({
             'status' : update_status
         }))
+}
+
+function sendOrderQueueUpdate(order) {
+    // Get order that is next in line and push a notification
+    models.order.findOne({
+        where: {
+            fulfilled: false,
+            cancelled: false,
+            createdAt: {
+                [Op.gt]: order.createdAt
+            }
+        },
+        order: [['createdAt', 'ASC']]
+    }).then((o) => {
+        console.log("TEST1");
+        if (o) {
+            console.log("TEST2");
+            console.log("TEST2");
+            sendOrderNotificationUpdate(o.id, 'queue');
+        }
+    })
 }
 
 function sendIngredientBroadcast() {
@@ -109,6 +131,7 @@ module.exports = {
     subscribeUserToOrder,
     subscribeUserToOrders,
     sendOrderNotificationUpdate,
+    sendOrderQueueUpdate,
     sendOrderBroadcast,
     sendIngredientBroadcast
 }

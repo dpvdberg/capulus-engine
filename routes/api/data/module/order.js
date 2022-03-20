@@ -2,7 +2,7 @@ const models = require("../../../../database/models");
 const express = require("express");
 const {getFullProductOptions, setOrderChoices} = require("../utils");
 const {isAuthenticated} = require("../../auth/authenticate");
-const {sendOrderBroadcast, subscribeUserToOrder} = require("../../../ws/ws");
+const {sendOrderBroadcast, subscribeUserToOrder, sendOrderQueueUpdate} = require("../../../ws/ws");
 const router = express.Router();
 
 router.post('/put', isAuthenticated, (req, res) => {
@@ -77,7 +77,7 @@ router.get('/get', isAuthenticated, (req, res) => {
             fulfilled: false,
             cancelled: false
         },
-        order: ['createdAt']
+        order: [['createdAt', 'asc']]
     }).then((queuedOrders) => {
         models.order.findAll({
             where: {user_id: req.user.id},
@@ -134,8 +134,9 @@ router.post('/cancel/:id', isAuthenticated, (req, res) => {
         }
 
         order.cancelled = true;
-        order.save().then(() => {
+        order.save().then((o) => {
             res.json({success: true});
+            sendOrderQueueUpdate(o);
             sendOrderBroadcast('cancelled');
         });
     }, (err) => {

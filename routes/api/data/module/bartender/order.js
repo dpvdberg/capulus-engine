@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const models = require("../../../../../database/models");
-const {sendOrderBroadcast, sendOrderNotificationUpdate} = require("../../../../ws/ws");
+const {sendOrderBroadcast, sendOrderNotificationUpdate, sendOrderQueueUpdate} = require("../../../../ws/ws");
 const {isAuthenticated, filterUser} = require("../../../auth/authenticate");
 const rbac = require("../../../../../permissions/rbac");
 const {getFullProductOptions, setOrderChoices} = require("../../utils");
+const {Op} = require("sequelize");
 
 router.post('/fulfill/:id', isAuthenticated, (req, res) => {
     const roles = req.user.roles.map(r => r.name);
@@ -17,20 +18,22 @@ router.post('/fulfill/:id', isAuthenticated, (req, res) => {
                 })
             }
 
-            models.order.update({
-                fulfilled: true
-            }, {
-                where: {id: req.params['id']}
-            }).then(() => {
-                res.json({success: true});
-                sendOrderBroadcast('fulfilled');
-                sendOrderNotificationUpdate(req.params['id'], true);
-            }, (err) => {
-                console.log(err)
-                res.status(400).json({
-                    error: 'Could not fulfill order'
-                })
-            })
+            models.order.findByPk(req.params['id'])
+                .then(o => {
+                        o.fulfilled = true;
+                        o.save().then((o) => {
+                            res.json({success: true});
+                            sendOrderQueueUpdate(o);
+                            sendOrderBroadcast('fulfilled');
+                            sendOrderNotificationUpdate(req.params['id'], 'fulfilled');
+                        })
+                    },
+                    err => {
+                        console.log(err)
+                        res.status(400).json({
+                            error: 'Could not fulfill order'
+                        })
+                    })
         })
         .catch(err => {
             console.log(err);
@@ -51,20 +54,22 @@ router.post('/cancel/:id', isAuthenticated, (req, res) => {
                 })
             }
 
-            models.order.update({
-                cancelled: true,
-                cancel_reason: req.body.reason
-            }, {
-                where: {id: req.params['id']}
-            }).then(() => {
-                res.json({success: true});
-                sendOrderBroadcast('cancelled');
-                sendOrderNotificationUpdate(req.params['id'], false);
-            }, () => {
-                res.status(400).json({
-                    error: 'Could not cancel order'
-                })
-            })
+            models.order.findByPk(req.params['id'])
+                .then(o => {
+                        o.cancelled = true;
+                        o.cancel_reason = req.body.reason;
+                        o.save().then(o => {
+                            res.json({success: true});
+                            sendOrderQueueUpdate(o);
+                            sendOrderBroadcast('cancelled');
+                            sendOrderNotificationUpdate(req.params['id'], 'cancelled');
+                        })
+                    },
+                    err => {
+                        res.status(400).json({
+                            error: 'Could not cancel order'
+                        })
+                    })
         })
         .catch(err => {
             console.log(err);
@@ -93,7 +98,7 @@ router.get('/todo', isAuthenticated, (req, res) => {
                 attributes: {exclude: ['user_id']},
                 order: [
                     // Sort by creation time
-                    ['createdAt', 'asc'],
+                    ['createdAt', 'ASC'],
                     // Then sort the options in the product accordingly
                     ['product_orders', models.product, models.option, 'priority', 'asc']
                 ],
