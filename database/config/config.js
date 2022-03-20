@@ -29,9 +29,8 @@ module.exports = {
       typeCast: true,
       timezone: "local",
     },
-    define: {
-      timestamps: false
-    },
+
+
     timezone: process.env.TIMEZONE,
     timestamps: false,
     logging: false
