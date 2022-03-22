@@ -7,6 +7,6 @@ module.exports = {
     await queryInterface.sequelize.query(query)
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.sequelize.query('DROP VIEW product_breadcrumb;')
+    await queryInterface.sequelize.query('DROP VIEW product_breadcrumbs;')
   }
 };

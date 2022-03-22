@@ -37,7 +37,7 @@ WITH RECURSIVE `catrec` AS
           `t`.`priority` AS `priority`,
           `t`.`category_id` AS `category_id`,
           sum(`r`.`product_stock`) > 0 AS `stock`,
-          count(0) AS `descendant_count`
+          sum(`r`.`product_stock`) AS `descendant_count`
    FROM (`categories` `t`
          LEFT JOIN `recprod` `r` ON ((`t`.`id` = `r`.`start_id`)))
    WHERE (`r`.`product_id` IS NOT NULL)
