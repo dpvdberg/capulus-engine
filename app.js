@@ -20,7 +20,7 @@ console.log("Starting app...")
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', process.env.DOMAIN);
+    res.setHeader('Access-Control-Allow-Origin', process.env.NODE_ENV === 'development' ? '*' : process.env.DOMAIN);
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
