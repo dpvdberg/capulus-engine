@@ -13,6 +13,7 @@ module.exports = {
       },
       option_id: {
         type: Sequelize.INTEGER,
+        onDelete: 'cascade',
         references: {
           model: 'options'
         },

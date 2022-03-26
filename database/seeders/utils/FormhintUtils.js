@@ -1,6 +1,5 @@
-
 let cache = {}
-async function findFormHintId(queryInterface, formhint) {
+async function findFormhintId(queryInterface, formhint) {
     if (formhint in cache) {
         return cache[formhint]
     }
@@ -21,5 +20,5 @@ async function findFormHintId(queryInterface, formhint) {
 }
 
 module.exports = {
-    findFormhintId: findFormHintId
+    findFormhintId
 }
