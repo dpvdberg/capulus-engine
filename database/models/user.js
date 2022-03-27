@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
                 });
             this.hasMany(models.order, {foreignKey: "user_id"});
             this.hasMany(models.user_role, {foreignKey: "user_id"});
+            this.hasMany(models.user_notification_token, {foreignKey: "user_id"});
         }
     }
 
