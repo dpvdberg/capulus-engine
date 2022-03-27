@@ -76,7 +76,7 @@ function addAdmin() {
                             models.user_role.create({
                                 user_id: u.id,
                                 role_id: r.id
-                            }).then(() => console.error("Admin account role assigned"))
+                            }).then(() => console.log("Admin account role assigned"))
                         },
                         err => console.error(`Error finding admin role, ${err}`)
                     )

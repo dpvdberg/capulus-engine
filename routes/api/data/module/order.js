@@ -3,6 +3,7 @@ const express = require("express");
 const {getFullProductOptions, setOrderChoices} = require("../utils");
 const {isAuthenticated} = require("../../auth/authenticate");
 const {sendOrderBroadcast, subscribeUserToOrder, sendOrderQueueUpdate} = require("../../../ws/ws");
+const {sendOrderPush} = require("../../notification/push");
 const router = express.Router();
 
 router.post('/put', isAuthenticated, (req, res) => {
@@ -64,6 +65,7 @@ router.post('/put', isAuthenticated, (req, res) => {
     }).then((order) => {
         res.sendStatus(200);
         sendOrderBroadcast('new');
+        sendOrderPush()
         subscribeUserToOrder(req.user.id, order.id);
     }, (err) => {
         console.error(err)
