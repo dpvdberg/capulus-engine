@@ -81,15 +81,23 @@ app.use('/api', apiRouter);
 
 const {user} = require("./routes/api/auth/userAttacher");
 const models = require("./database/models");
-passport.serializeUser(user.serializeUser());
-passport.deserializeUser(function (username, cb) {
+
+passport.serializeUser((u, done) => {
+    if (u.get('provider') === 'guest') {
+        done(null, { idtype: 'provider_uid', id: u.get('provider_uid') });
+    } else {
+        done(null, { idtype: 'email', id: u.get('email') });
+    }
+})
+
+passport.deserializeUser(function (obj, cb) {
+    let whereObject = {};
+    whereObject[obj.idtype] = obj.id;
+
     const query = user.findOne({
-        where: {
-            email: username.toLowerCase()
-        },
+        where: whereObject,
         include: {
             model: models.role,
-            attributes: ['name'],
             through: {attributes: []}
         }
     });

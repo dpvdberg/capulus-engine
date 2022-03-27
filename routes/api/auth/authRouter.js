@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
-require('./strategies/google')
+const {filterUser} = require("./authenticate");
 
 const localRouter = require('./strategies/local');
 router.use('/local', localRouter);
 
 const googleRouter = require('./strategies/google');
-const {filterUser} = require("./authenticate");
 router.use('/google', googleRouter);
+
+const guestRouter = require('./strategies/guest');
+router.use('/guest', guestRouter);
 
 router.post('/logout', function (req, res) {
     req.logout();
