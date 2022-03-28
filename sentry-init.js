@@ -6,7 +6,7 @@ function setupSentry(app) {
         return;
     }
     Sentry.init({
-        dsn: "http://efec7163c2a849daaf966aff65bf1216@192.168.1.6:9001/3",
+        dsn: process.env.SENTRY_DSN,
         integrations: [
             // enable HTTP calls tracing
             new Sentry.Integrations.Http({ tracing: true }),
