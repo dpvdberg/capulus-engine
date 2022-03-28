@@ -1,7 +1,7 @@
 const models = require("../../../database/models");
 const {initializeApp, applicationDefault} = require("firebase-admin/app");
 const {getMessaging} = require("firebase-admin/messaging");
-const {Sequelize} = require("sequelize");
+const {Op} = require("sequelize");
 
 initializeApp({
     credential: applicationDefault()
@@ -32,7 +32,7 @@ function sendOrderPush() {
 
                         models.user_notification_token.destroy({
                             where: {
-                                token: {[Sequelize.Op.in]: failedTokens}
+                                token: {[Op.in]: failedTokens}
                             }
                         })
                     }
