@@ -11,7 +11,7 @@ function sendOrderPush() {
     const data = {
         title: 'Capulus order',
         body: 'A new order was received',
-        imageUrl: '/logo.ico'
+        imageUrl: `${process.env.APP_URL}/logo.ico`
     };
 
     models.user_notification_token.findAll()
