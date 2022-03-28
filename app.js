@@ -101,7 +101,7 @@ passport.deserializeUser(function (obj, cb) {
     if (!('idtype' in obj) || !('id' in obj)) {
         console.error("Serialized object malformed")
         // serialized object malformed
-        cb(SerializationError('malformed object'), false);
+        cb(new SerializationError('malformed object'), false);
         return;
     }
 
@@ -118,7 +118,7 @@ passport.deserializeUser(function (obj, cb) {
         cb(null, u);
     }).catch((err) => {
         console.error("Deserializing user failed")
-        cb(SerializationError('deserializing user failed'), null);
+        cb(new SerializationError('deserializing user failed'), null);
     });
 });
 
