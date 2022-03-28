@@ -4,14 +4,14 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-
 const flash = require('connect-flash');
 const logger = require('morgan');
-
 const apiRouter = require('./routes/api/api');
 const passport = require("passport");
+const {setupSentry, setupSentryErrorHandlers} = require("./sentry-init");
 
 const app = express();
+setupSentry(app);
 
 console.log('Initializing database...')
 require("./db-init")
@@ -127,6 +127,9 @@ io.use(wrap(passport.session()));
 
 require('./routes/ws/ws').setup(server, io);
 server.listen(process.env.PORT)
+
+// Setup sentry error handlers before any other error handler
+setupSentryErrorHandlers(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
