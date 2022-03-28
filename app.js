@@ -98,7 +98,7 @@ passport.serializeUser((u, done) => {
 })
 
 passport.deserializeUser(function (obj, cb) {
-    if (!('idtype' in obj) || !('id' in obj)) {
+    if (typeof obj !== 'object' || !('idtype' in obj) || !('id' in obj)) {
         console.error("Serialized object malformed")
         // serialized object malformed
         cb(new SerializationError('malformed object'), false);
