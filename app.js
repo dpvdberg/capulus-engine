@@ -91,21 +91,26 @@ passport.serializeUser((u, done) => {
 })
 
 passport.deserializeUser(function (obj, cb) {
+    if (!('idtype' in obj) || !('id' in obj)) {
+        // serialized object malformed
+        cb(null, false);
+        return;
+    }
+
     let whereObject = {};
     whereObject[obj.idtype] = obj.id;
 
-    const query = user.findOne({
+    user.findOne({
         where: whereObject,
         include: {
             model: models.role,
             through: {attributes: []}
         }
-    });
-    query.then(function (u) {
+    }).then((u) => {
         cb(null, u);
-    });
-    query.catch(function (err) {
-        cb(err);
+    }).catch((err) => {
+        console.error("Deserializing user failed!")
+        cb(err, null);
     });
 });
 
