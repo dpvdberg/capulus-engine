@@ -82,6 +82,13 @@ app.use('/api', apiRouter);
 const {user} = require("./routes/api/auth/userAttacher");
 const models = require("./database/models");
 
+class SerializationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = this.constructor.name
+    }
+}
+
 passport.serializeUser((u, done) => {
     if (u.get('provider') === 'guest') {
         done(null, { idtype: 'provider_uid', id: u.get('provider_uid') });
@@ -92,8 +99,9 @@ passport.serializeUser((u, done) => {
 
 passport.deserializeUser(function (obj, cb) {
     if (!('idtype' in obj) || !('id' in obj)) {
+        console.error("Serialized object malformed")
         // serialized object malformed
-        cb(null, false);
+        cb(SerializationError('malformed object'), false);
         return;
     }
 
@@ -109,8 +117,8 @@ passport.deserializeUser(function (obj, cb) {
     }).then((u) => {
         cb(null, u);
     }).catch((err) => {
-        console.error("Deserializing user failed!")
-        cb(err, null);
+        console.error("Deserializing user failed")
+        cb(SerializationError('deserializing user failed'), null);
     });
 });
 
@@ -144,7 +152,10 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-    console.log(err);
+    if (err instanceof SerializationError) {
+        console.warn("Logging out user after user serialization error")
+        req.logout();
+    }
 
     // set locals, only providing error in development
     res.locals.message = err.message;

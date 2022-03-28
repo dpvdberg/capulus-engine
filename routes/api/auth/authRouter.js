@@ -11,11 +11,6 @@ router.use('/google', googleRouter);
 const guestRouter = require('./strategies/guest');
 router.use('/guest', guestRouter);
 
-router.post('/logout', function (req, res) {
-    req.logout();
-    res.json({success: true});
-});
-
 router.get('/unauthorized', function (req, res) {
     res.status(401);
     res.json(req.flash());
