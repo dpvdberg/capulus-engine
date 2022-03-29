@@ -69,7 +69,7 @@ const sessionParser = session({
     resave: false,
     saveUninitialized: false,
     rolling: true,
-    domain: process.env.DOMAIN,
+    domain: process.env.NODE_ENV === 'development' ? '' : process.env.DOMAINprocess.env.DOMAIN,
     maxAge: Number(process.env.SESSION_EXPIRY)
 });
 

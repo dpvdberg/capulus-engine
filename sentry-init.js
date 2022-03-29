@@ -2,7 +2,7 @@ const Sentry = require('@sentry/node');
 const Tracing = require("@sentry/tracing");
 
 function setupSentry(app) {
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== "production" || !process.env.SENTRY_DSN) {
         return;
     }
     Sentry.init({
