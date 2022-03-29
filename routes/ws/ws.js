@@ -63,10 +63,7 @@ function sendOrderQueueUpdate(order) {
         },
         order: [['createdAt', 'ASC']]
     }).then((o) => {
-        console.log("TEST1");
         if (o) {
-            console.log("TEST2");
-            console.log("TEST2");
             sendOrderNotificationUpdate(o.id, 'queue');
         }
     })
