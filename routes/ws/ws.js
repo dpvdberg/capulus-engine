@@ -45,7 +45,7 @@ function sendOrderNotificationUpdate(order_id, update) {
 }
 
 function sendOrderBroadcast(update_status) {
-    io.to('order-listeners').emit('orders_changed',
+    io.to('order-listeners').volatile().emit('orders_changed',
         JSON.stringify({
             'status' : update_status
         }))
