@@ -14,7 +14,7 @@ function setupSentry(app) {
             new Tracing.Integrations.Express({ app }),
         ],
 
-        tracesSampleRate: 1.0,
+        tracesSampleRate: 0.5,
     });
 
     app.use(Sentry.Handlers.requestHandler());
