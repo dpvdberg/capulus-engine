@@ -19,4 +19,7 @@ router.use('/ingredients', dataIngredientRouter);
 const dataStatsRouter = require('./module/stats');
 router.use('/stats', dataStatsRouter);
 
+const newsRouter = require('./module/news');
+router.use('/news', newsRouter);
+
 module.exports = router;
