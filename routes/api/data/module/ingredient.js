@@ -12,9 +12,7 @@ router.get('/list', isAuthenticated, (req, res) => {
     rbac.can(roles, 'ingredients:list')
         .then(result => {
             if (!result) {
-                return res.status(401).json({
-                    error: 'User not authorized'
-                })
+                return res.status(401).send( 'User not authorized')
             }
 
             models.ingredient.findAll()

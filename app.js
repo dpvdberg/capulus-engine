@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// app.use(function(req,res,next){setTimeout(next,1000)});
+// app.use(function(req,res,next){setTimeout(next,2000)});
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -115,6 +115,7 @@ passport.deserializeUser(function (obj, cb) {
             through: {attributes: []}
         }
     }).then((u) => {
+        console.log('deserialized', u)
         cb(null, u);
     }).catch((err) => {
         console.error("Deserializing user failed")

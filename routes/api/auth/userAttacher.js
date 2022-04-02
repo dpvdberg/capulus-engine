@@ -6,8 +6,6 @@ passportLocalSequelize.attachToUser(models.user, {
     usernameLowerCase: true,
     hashfield: 'hash',
     saltField: 'salt',
-    incorrectUsernameError : 'incorrect-email-or-password',
-    incorrectPasswordError : 'incorrect-email-or-password'
 });
 
 module.exports = {

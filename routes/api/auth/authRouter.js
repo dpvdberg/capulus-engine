@@ -11,11 +11,6 @@ router.use('/google', googleRouter);
 const guestRouter = require('./strategies/guest');
 router.use('/guest', guestRouter);
 
-router.get('/unauthorized', function (req, res) {
-    res.status(401);
-    res.json(req.flash());
-});
-
 router.get('/me', function (req, res) {
         if (req.user) {
             let filteredUser = filterUser(req.user, null);

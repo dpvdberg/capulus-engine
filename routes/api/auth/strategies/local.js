@@ -7,50 +7,48 @@ const models = require("../../../../database/models");
 
 passport.use('local', user.createStrategy());
 
-router.post("/login", passport.authenticate("local", {
-    failureFlash: 'incorrect-email-or-password',
-    failureRedirect: "/api/auth/unauthorized"
-}), (req, res, next) => {
-    user.findByPk(req.user.id, {
-        include: {
-            model: models.role,
-            attributes: ['name'],
-            through: {attributes: []}
+router.post("/login", function (req, res, next) {
+    passport.authenticate("local", function (err, u, info) {
+        if (err) {
+            return next(err);
         }
-    }).then(user => {
-            filterUser(user, res);
+        if (!u) {
+            return res.status(401).send('incorrect-email-or-password');
         }
-    )
-})
+
+        user.findByPk(u.id, {
+            include: {
+                model: models.role,
+                attributes: ['name'],
+                through: {attributes: []}
+            }
+        }).then(u => {
+            req.login(u, function(err) {
+                if (err) {
+                    return res.status(400).send('Could not login user');
+                }
+                filterUser(u, res);
+            });
+        })
+    })(req, res, next);
+});
 
 router.post("/register", (req, res, next) => {
     // Verify that first name is not empty
     if (!req.body.first_name) {
-        res.status(400).json({
-            name: "FirstNameError",
-            message: "The first name is required",
-        })
+        res.status(400).send("The first name is required")
         return;
     }
     if (!req.body.last_name) {
-        res.status(400).json({
-            name: "LastNameError",
-            message: "The last name is required",
-        })
+        res.status(400).send("The last name is required")
         return;
     }
     if (!req.body.email) {
-        res.status(400).json({
-            name: "EmailError",
-            message: "The email is required",
-        })
+        res.status(400).send("The email is required")
         return;
     }
     if (!req.body.password) {
-        res.status(400).json({
-            name: "PasswordError",
-            message: "Password is required",
-        })
+        res.status(400).send("Password is required")
         return;
     }
 
@@ -68,7 +66,7 @@ router.post("/register", (req, res, next) => {
             }
 
             u.roles = []
-            req.login(u, function(err) {
+            req.login(u, function (err) {
                 if (err) {
                     return res.status(400).send({message: err.message});
                 }
