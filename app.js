@@ -115,7 +115,6 @@ passport.deserializeUser(function (obj, cb) {
             through: {attributes: []}
         }
     }).then((u) => {
-        console.log('deserialized', u)
         cb(null, u);
     }).catch((err) => {
         console.error("Deserializing user failed")

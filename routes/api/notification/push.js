@@ -16,29 +16,31 @@ function sendOrderPush() {
 
     models.user_notification_token.findAll()
         .then(items => {
-            if (items) {
-                const tokens = items.map(item => item.token);
-
-                getMessaging().sendMulticast({
-                    notification: data,
-                    tokens: tokens
-                }).then((response) => {
-                    if (response.failureCount > 0) {
-                        const failedTokens = [];
-                        response.responses.forEach((resp, idx) => {
-                            if (!resp.success) {
-                                failedTokens.push(tokens[idx]);
-                            }
-                        });
-
-                        models.user_notification_token.destroy({
-                            where: {
-                                token: {[Op.in]: failedTokens}
-                            }
-                        })
-                    }
-                });
+            if (!items || items.length <= 0) {
+                return;
             }
+            const tokens = items.map(item => item.token);
+
+            getMessaging().sendMulticast({
+                notification: data,
+                tokens: tokens
+            }).then((response) => {
+                if (response.failureCount > 0) {
+                    const failedTokens = [];
+                    response.responses.forEach((resp, idx) => {
+                        if (!resp.success) {
+                            failedTokens.push(tokens[idx]);
+                        }
+                    });
+
+                    // Remove tokens that failed
+                    models.user_notification_token.destroy({
+                        where: {
+                            token: {[Op.in]: failedTokens}
+                        }
+                    })
+                }
+            });
         })
 }
 

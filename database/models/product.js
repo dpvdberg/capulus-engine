@@ -20,8 +20,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "product_id",
                 otherKey: "option_id"
             })
+            this.belongsToMany(models.category, {
+                through: models.product_category,
+                foreignKey: "product_id",
+                otherKey: "category_id"
+            })
 
-            this.belongsTo(models.category, {foreignKey: "category_id", onDelete: 'cascade'});
             this.hasMany(models.order_product, {foreignKey: "product_id"});
             this.hasMany(models.product_ingredient, {foreignKey: "product_id"});
             this.hasMany(models.product_option, {foreignKey: "product_id"});
@@ -34,8 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         priority: DataTypes.INTEGER,
         hide_if_unavailable: DataTypes.BOOLEAN,
         breadcrumb_depth: DataTypes.INTEGER,
-        image_fit: DataTypes.STRING,
-        category_id: DataTypes.INTEGER
+        image_fit: DataTypes.STRING
     }, {
         sequelize,
         timestamps: false,

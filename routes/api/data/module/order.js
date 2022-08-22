@@ -63,7 +63,7 @@ router.post('/put', isAuthenticated, (req, res) => {
             }
         }
     }).then((order) => {
-        res.sendStatus(200);
+        res.sendStatus(200).end();
         sendOrderBroadcast('new');
         sendOrderPush()
         subscribeUserToOrder(req.user.id, order.id);

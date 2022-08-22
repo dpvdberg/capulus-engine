@@ -62,7 +62,7 @@ router.post('/modify', isAuthenticated, (req, res) => {
 
                 Promise.all([enable_promise, disable_promise])
                     .then(() => {
-                        res.sendStatus(200);
+                        res.sendStatus(200).end();
                         sendIngredientBroadcast();
                     })
                     .catch(err => {

@@ -13,8 +13,12 @@ async function addProduct(queryInterface, name, category, priority, ingredients,
             await queryInterface.bulkInsert('products', [{
                 name: name,
                 priority: priority,
-                category_id: category_id
             }]).then(async (product_id) => {
+                await queryInterface.bulkInsert('product_categories', [{
+                    product_id: product_id,
+                    category_id: category_id
+                }]);
+
                 const productIngredientPromises = ingredients.map(async ([ingr_name, required]) => {
                     const ingredient_id = await queryInterface.rawSelect('ingredients', {
                         where: {name: ingr_name},

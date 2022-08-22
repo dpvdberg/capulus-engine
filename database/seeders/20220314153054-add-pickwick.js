@@ -40,7 +40,6 @@ module.exports = {
                         image_fit: 'contain',
                         hide_if_unavailable: true,
                         breadcrumb_depth: 2,
-                        category_id: subcategoryId,
                     }]
                 )
 
@@ -52,6 +51,11 @@ module.exports = {
                         updatedAt: new Date(),
                     }]
                 )
+
+                await queryInterface.bulkInsert('product_categories', [{
+                    product_id: product_id,
+                    category_id: subcategoryId,
+                }])
 
                 await queryInterface.bulkInsert('product_ingredients',
                     [{

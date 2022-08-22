@@ -23,12 +23,17 @@ router.get('/:categoryId', function (req, res) {
             order: ['priority']
         }
     );
-    const products = models.product.findAll(
-        {
-            where: {category_id: req.params['categoryId']},
-            ...getFullProductOptions()
-        }
-    );
+
+    let productOptions = getFullProductOptions();
+    productOptions.include.push({
+        model: models.category,
+        where: {
+            id: req.params['categoryId']
+        },
+        required: true
+    });
+
+    const products = models.product.findAll(productOptions);
 
     Promise
         .all([categories, products])

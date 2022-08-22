@@ -31,14 +31,14 @@ router.post('/subscribe', isAuthenticated, (req, res) => {
                         user_id: req.user.id,
                         token: req.body.token
                     }).then(() => {
-                        res.sendStatus(200);
+                        res.sendStatus(200).end();
                     }, (err) => {
                         console.error(err)
                         return res.status(400).send('Could not save notification token');
                     });
                 } else {
                     // Silently return ok
-                    res.sendStatus(200);
+                    res.sendStatus(200).end();
                 }
             });
         })
