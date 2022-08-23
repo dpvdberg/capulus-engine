@@ -13,9 +13,7 @@ router.post('/fulfill/:id', isAuthenticated, (req, res) => {
     rbac.can(roles, 'orders:modify')
         .then(result => {
             if (!result) {
-                return res.status(401).json({
-                    error: 'User not authorized'
-                })
+                return res.status(401).send('User not authorized')
             }
 
             models.order.findByPk(req.params['id'])
@@ -30,16 +28,12 @@ router.post('/fulfill/:id', isAuthenticated, (req, res) => {
                     },
                     err => {
                         console.log(err)
-                        res.status(400).json({
-                            error: 'Could not fulfill order'
-                        })
+                        res.status(400).send('Could not fulfill order')
                     })
         })
         .catch(err => {
             console.log(err);
-            return res.status(500).json({
-                error: 'Authorization error'
-            })
+            return res.status(500).send('Authorization error')
         });
 })
 
@@ -49,9 +43,7 @@ router.post('/cancel/:id', isAuthenticated, (req, res) => {
     rbac.can(roles, 'orders:modify')
         .then(result => {
             if (!result) {
-                return res.status(401).json({
-                    error: 'User not authorized'
-                })
+                return res.status(401).send('User not authorized')
             }
 
             models.order.findByPk(req.params['id'])
@@ -66,16 +58,12 @@ router.post('/cancel/:id', isAuthenticated, (req, res) => {
                         })
                     },
                     err => {
-                        res.status(400).json({
-                            error: 'Could not cancel order'
-                        })
+                        res.status(400).send('Could not cancel order')
                     })
         })
         .catch(err => {
             console.log(err);
-            return res.status(500).json({
-                error: 'Authorization error'
-            })
+            return res.status(500).send('Authorization error')
         });
 })
 
@@ -85,9 +73,7 @@ router.get('/todo', isAuthenticated, (req, res) => {
     rbac.can(roles, 'orders:list')
         .then(result => {
             if (!result) {
-                return res.status(401).json({
-                    error: 'User not authorized'
-                })
+                return res.status(401).send('User not authorized')
             }
 
             models.order.findAll({
@@ -142,9 +128,7 @@ router.get('/todo', isAuthenticated, (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            return res.status(500).json({
-                error: 'Authorization error'
-            })
+            return res.status(500).send('Authorization error')
         });
 })
 

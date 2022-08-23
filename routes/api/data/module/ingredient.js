@@ -12,9 +12,7 @@ router.get('/list', isAuthenticated, (req, res) => {
     rbac.can(roles, 'ingredients:list')
         .then(result => {
             if (!result) {
-                return res.status(401).json({
-                    error: 'User not authorized'
-                })
+                return res.status(401).send( 'User not authorized')
             }
 
             models.ingredient.findAll()
@@ -64,7 +62,7 @@ router.post('/modify', isAuthenticated, (req, res) => {
 
                 Promise.all([enable_promise, disable_promise])
                     .then(() => {
-                        res.sendStatus(200);
+                        res.sendStatus(200).end();
                         sendIngredientBroadcast();
                     })
                     .catch(err => {

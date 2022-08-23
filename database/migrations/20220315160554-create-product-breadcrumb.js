@@ -2,7 +2,7 @@
 const fs = require("fs");
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const query = fs.readFileSync("database/migrations/raw/product_breadcrumb.sql", "utf-8");
+    const query = fs.readFileSync("database/migrations/raw/20220315/product_breadcrumb.sql", "utf-8");
     // console.log(query)
     await queryInterface.sequelize.query(query)
   },

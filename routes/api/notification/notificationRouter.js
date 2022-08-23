@@ -8,19 +8,14 @@ router.post('/subscribe', isAuthenticated, (req, res) => {
     const roles = req.user.roles.map(r => r.name);
 
     if (!req.body.token) {
-        res.status(400).json({
-            name: "TokenError",
-            message: "Missing token",
-        })
+        res.status(400).json("Missing token")
         return;
     }
 
     rbac.can(roles, 'orders:notifications')
         .then(result => {
             if (!result) {
-                return res.status(401).json({
-                    error: 'User not authorized'
-                })
+                return res.status(401).json('User not authorized')
             }
 
             models.user_notification_token.findOne(
@@ -36,22 +31,20 @@ router.post('/subscribe', isAuthenticated, (req, res) => {
                         user_id: req.user.id,
                         token: req.body.token
                     }).then(() => {
-                        res.sendStatus(200);
+                        res.sendStatus(200).end();
                     }, (err) => {
                         console.error(err)
                         return res.status(400).send('Could not save notification token');
                     });
                 } else {
                     // Silently return ok
-                    res.sendStatus(200);
+                    res.sendStatus(200).end();
                 }
             });
         })
         .catch(err => {
             console.log(err);
-            return res.status(500).json({
-                error: 'Authorization error'
-            })
+            return res.status(500).send('Authorization error')
         });
 })
 

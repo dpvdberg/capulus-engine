@@ -1,5 +1,4 @@
 const passport = require("passport");
-const {filterUser} = require("../authenticate");
 const models = require("../../../../database/models");
 const {UniqueTokenStrategy} = require('passport-unique-token');
 const express = require("express");
@@ -25,30 +24,19 @@ passport.use('guest',
     }),
 );
 
-router.get("/verify", passport.authenticate('guest'),
-    (req, res, next) => {
-        res.sendStatus(200);
-    }
-)
-
 router.post("/setup", (req, res, next) => {
     if (!req.body.first_name) {
-        res.status(400).json({
-            name: "FirstNameError",
-            message: "The first name is required",
-        })
+        res.status(400).send("The first name is required")
         return;
     }
 
     if (!req.body.last_name) {
-        res.status(400).json({
-            name: "LastNameError",
-            message: "The last name is required",
-        })
+        res.status(400).send("The last name is required")
         return;
     }
 
     let guest_token = uuid();
+
     models.user.create({
         provider: 'guest',
         provider_uid: guest_token,
@@ -60,7 +48,7 @@ router.post("/setup", (req, res, next) => {
             new_dbuser.roles = []
             req.login(new_dbuser, function (err) {
                 if (err) {
-                    return res.status(400).send({message: err.message});
+                    return res.status(400).send(err.message);
                 }
                 res.json({
                     token: guest_token
@@ -68,10 +56,7 @@ router.post("/setup", (req, res, next) => {
             });
         },
         (err) => {
-            res.status(500).json({
-                name: "TokenError",
-                message: "Token is required",
-            })
+            res.status(500).send("Could not create user")
         }
     );
 })
