@@ -21,7 +21,6 @@ router.post('/subscribe', isAuthenticated, (req, res) => {
             models.user_notification_token.findOne(
                 {
                     where: {
-                        user_id: req.user.id,
                         token: req.body.token
                     }
                 }
