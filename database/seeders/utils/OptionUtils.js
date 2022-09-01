@@ -130,12 +130,12 @@ async function addOptionWithIngredients(queryInterface, option_name, ingredients
     return option_id;
 }
 
-async function addOptionWithNames(queryInterface, option_name, names, formhint, has_none, show_default, priority, default_name = null) {
+async function addOptionWithNames(queryInterface, option_name, names, formhint, has_none, show_default, priority, default_name = null, required_ingredients = false) {
     let option_id = await queryInterface.bulkInsert('options', [
         {
             name: option_name,
             formhint_id: await findFormhintId(queryInterface, formhint),
-            required_ingredients: false,
+            required_ingredients: required_ingredients,
             has_none: has_none,
             show_default: show_default,
             priority: priority
@@ -172,11 +172,46 @@ async function productApplyOptions(queryInterface, product_id, option_names) {
     );
 }
 
+async function productsApplyOptions(queryInterface, product_names, option_names) {
+    let option_ids = {};
+    for (let option_name of option_names) {
+        option_ids[option_name] = await findOptionId(queryInterface, option_name);
+    }
+
+    let product_option_inserts = [];
+    let product_id = null;
+    for (let product_name of product_names) {
+        product_id = await queryInterface.rawSelect('products', {
+            where: {name: product_name},
+        }, ['id'])
+        if (!product_id) {
+            console.error(`Product '${product_name}' not found`)
+            return;
+        } else {
+            product_option_inserts.push.apply(
+                product_option_inserts,
+                option_names.map(on => {
+                    return {
+                        product_id: product_id,
+                        option_id: option_ids[on]
+                    }
+                })
+            )
+        }
+    }
+
+
+    await queryInterface.bulkInsert('product_options',
+        product_option_inserts
+    );
+}
+
 
 module.exports = {
     addOptionValue,
     setOptionValueDefaultIngredient,
     addOptionWithNames,
     addOptionWithIngredients,
-    productApplyOptions
+    productApplyOptions,
+    productsApplyOptions
 }
